@@ -1,0 +1,13 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#buildings {
+    background-image: url("images/buildings/Empty.png");
+}
+
+.empty-building {
+    width: 60px;
+    display: inline-block;
+}
