@@ -2,21 +2,22 @@ body {
     margin: 0;
     padding: 0;
     background-color: #300;
+    width: 625px;
+    font-size: 0.9em;
 }
 
 #buildings {
     background-image: url("images/buildings/Empty.png");
-    margin: 3px;
+    margin: 3px auto;
     box-shadow: 0 0 4px 2px white;
 }
 
 .empty-building {
-    width: 60px;
-    display: inline-block;
+    display: block;
 }
 
 .building {
-    display: inline-block;
+    display: block;
     border: 2px solid #bdb792;
 }
 
@@ -45,21 +46,27 @@ body {
 #building-information {
     background-color: #666;
     height: 1.1em;
-    width: 300px;
-    position: relative;
-    left: 150px;
+    width: 307px;
+    margin: 0 auto;
     box-shadow: 0 0 4px 2px white;
     color: white;
     text-align: center;
     font-size: 0.85em;
+    margin-top: 5px;
 }
 
-#resources {
+#resources, #queues {
     margin: 2px;
     padding: 2px;
     display: inline-block;
     border: solid 2px #826958;
     border-radius: 5px;
+    height: 7.3em;
+    width: 48%;
+}
+#queues {
+    float: right;
+    color: #cbcbcb;
 }
 #gold-container {
     color: #fefe00;
