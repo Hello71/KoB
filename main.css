@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    background-color: #330000;
 }
 
 #buildings {
@@ -10,4 +11,49 @@ body {
 .empty-building {
     width: 60px;
     display: inline-block;
+}
+
+.building {
+    display: inline-block;
+    border: 2px solid #bdb792;
+}
+
+.building:hover {
+    background-color: #999;
+}
+
+.building-level-container {
+    position: relative;
+    left: -17px;
+}
+
+.building-level {
+    background-color: #cc3;
+    border: thin solid #960;
+    color: #fefefe;
+    position: absolute;
+    bottom: 0px;
+    width: 16px;
+    text-align: center;
+    font-size: 0.8em;
+}
+
+#resources {
+    margin: 2px;
+    padding: 2px;
+    display: inline-block;
+    border: solid 2px #826958;
+    border-radius: 5px;
+}
+#gold-container {
+    color: #fefe00;
+}
+#food-container {
+    color: #98fe98;
+}
+#wood-container, #stone-container, #iron-container {
+    color: #cbcbcb;
+}
+#morale-container {
+    color: #fbfbfb;
 }

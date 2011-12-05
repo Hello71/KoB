@@ -26,10 +26,11 @@ function makeBuilding(building) {
     if (typeof building === "undefined") {
         return $("<span class=\"empty-building\">");
     }
-    return $("<img>").attr({
-        "src": "images/buildings/" + building.type + ".png",
-        "class", "building"
-    });
+    var img = $("<img>").attr("src", "images/buildings/" + building.type + ".png"),
+        levelContainer = $("<span class='building-level-container'>"),
+        level = $("<span>").addClass("building-level").text(building.level).appendTo(levelContainer);
+
+    return $("<span class='building'>").append(img).append(levelContainer);
 }
 
 while (fields[0].substring(0, 5) === "Line_") {
