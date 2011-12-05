@@ -1,11 +1,13 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #330000;
+    background-color: #300;
 }
 
 #buildings {
     background-image: url("images/buildings/Empty.png");
+    margin: 3px;
+    box-shadow: 0 0 4px 2px white;
 }
 
 .empty-building {
@@ -35,7 +37,21 @@ body {
     bottom: 0px;
     width: 16px;
     text-align: center;
-    font-size: 0.8em;
+    font-size: 0.75em;
+    text-shadow: black 0.5px 0.5px 3px;
+    font-weight: bold;
+}
+
+#building-information {
+    background-color: #666;
+    height: 1.1em;
+    width: 300px;
+    position: relative;
+    left: 150px;
+    box-shadow: 0 0 4px 2px white;
+    color: white;
+    text-align: center;
+    font-size: 0.85em;
 }
 
 #resources {

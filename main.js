@@ -30,7 +30,7 @@ function makeBuilding(building) {
         levelContainer = $("<span class='building-level-container'>"),
         level = $("<span>").addClass("building-level").text(building.level).appendTo(levelContainer);
 
-    return $("<span class='building'>").append(img).append(levelContainer);
+    return $("<span class='building'>").append(img).append(levelContainer).data("building", building);
 }
 
 while (fields[0].substring(0, 5) === "Line_") {
@@ -71,6 +71,12 @@ $(document).ready(function () {
         $.each(buildingRow, function (i, building) {
             $($buildingRows[index][i]).replaceWith(makeBuilding(building));
         });
+    });
+    $(".building").hover(function (e) {
+        var building = $(this).data("building");
+        $("#building-information").text("Level " + building.level + " " + building.type);
+    }, function (e) {
+        $("#building-information").text("");
     });
 
     var r = resources,
