@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #300;
-    width: 625px;
+    width: 700px;
     font-size: 0.9em;
 }
 
@@ -10,6 +10,9 @@ body {
     background-image: url("images/buildings/Empty.png");
     margin: 3px auto;
     box-shadow: 0 0 4px 2px white;
+}
+#buildings-div {
+    float: left;
 }
 
 .empty-building {
@@ -79,4 +82,16 @@ body {
 }
 #morale-container {
     color: #fbfbfb;
+}
+
+#units {
+    float: right;
+    font-size: 0.8em;
+    text-align: center;
+}
+#units > div {
+    background-color: #c0a876;
+    border: 2px solid #630;
+    border-radius: 2px;
+    font-size: 0.9em;
 }

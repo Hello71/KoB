@@ -21,7 +21,7 @@ var resources = {
     },
     map = fields.shift(),
     rawBuildings = [[], [], [], [], [], [], [], [], []],
-    troops = [],
+    units = [],
     queue = "";
 
 function makeBuilding(building) {
@@ -62,7 +62,32 @@ while (fields[0].substring(0, 5) === "Line_") {
     rawBuildings[o.horizontal][o.vertical] = o;
 }
 
-troops = fields.shift().substring(8);
+units = fields.shift().substring(8).split(":").map(function (str) {
+    return str.split("-")[1];
+});
+
+units = {
+    farmers: parseInt(units[0], 10),
+    lumberjacks: parseInt(units[1], 10),
+    "iron-miners": parseInt(units[2], 10),
+    peasants: parseInt(units[3], 10),
+    merchants: parseInt(units[4], 10),
+    swordsmen: parseInt(units[5], 10),
+    archers: parseInt(units[6], 10),
+    janissaries: parseInt(units[7], 10),
+    paladins: parseInt(units[8], 10),
+    mameluks: parseInt(units[9], 10),
+    spies: parseInt(units[10], 10),
+    emissaries: parseInt(units[11], 10),
+    catapults: parseInt(units[12], 10),
+    sultans: parseInt(units[13], 10),
+    villagers: parseInt(units[14], 10),
+    elephants: parseInt(units[15], 10),
+    chariots: parseInt(units[16], 10),
+    mongols: parseInt(units[17], 10),
+    "camel-riders": parseInt(units[18], 10),
+    hussars: parseInt(units[20], 10)
+};
 
 queue = fields.shift().substring(6);
 
@@ -79,6 +104,10 @@ $(document).ready(function () {
         });
     });
     $("#queues").html(queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace("\n", "<br>"));
+
+    $.each(units, function (type, number) {
+        $("#" + type).text(number);
+    });
     $(".building").hover(function (e) {
         var building = $(this).data("building");
         $("#building-information").text("Level " + building.level + " " + building.type);
