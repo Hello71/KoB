@@ -91,7 +91,8 @@ body {
 }
 #units > div {
     background-color: #c0a876;
-    border: 2px solid #630;
-    border-radius: 2px;
+    border: 1px solid #630;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px #630;
     font-size: 0.9em;
 }
