@@ -6,6 +6,7 @@ body {
     font-size: 0.9em;
 }
 
+/* buildings... and such */
 #buildings {
     background-image: url("images/buildings/Empty.png");
     margin: 3px auto;
@@ -14,25 +15,20 @@ body {
 #buildings-div {
     float: left;
 }
-
 .empty-building {
     display: block;
 }
-
 .building {
     display: block;
     border: 2px solid #bdb792;
 }
-
 .building:hover {
     background-color: #999;
 }
-
 .building-level-container {
     position: relative;
     left: -17px;
 }
-
 .building-level {
     background-color: #cc3;
     border: thin solid #960;
@@ -45,10 +41,9 @@ body {
     text-shadow: black 0.5px 0.5px 3px;
     font-weight: bold;
 }
-
 #building-information {
     background-color: #666;
-    height: 1.1em;
+    height: 1.15em;
     width: 307px;
     margin: 0 auto;
     box-shadow: 0 0 4px 2px white;
@@ -58,6 +53,7 @@ body {
     margin-top: 5px;
 }
 
+/* resources + queues */
 #resources, #queues {
     margin: 2px;
     padding: 2px;
@@ -65,7 +61,7 @@ body {
     border: solid 2px #826958;
     border-radius: 5px;
     height: 7.3em;
-    width: 48%;
+    width: 48.25%;
 }
 #queues {
     float: right;
@@ -84,6 +80,7 @@ body {
     color: #fbfbfb;
 }
 
+/* units */
 #units {
     float: right;
     font-size: 0.8em;
@@ -95,4 +92,11 @@ body {
     border-radius: 5px;
     box-shadow: 0 0 0 1px #630;
     font-size: 0.9em;
+    height: 28.4px;
+}
+
+
+
+noscript {
+    color: white;
 }
