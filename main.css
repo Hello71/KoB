@@ -46,6 +46,17 @@ body {
     text-shadow: black 0.5px 0.5px 3px;
     font-weight: bold;
 }
+.building-upgrade-time-container {
+    position: absolute;
+}
+.building-upgrade-time {
+    position: relative;
+    top: 21px;
+    left: -57px;
+    color: red;
+    text-shadow: black 3px 3px 3px;
+    font-size: 0.85em;
+}
 #building-information {
     background-color: #666;
     height: 1.15em;

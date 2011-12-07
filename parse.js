@@ -1,18 +1,45 @@
+(function () {
 "use strict";
 
-function makeBuilding(building) {
+/*global $:false */
+
+var pad = function (strnum, amount) {
+    if (typeof strnum === "string") {
+        strnum = strnum.toString();
+    }
+    amount = amount - strnum.length;
+    while (amount--) {
+        strnum = "0" + strnum;
+    }
+    return strnum;
+};
+var makeBuilding = function (building) {
     if (typeof building === "undefined") {
         return $("<span class=\"empty-building\">");
     }
     var img = $("<img>").attr("src", "images/buildings/" + building.type + ".png"),
-        levelContainer = $("<span class='building-level-container'>"),
-        level = $("<span>").addClass("building-level").text(building.level).appendTo(levelContainer);
+        level = $("<span class='building-level-container'>").append($("<span>").addClass("building-level").text(building.level)),
+        upgradeTime = $("<span class='building-upgrade-time-container'>");
+    if (building.upgradeTime > 0) {
+        var upgradeTimeElm = $("<span class='building-upgrade-time'>").appendTo(upgradeTime);
+        var upTime = building.upgradeTime;
+        console.log(upTime);
+        var update = function () {
+            upTime--;
+            var hours = pad(Math.floor(upTime / 3600).toString(), 2),
+                minutes = pad(Math.floor((upTime % 3600) / 60).toString(), 2),
+                seconds = pad(Math.floor(upTime % 60).toString(), 2);
+            upgradeTimeElm.text(hours + ":" + minutes + ":" + seconds);
+        };
+        window.setInterval(update, 1000);
+        update();
+    }
 
-    return $("<span class='building'>").append(img).append(levelContainer).data("building", building);
+    return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building);
 }
 
 
-function parse(data) {
+window.parse = function (data) {
     var fields = data.substring(1).split("&"),
         resources = fields.shift().substring(10).split(":"),
         resourceRates = fields.shift().substring(15).split(":"),
@@ -102,7 +129,7 @@ function parse(data) {
     };
 }
 
-function display(data) {
+window.display = function (data) {
     var $buildingRows = [[], [], [], [], [], [], [], [], []];
     $("#buildings > tbody > tr").each(function (index, row) {
         $buildingRows[index] = $(row).find("td > span");
@@ -134,3 +161,5 @@ function display(data) {
     $("#food").text(r.food + " @ " + rr.food + "/hour");
     $("#morale").text(r.morale + " @ " + rr.morale + "/hour");
 }
+
+}());
