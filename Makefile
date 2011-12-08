@@ -1,5 +1,5 @@
 all:
-	@echo This doesn\'t actually do anything.
+	x-www-browser src/main.html
 
 debug:
 	jshint *.js --config jshint.debug
