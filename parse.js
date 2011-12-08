@@ -23,7 +23,6 @@ var makeBuilding = function (building) {
     if (building.upgradeTime > 0) {
         var upgradeTimeElm = $("<span class='building-upgrade-time'>").appendTo(upgradeTime);
         var upTime = building.upgradeTime;
-        console.log(upTime);
         var update = function () {
             upTime--;
             var hours = pad(Math.floor(upTime / 3600).toString(), 2),
@@ -36,7 +35,7 @@ var makeBuilding = function (building) {
     }
 
     return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building);
-}
+};
 
 
 window.parse = function (data) {
@@ -127,7 +126,7 @@ window.parse = function (data) {
         map: map,
         queue: queue
     };
-}
+};
 
 window.display = function (data) {
     var $buildingRows = [[], [], [], [], [], [], [], [], []];
@@ -160,6 +159,6 @@ window.display = function (data) {
     $("#gold").text(r.gold + " @ " + rr.gold + "/hour");
     $("#food").text(r.food + " @ " + rr.food + "/hour");
     $("#morale").text(r.morale + " @ " + rr.morale + "/hour");
-}
+};
 
 }());
