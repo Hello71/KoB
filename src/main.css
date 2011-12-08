@@ -21,11 +21,13 @@ body {
 }
 .empty-building {
     display: block;
+    cursor: pointer;
 }
 .building {
     display: block;
     border: 2px solid #bdb792;
     box-shadow: 1px 1px 0 0;
+    cursor: pointer;
 }
 .building:hover {
     background-color: #999;
@@ -109,6 +111,7 @@ body {
     box-shadow: 0 0 0 1px #630;
     font-size: 0.9em;
     height: 28.4px;
+    cursor: pointer;
 }
 
 
