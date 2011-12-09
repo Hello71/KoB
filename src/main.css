@@ -17,8 +17,9 @@ body {
 }
 #buildings td {
     padding: 1px;
+    cursor: pointer;
 }
-.building:hover,.empty-building:hover {
+#buildings td:hover {
     -moz-box-shadow: inset 0 0 20px 5px #999;
     -webkit-box-shadow: inset 0 0 20px 5px #999;
     box-shadow: inset 0 0 20px 5px #999;
@@ -28,7 +29,6 @@ body {
 }
 .empty-building {
     display: block;
-    cursor: pointer;
 }
 .building {
     display: block;
@@ -36,7 +36,6 @@ body {
     -moz-box-shadow: 1px 1px 0 0;
     -webkit-box-shadow: 1px 1px 0 0;
     box-shadow: 1px 1px 0 0;
-    cursor: pointer;
 }
 .building-level-container {
     position: relative;
