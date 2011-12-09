@@ -24,13 +24,16 @@ var makeBuilding = function (building) {
         var upgradeTimeElm = $("<span class='building-upgrade-time'>").appendTo(upgradeTime);
         var upTime = building.upgradeTime;
         var update = function () {
+            if (upTime === 0) {
+                window.clearInterval(updateInterval);
+            }
             upTime--;
             var hours = pad(Math.floor(upTime / 3600).toString(), 2),
                 minutes = pad(Math.floor((upTime % 3600) / 60).toString(), 2),
                 seconds = pad(Math.floor(upTime % 60).toString(), 2);
             upgradeTimeElm.text(hours + ":" + minutes + ":" + seconds);
         };
-        window.setInterval(update, 1000);
+        var updateInterval = window.setInterval(update, 1000);
         update();
     }
 
