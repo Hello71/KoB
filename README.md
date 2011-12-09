@@ -6,6 +6,6 @@ Just open src/main.html and enjoy. For your own data, copy the data from kob.itc
 
 ## Makefile ##
 
-* all: Opens x-www-browser to main.html
+* all: Opens main.html
 * debug: Runs JSHint (must be locally installed) using debug config (allows debugger and console... statements)
 * release: Runs JSHint using release config
