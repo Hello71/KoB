@@ -26,6 +26,7 @@ var makeBuilding = function (building) {
             update = function () {
             if (upTime === 0) {
                 window.clearInterval(updateInterval);
+                return;
             }
             upTime--;
             var hours = pad(Math.floor(upTime / 3600).toString(), 2),
