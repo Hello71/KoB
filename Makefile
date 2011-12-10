@@ -2,7 +2,7 @@ all:
 	xdg-open src/main.html
 
 debug:
-	jshint *.js --config jshint.debug
+	jshint src/*.js --config jshint/debug
 
 release:
-	jshint *.js --config jshint.release
+	jshint src/*.js --config jshint/release

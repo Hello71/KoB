@@ -1,57 +1,17 @@
 (function () {
 "use strict";
 
-/*global $:false */
-
-var pad = function (strnum, amount) {
-    if (typeof strnum === "string") {
-        strnum = strnum.toString();
-    }
-    amount = amount - strnum.length;
-    while (amount--) {
-        strnum = "0" + strnum;
-    }
-    return strnum;
-};
-var makeBuilding = function (building) {
-    if (typeof building === "undefined") {
-        return $("<span class=\"empty-building\">");
-    }
-    var img = $("<img>").attr("src", "images/buildings/" + building.type + ".png"),
-        level = $("<span class='building-level-container'>").append($("<span>").addClass("building-level").text(building.level)),
-        upgradeTime = $("<span class='building-upgrade-time-container'>");
-    if (building.upgradeTime > 0) {
-        var upgradeTimeElm = $("<span class='building-upgrade-time'>").appendTo(upgradeTime);
-        var upTime = building.upgradeTime;
-        var update = function () {
-            if (upTime === 0) {
-                window.clearInterval(updateInterval);
-            }
-            upTime--;
-            var hours = pad(Math.floor(upTime / 3600).toString(), 2),
-                minutes = pad(Math.floor((upTime % 3600) / 60).toString(), 2),
-                seconds = pad(Math.floor(upTime % 60).toString(), 2);
-            upgradeTimeElm.text(hours + ":" + minutes + ":" + seconds);
-        };
-        var updateInterval = window.setInterval(update, 1000);
-        update();
-    }
-
-    return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building);
-};
-
-
 window.parse = function (data) {
     var fields = data.substring(1).split("&"),
-        resources = fields.shift().substring(10).split(":"),
+        res = fields.shift().substring(10).split(":"),
         resourceRates = fields.shift().substring(15).split(":"),
         resources = {
-            iron: Math.round(parseInt(resources[0], 10)),
-            wood: Math.round(parseInt(resources[1], 10)),
-            stone: Math.round(parseInt(resources[2], 10)),
-            gold: Math.round(parseInt(resources[3], 10)),
-            food: Math.round(parseInt(resources[4], 10)),
-            morale: Math.round(parseInt(resources[5], 10)),
+            iron: Math.round(parseInt(res[0], 10)),
+            wood: Math.round(parseInt(res[1], 10)),
+            stone: Math.round(parseInt(res[2], 10)),
+            gold: Math.round(parseInt(res[3], 10)),
+            food: Math.round(parseInt(res[4], 10)),
+            morale: Math.round(parseInt(res[5], 10)),
             rates: {
                 iron: parseInt(resourceRates[0], 10),
                 wood: parseInt(resourceRates[1], 10),
@@ -129,39 +89,6 @@ window.parse = function (data) {
         map: map,
         queue: queue
     };
-};
-
-window.display = function (data) {
-    var $buildingRows = [[], [], [], [], [], [], [], [], []];
-    $("#buildings > tbody > tr").each(function (index, row) {
-        $buildingRows[index] = $(row).find("td > span");
-    });
-    
-    $.each(data.buildings, function (index, buildingRow) {
-        $.each(buildingRow, function (i, building) {
-            $($buildingRows[index][i]).replaceWith(makeBuilding(building));
-        });
-    });
-    $("#queues").html(data.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace("\n", "<br>"));
-
-    $.each(data.units, function (type, number) {
-        $("#" + type).text(number);
-    });
-    $(".building").hover(function (e) {
-        var building = $(this).data("building");
-        $("#building-information").text("Level " + building.level + " " + building.type);
-    }, function (e) {
-        $("#building-information").text("");
-    });
-
-    var r = data.resources,
-        rr = r.rates;
-    $("#iron").text(r.iron + " @ " + rr.iron + "/hour");
-    $("#wood").text(r.wood + " @ " + rr.wood + "/hour");
-    $("#stone").text(r.stone + " @ " + rr.stone + "/hour");
-    $("#gold").text(r.gold + " @ " + rr.gold + "/hour");
-    $("#food").text(r.food + " @ " + rr.food + "/hour");
-    $("#morale").text(r.morale + " @ " + rr.morale + "/hour");
 };
 
 }());
