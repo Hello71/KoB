@@ -8,7 +8,7 @@ body {
 
 /* buildings... and such */
 #buildings {
-    background-image: url("images/buildings/Empty.png");
+    background-image: url("../images/buildings/Empty.png");
     margin: 3px auto;
     -moz-box-shadow: 0 0 4px 2px white;
     -webkit-box-shadow: 0 0 4px 2px white;

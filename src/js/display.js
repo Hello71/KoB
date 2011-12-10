@@ -26,6 +26,7 @@ var makeBuilding = function (building) {
             update = function () {
             if (upTime === 0) {
                 window.clearInterval(updateInterval);
+                window.update();
                 return;
             }
             upTime--;
