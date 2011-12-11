@@ -27,7 +27,7 @@ var buildingHover = function (e, on) {
     } else {
         throw new Error("not a hover event");
     }
-}
+};
 var makeBuilding = function (building) {
     if (typeof building === "undefined") {
         return $("<span class=\"empty-building\">");
