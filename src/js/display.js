@@ -12,6 +12,22 @@ var pad = function (strnum, amount) {
     }
     return strnum;
 };
+var buildingHover = function (e, on) {
+    if (typeof building === "undefined") {
+        var building = $(e.target).data("building");
+        if (typeof building === "undefined") {
+            throw new Error("no building");
+        }
+    }
+    var type = e.type.toLowerCase();
+    if (type === "mouseenter") {
+        $("#building-information").text("Level " + building.level + " " + building.type);
+    } else if (type === "mouseleave") {
+        $("#building-information").text("");
+    } else {
+        throw new Error("not a hover event");
+    }
+}
 var makeBuilding = function (building) {
     if (typeof building === "undefined") {
         return $("<span class=\"empty-building\">");
@@ -38,12 +54,7 @@ var makeBuilding = function (building) {
         updateInterval = window.setInterval(update, 1000);
         update();
     }
-    return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building).hover(function (e) {
-            $("#building-information").text("Level " + building.level + " " + building.type);
-        }, function (e) {
-            $("#building-information").text("");
-        });
-
+    return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building).hover(buildingHover);
 };
 
 window.display = function (data) {
