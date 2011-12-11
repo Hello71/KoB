@@ -38,8 +38,12 @@ var makeBuilding = function (building) {
         updateInterval = window.setInterval(update, 1000);
         update();
     }
+    return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building).hover(function (e) {
+            $("#building-information").text("Level " + building.level + " " + building.type);
+        }, function (e) {
+            $("#building-information").text("");
+        });
 
-    return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building);
 };
 
 window.display = function (data) {
@@ -57,12 +61,6 @@ window.display = function (data) {
 
     $.each(data.units, function (type, number) {
         $("#" + type).text(number);
-    });
-    $(".building").hover(function (e) {
-        var building = $(this).data("building");
-        $("#building-information").text("Level " + building.level + " " + building.type);
-    }, function (e) {
-        $("#building-information").text("");
     });
 
     var r = data.resources,
