@@ -12,22 +12,6 @@ var pad = function (strnum, amount) {
     }
     return strnum;
 };
-var buildingHover = function (e, on) {
-    if (typeof building === "undefined") {
-        var building = $(e.target).data("building");
-        if (typeof building === "undefined") {
-            throw new Error("no building");
-        }
-    }
-    var type = e.type.toLowerCase();
-    if (type === "mouseenter") {
-        $("#building-information").text("Level " + building.level + " " + building.type);
-    } else if (type === "mouseleave") {
-        $("#building-information").text("");
-    } else {
-        throw new Error("not a hover event");
-    }
-};
 var makeBuilding = function (building) {
     if (typeof building === "undefined") {
         return $("<span class=\"empty-building\">");
@@ -51,10 +35,21 @@ var makeBuilding = function (building) {
                 seconds = pad(Math.floor(upTime % 60).toString(), 2);
             upgradeTimeElm.text(hours + ":" + minutes + ":" + seconds);
         };
+        console.log(building.upgradeTime);
         updateInterval = window.setInterval(update, 1000);
         update();
     }
-    return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building).hover(buildingHover);
+    return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building).hover(function (e) {
+        var building = $(this).data("building");
+        var type = e.type.toLowerCase();
+        if (type === "mouseenter") {
+            $("#building-information").text("Level " + building.level + " " + building.type);
+        } else if (type === "mouseleave") {
+            $("#building-information").text("");
+        } else {
+            throw new Error("not a hover event");
+        }
+    });
 };
 
 window.display = function (data) {
