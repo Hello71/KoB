@@ -130,7 +130,17 @@ body {
 }
 
 
-
+#login {
+    background-color: gray;
+    opacity: 0.8;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: white;
+    font-size: 5em;
+    position: absolute;
+    display: none;
+}
 noscript {
     color: white;
 }
