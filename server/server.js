@@ -3,7 +3,8 @@ var config = {
     root: "../src"
 };
 
-var server = require("express").createServer(),
+var express = require("express"),
+    app = express.createServer(),
     argv = require("optimist")
         .alias("verbose", "v").default("verbose", true).boolean("verbose")
         .alias("port", "p").default("port", 8000)
@@ -28,7 +29,8 @@ var server = require("express").createServer(),
         };
     };
 
-server.get("/", function (request, response) {
+app.use(express.bodyParser());
+app.get("/", function (request, response) {
     readFile("/main.html", "utf-8", readFunction(response, function (data) {
         response.send(data, {
             "Content-Type": "text/html"
@@ -36,7 +38,7 @@ server.get("/", function (request, response) {
     }));
 });
 
-server.get("/js/:js", function (request, response) {
+app.get("/js/:js", function (request, response) {
     readFile("/js/" + request.params.js, "utf-8", readFunction(response, function (data) {
         response.send(data, {
             "Content-Type": "application/javascript"
@@ -44,7 +46,7 @@ server.get("/js/:js", function (request, response) {
     }));
 });
 
-server.get("/css/:css", function (request, response) {
+app.get("/css/:css", function (request, response) {
     readFile("/css/" + request.params.css, "utf-8", readFunction(response, function (data) {
         response.send(data, {
             "Content-Type": "text/css"
@@ -52,7 +54,7 @@ server.get("/css/:css", function (request, response) {
     }));
 });
 
-server.get("/images/*.png", function (request, response) {
+app.get("/images/*.png", function (request, response) {
     if (request.params[0].indexOf("..") > -1) {
         response.send(403);
     }
@@ -63,4 +65,18 @@ server.get("/images/*.png", function (request, response) {
     }));
 });
 
-server.listen(argv.port);
+app.get("/login", function (request, response) {
+    readFile("/login.html", "utf-8", readFunction(response, function (data) {
+        response.send(data, {
+            "Content-Type": "text/html"
+        });
+    }));
+});
+
+app.post("/login", function (request, response) {
+    var cookie = request.body.cookie.replace(/\n/g, "").replace(/;/g, "%3B");
+    response.cookie("SESSIONID", cookie);
+    response.cookie("JSESSIONID", cookie);
+    response.send("Logged in with SESSIONID of \"" + cookie + "\".");
+});
+app.listen(argv.port);
