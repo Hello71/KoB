@@ -1,8 +1,5 @@
 #!/usr/bin/env node
-var config = {
-    root: ""
-};
-
+var config = require("./config.js").config;
 try {
     process.chdir(config.root);
 } catch (e) {
