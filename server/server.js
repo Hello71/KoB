@@ -81,8 +81,13 @@ app.post("/login", express.bodyParser(), function (request, response) {
 });
 
 app.get("/villageData", function (request, response) {
-    if (typeof request.query.villageID === "undefined") {
-        response.send(400);
+    if (typeof request.query.villageID === "undefined" || !(request.query.villageID.search(/\d{1-6}/))) {
+        var res = "Malformed village ID.";
+        response.writeHead(400, {
+            "Content-Length": res.length,
+            "Content-Type": "text/plain; charset=UTF-8"
+        });
+        response.end(res, "utf-8");
         return;
     }
     if (typeof request.header("Cookie") === "undefined") {
@@ -94,25 +99,24 @@ app.get("/villageData", function (request, response) {
         host: "kob.itch.com",
         port: 80,
         method: "GET",
-        path: "/flash_getVillage.cfm?villageID=1444",
+        path: "/flash_getVillage.cfm?villageID=" + encodeURIComponent(request.query.villageID),
         headers: {
             Host: "kob.itch.com",
             "User-Agent": "KoB/0.1",
             Accept: "text/plain",
             "Accept-Charset": "utf-8",
-            Cookie: /SESSIONID=[a-z0-9]{36}/.exec(request.header("Cookie"))[0],
+            Cookie: "J" + /SESSIONID=([a-z0-9]{36})/.exec(request.header("Cookie"))[0],
             Connection: "close",
             "Cache-Control": "max-age=0"
         }
     }, function (res) {
-        res.setEncoding("utf-8");
         res.on("data", function (chunk) {
             data += chunk;
         });
         res.on("end", function () {
             response.writeHead(res.statusCode, {
                 "Content-Length": data.length,
-                "Content-Type": "text/plain"
+                "Content-Type": "text/plain; charset=UTF-8"
             });
             response.end(data, "utf-8");
         });
