@@ -127,3 +127,5 @@ app.get("/villageData", function (request, response) {
     });
 });
 app.listen(argv.port);
+
+console.log("Listening on port " + argv.port);
