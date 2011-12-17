@@ -1,7 +1,14 @@
 #!/usr/bin/env node
 var config = {
-    root: "../src"
+    root: ""
 };
+
+try {
+    process.chdir(config.root);
+} catch (e) {
+    console.log("Could not change directory.\nMake sure that the config root is set correctly.");
+    process.exit(1);
+}
 
 var express = require("express"),
     app = express.createServer(),
@@ -12,11 +19,6 @@ var express = require("express"),
         .argv,
     fs = require("fs"),
     http = require("http"),
-    readFile = function () {
-        var args = arguments;
-        args[0] = config.root + arguments[0];
-        fs.readFile.apply(this, args);
-    },
     readFunction = function (response, passTo) {
         return function (err, data) {
             if (err) {
@@ -32,7 +34,7 @@ var express = require("express"),
     };
 
 app.get("/", function (request, response) {
-    readFile("/main.html", "utf-8", readFunction(response, function (data) {
+    fs.readFile("/main.html", "utf-8", readFunction(response, function (data) {
         response.send(data, {
             "Content-Type": "text/html"
         }, 200);
@@ -40,7 +42,7 @@ app.get("/", function (request, response) {
 });
 
 app.get("/js/:js", function (request, response) {
-    readFile("/js/" + request.params.js, "utf-8", readFunction(response, function (data) {
+    fs.readFile("/js/" + request.params.js, "utf-8", readFunction(response, function (data) {
         response.send(data, {
             "Content-Type": "application/javascript"
         });
@@ -48,7 +50,7 @@ app.get("/js/:js", function (request, response) {
 });
 
 app.get("/css/:css", function (request, response) {
-    readFile("/css/" + request.params.css, "utf-8", readFunction(response, function (data) {
+    fs.readFile("/css/" + request.params.css, "utf-8", readFunction(response, function (data) {
         response.send(data, {
             "Content-Type": "text/css"
         });
@@ -59,7 +61,7 @@ app.get("/images/*.png", function (request, response) {
     if (request.params[0].indexOf("..") > -1) {
         response.send(403);
     }
-    readFile("/images/" + request.params[0] + ".png", readFunction(response, function (data) {
+    fs.readFile("/images/" + request.params[0] + ".png", readFunction(response, function (data) {
         response.send(data, {
             "Content-Type": "image/png"
         });
@@ -67,7 +69,7 @@ app.get("/images/*.png", function (request, response) {
 });
 
 app.get("/login", function (request, response) {
-    readFile("/login.html", "utf-8", readFunction(response, function (data) {
+    fs.readFile("/login.html", "utf-8", readFunction(response, function (data) {
         response.send(data, {
             "Content-Type": "text/html"
         });
