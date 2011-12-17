@@ -34,25 +34,25 @@ var express = require("express"),
     };
 
 app.get("/", function (request, response) {
-    fs.readFile("/main.html", "utf-8", readFunction(response, function (data) {
+    fs.readFile("main.html", "utf-8", readFunction(response, function (data) {
         response.send(data, {
-            "Content-Type": "text/html"
+            "Content-Type": "text/html; charset=UTF-8"
         }, 200);
     }));
 });
 
 app.get("/js/:js", function (request, response) {
-    fs.readFile("/js/" + request.params.js, "utf-8", readFunction(response, function (data) {
+    fs.readFile("js/" + request.params.js, "utf-8", readFunction(response, function (data) {
         response.send(data, {
-            "Content-Type": "application/javascript"
+            "Content-Type": "application/javascript; charset=UTF-8"
         });
     }));
 });
 
 app.get("/css/:css", function (request, response) {
-    fs.readFile("/css/" + request.params.css, "utf-8", readFunction(response, function (data) {
+    fs.readFile("css/" + request.params.css, "utf-8", readFunction(response, function (data) {
         response.send(data, {
-            "Content-Type": "text/css"
+            "Content-Type": "text/css; charset=UTF-8"
         });
     }));
 });
@@ -61,7 +61,7 @@ app.get("/images/*.png", function (request, response) {
     if (request.params[0].indexOf("..") > -1) {
         response.send(403);
     }
-    fs.readFile("/images/" + request.params[0] + ".png", readFunction(response, function (data) {
+    fs.readFile("images/" + request.params[0] + ".png", readFunction(response, function (data) {
         response.send(data, {
             "Content-Type": "image/png"
         });
@@ -69,9 +69,9 @@ app.get("/images/*.png", function (request, response) {
 });
 
 app.get("/login", function (request, response) {
-    fs.readFile("/login.html", "utf-8", readFunction(response, function (data) {
+    fs.readFile("login.html", "utf-8", readFunction(response, function (data) {
         response.send(data, {
-            "Content-Type": "text/html"
+            "Content-Type": "text/html; charset=UTF-8"
         });
     }));
 });
@@ -79,7 +79,11 @@ app.get("/login", function (request, response) {
 app.post("/login", express.bodyParser(), function (request, response) {
     var cookie = request.body.cookie.replace(/\n/g, "").replace(/;/g, "%3B");
     response.cookie("SESSIONID", cookie);
-    response.send("Logged in with SESSIONID of \"" + cookie + "\".");
+    fs.readFile("loggedin.html", "utf-8", readFunction(response, function (data) {
+        response.send(data, {
+            "Content-Type": "text/html; charset=UTF-8"
+        });
+    }));
 });
 
 app.get("/villageData", function (request, response) {
