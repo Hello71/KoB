@@ -78,7 +78,12 @@ exports.start = function (config) {
 
     app.post("/login", express.bodyParser(), function (request, response) {
         var cookie = request.body.cookie.replace(/\n/g, "").replace(/;/g, "%3B");
-        response.cookie("SESSIONID", cookie);
+        response.cookie("SESSIONID", cookie, {
+            maxAge: 1000000,
+            httpOnly: true,
+            domain: "hello71.no.de",
+            path: "/",
+        });
         fs.readFile("loggedin.html", "utf-8", readFunction(response, function (data) {
             response.send(data, {
                 "Content-Type": "text/html; charset=UTF-8"
@@ -86,7 +91,7 @@ exports.start = function (config) {
         }));
     });
 
-    app.get("/villageData", function (request, response) {
+    app.get("/villageData", express.cookieParser(), function (request, response) {
         if (typeof request.query.villageID === "undefined" || !(request.query.villageID.search(/\d{1-6}/))) {
             var res = "Malformed village ID.";
             response.writeHead(400, {
@@ -111,7 +116,7 @@ exports.start = function (config) {
                 "User-Agent": "KoB/0.1",
                 Accept: "text/plain",
                 "Accept-Charset": "utf-8",
-                Cookie: "J" + /SESSIONID=([a-z0-9]{36})/.exec(request.header("Cookie"))[0],
+                Cookie: "J" + request.cookies.SESSIONID,
                 Connection: "close",
                 "Cache-Control": "max-age=0"
             }
