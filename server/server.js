@@ -8,6 +8,7 @@ exports.start = function (config) {
         argv = require("optimist")
             .alias("port", "p")["default"]("port", config.port)
             .alias("root", "r")["default"]("root", config.root)
+            .alias("site", "s")["default"]("site", config.site)
             .argv,
         fs = require("fs"),
         http = require("http"),
