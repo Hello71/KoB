@@ -1,18 +1,13 @@
 #!/usr/bin/env node
 var config = require("./config.js").config;
-try {
-    process.chdir(config.root);
-} catch (e) {
-    console.log("Could not change directory.\nMake sure that the config root is set correctly.");
-    process.exit(1);
-}
 
 var express = require("express"),
     app = express.createServer(),
     argv = require("optimist")
         .alias("verbose", "v")["default"]("verbose", true).boolean("verbose")
         .alias("port", "p")["default"]("port", 8000)
-        .alias("reload", "r")["default"]("reload", true).boolean("reload")
+        .alias("reload", "l")["default"]("reload", true).boolean("reload")
+        .alias("root", "r")["default"]("root", config.root)
         .argv,
     fs = require("fs"),
     http = require("http"),
@@ -29,6 +24,13 @@ var express = require("express"),
             }
         };
     };
+
+try {
+    process.chdir(argv.root);
+} catch (e) {
+    console.log("Could not change directory.\nMake sure that the config root is set correctly.");
+    process.exit(1);
+}
 
 app.get("/", function (request, response) {
     fs.readFile("main.html", "utf-8", readFunction(response, function (data) {

@@ -1,0 +1,32 @@
+{
+    "name": "kob",
+    "description": "An interface for KoB (Kings of Babylon).",
+    "version": "0.0.1",
+    "keywords": [
+        "kob"
+    ],
+    "bugs": "https://github.com/Hello71/KoB/issues",
+    "licenses": [
+        {
+            "type": "GPLv3",
+            "url": "https://www.gnu.org/licenses/gpl-3.0.html"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git://github.com/Hello71/KoB.git",
+        }
+    ],
+    "dependencies": {
+        "optimist": "",
+        "express": ""
+    },
+    "engine": [
+        "node"
+    ],
+    "scripts": {
+        "start": "server/start.js"
+    }
+}
+
