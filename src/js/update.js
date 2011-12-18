@@ -19,6 +19,10 @@ window.update = function () {
             }
         },
         success: function (data, textStatus, jqXHR) {
+            if (data.length === 0) {
+                $("#no-data").show();
+                return;
+            }
             window.rawData = data;
             window.data = window.parse(window.rawData);
             if (documentReady) {

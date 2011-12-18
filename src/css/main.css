@@ -130,7 +130,7 @@ body {
 }
 
 
-#login {
+#login,#no-data {
     background-color: gray;
     opacity: 0.8;
     width: 100%;
