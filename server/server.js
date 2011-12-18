@@ -37,7 +37,7 @@ exports.start = function (config) {
     app.get("/", function (request, response) {
         fs.readFile("main.html", "utf-8", readFunction(response, function (data) {
             response.send(data, {
-                "Content-Type": "text/html; charset=UTF-8"
+                "Content-Type": "text/html"
             }, 200);
         }));
     });
@@ -45,7 +45,7 @@ exports.start = function (config) {
     app.get("/js/:js", function (request, response) {
         fs.readFile("js/" + request.params.js, "utf-8", readFunction(response, function (data) {
             response.send(data, {
-                "Content-Type": "application/javascript; charset=UTF-8"
+                "Content-Type": "application/javascript"
             });
         }));
     });
@@ -53,7 +53,7 @@ exports.start = function (config) {
     app.get("/css/:css", function (request, response) {
         fs.readFile("css/" + request.params.css, "utf-8", readFunction(response, function (data) {
             response.send(data, {
-                "Content-Type": "text/css; charset=UTF-8"
+                "Content-Type": "text/css"
             });
         }));
     });
@@ -72,7 +72,7 @@ exports.start = function (config) {
     app.get("/login", function (request, response) {
         fs.readFile("login.html", "utf-8", readFunction(response, function (data) {
             response.send(data, {
-                "Content-Type": "text/html; charset=UTF-8"
+                "Content-Type": "text/html"
             });
         }));
     });
@@ -82,12 +82,12 @@ exports.start = function (config) {
         response.cookie("SESSIONID", cookie, {
             maxAge: 1000000,
             httpOnly: true,
-            domain: "hello71.no.de",
-            path: "/",
+            domain: argv.site,
+            path: "/"
         });
         fs.readFile("loggedin.html", "utf-8", readFunction(response, function (data) {
             response.send(data, {
-                "Content-Type": "text/html; charset=UTF-8"
+                "Content-Type": "text/html"
             });
         }));
     });
@@ -97,7 +97,7 @@ exports.start = function (config) {
             var res = "Malformed village ID.";
             response.writeHead(400, {
                 "Content-Length": res.length,
-                "Content-Type": "text/plain; charset=UTF-8"
+                "Content-Type": "text/plain"
             });
             response.end(res, "utf-8");
             return;
@@ -128,7 +128,7 @@ exports.start = function (config) {
             res.on("end", function () {
                 response.writeHead(res.statusCode, {
                     "Content-Length": data.length,
-                    "Content-Type": "text/plain; charset=UTF-8"
+                    "Content-Type": "text/plain"
                 });
                 response.end(data, "utf-8");
             });
