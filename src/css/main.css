@@ -129,7 +129,10 @@ body {
     cursor: pointer;
 }
 
-
+#loading {
+    display: none;
+    height: 1em;
+}
 #login,#no-data {
     background-color: gray;
     opacity: 0.8;

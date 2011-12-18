@@ -1,7 +1,7 @@
 (function () {
 "use strict";
 
-window.update = function () {
+window.update = function (callback) {
     var documentReady = false;
     $(document).ready(function () {
         documentReady = true;
@@ -27,9 +27,11 @@ window.update = function () {
             window.data = window.parse(window.rawData);
             if (documentReady) {
                 window.display(window.data);
+                callback();
             } else {
                 $(document).ready(function () {
                     window.display(window.data);
+                    callback();
                 });
             }
         },

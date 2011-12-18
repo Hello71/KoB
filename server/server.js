@@ -58,14 +58,13 @@ exports.start = function (config) {
         }));
     });
 
-    app.get("/images/*.png", function (request, response) {
-        if (request.params[0].indexOf("..") > -1) {
+    app.get("/images/*", function (request, response) {
+        var image = request.params[0];
+        if (image.indexOf("..") > -1) {
             response.send(403);
         }
-        fs.readFile("images/" + request.params[0] + ".png", readFunction(response, function (data) {
-            response.send(data, {
-                "Content-Type": "image/png"
-            });
+        fs.readFile("images/" + image, readFunction(response, function (data) {
+            response.send(data);
         }));
     });
 
