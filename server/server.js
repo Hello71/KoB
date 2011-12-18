@@ -93,6 +93,7 @@ exports.start = function (config) {
     });
 
     app.get("/villageData", express.cookieParser(), function (request, response) {
+        debugger;
         if (typeof request.query.villageID === "undefined" || !(request.query.villageID.search(/\d{1-6}/))) {
             var res = "Malformed village ID.";
             response.writeHead(400, {
@@ -117,7 +118,7 @@ exports.start = function (config) {
                 "User-Agent": "KoB/0.1",
                 Accept: "text/plain",
                 "Accept-Charset": "utf-8",
-                Cookie: "J" + request.cookies.SESSIONID,
+                Cookie: "JSESSIONID=" + request.cookies.sessionid,
                 Connection: "close",
                 "Cache-Control": "max-age=0"
             }
