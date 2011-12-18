@@ -4,9 +4,7 @@ var config = require("./config.js").config;
 var express = require("express"),
     app = express.createServer(),
     argv = require("optimist")
-        .alias("verbose", "v")["default"]("verbose", true).boolean("verbose")
-        .alias("port", "p")["default"]("port", 8000)
-        .alias("reload", "l")["default"]("reload", true).boolean("reload")
+        .alias("port", "p")["default"]("port", config.port)
         .alias("root", "r")["default"]("root", config.root)
         .argv,
     fs = require("fs"),
@@ -28,6 +26,7 @@ var express = require("express"),
 try {
     process.chdir(argv.root);
 } catch (e) {
+    console.log("CURRENT DIRECTORY: " + process.cwd());
     console.log("Could not change directory.\nMake sure that the config root is set correctly.");
     process.exit(1);
 }
