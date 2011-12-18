@@ -36,4 +36,5 @@ window.update = function () {
         url: "/villageData"
     });
 };
+
 }());

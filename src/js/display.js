@@ -71,11 +71,11 @@ window.display = function (data) {
 
     var r = data.resources,
         rr = r.rates;
-    $("#iron").text(r.iron + " @ " + rr.iron + "/hour");
-    $("#wood").text(r.wood + " @ " + rr.wood + "/hour");
-    $("#stone").text(r.stone + " @ " + rr.stone + "/hour");
-    $("#gold").text(r.gold + " @ " + rr.gold + "/hour");
-    $("#food").text(r.food + " @ " + rr.food + "/hour");
-    $("#morale").text(r.morale + " @ " + rr.morale + "/hour");
+    $("#iron").text(r.iron.toLocaleString() + " @ " + rr.iron.toLocaleString() + "/hour");
+    $("#wood").text(r.wood.toLocaleString() + " @ " + rr.wood.toLocaleString() + "/hour");
+    $("#stone").text(r.stone.toLocaleString() + " @ " + rr.stone.toLocaleString() + "/hour");
+    $("#gold").text(r.gold.toLocaleString() + " @ " + rr.gold.toLocaleString() + "/hour");
+    $("#food").text(r.food.toLocaleString() + " @ " + rr.food.toLocaleString() + "/hour");
+    $("#morale").text(r.morale.toLocaleString() + " @ " + rr.morale.toLocaleString() + "/hour");
 };
 }());
