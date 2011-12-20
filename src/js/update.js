@@ -7,7 +7,6 @@ window.update = function (callback) {
         documentReady = true;
     });
     $.ajax({
-        accepts: "text/plain",
         cache: false,
         data: {
             villageID: 1444
@@ -31,11 +30,32 @@ window.update = function (callback) {
             } else {
                 $(document).ready(function () {
                     window.display(window.data);
-                    callback();
+                    callback(window.data, window.rawData);
                 });
             }
         },
         url: "/villageData"
+    });
+};
+
+window.updateVillages = function (callback) {
+    $.ajax({
+        cache: false,
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            if (jqXHR.status === 401) {
+                $("#login").show();
+            }
+        },
+        success: function (data, textStatus, jqXHR) {
+            if (Object.keys(data).length < 1) {
+                $("#no-data").show();
+                return;
+            }
+            window.villages = data;
+            callback(data);
+        },
+        url: "/villages"
     });
 };
 
