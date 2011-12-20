@@ -3,12 +3,14 @@
 exports.start = function (config) {
     "use strict";
 
+    var version = config.version || "0.1";
     var express = require("express"),
         app = express.createServer(),
         argv = require("optimist")
             .alias("port", "p")["default"]("port", config.port)
             .alias("root", "r")["default"]("root", config.root)
             .alias("site", "s")["default"]("site", config.site)
+            .alias("user-agent", "u")["default"]("user-agent", config.userAgent || "KoB/" + version)
             .argv,
         fs = require("fs"),
         http = require("http"),
@@ -92,7 +94,6 @@ exports.start = function (config) {
     });
 
     app.get("/villageData", express.cookieParser(), function (request, response) {
-        debugger;
         if (typeof request.query.villageID === "undefined" || !(request.query.villageID.search(/\d{1-6}/))) {
             var res = "Malformed village ID.";
             response.writeHead(400, {
@@ -102,26 +103,21 @@ exports.start = function (config) {
             response.end(res, "utf-8");
             return;
         }
-        if (typeof request.header("Cookie") === "undefined") {
+        if (typeof request.cookies.sessionid === "undefined") {
             response.send(401);
             return;
         }
-        var data = "";
         http.get({
             host: "kob.itch.com",
-            port: 80,
-            method: "GET",
             path: "/flash_getVillage.cfm?villageID=" + encodeURIComponent(request.query.villageID),
             headers: {
                 Host: "kob.itch.com",
-                "User-Agent": "KoB/0.1",
-                Accept: "text/plain",
-                "Accept-Charset": "utf-8",
+                "User-Agent": argv["user-agent"],
                 Cookie: "JSESSIONID=" + request.cookies.sessionid,
-                Connection: "close",
                 "Cache-Control": "max-age=0"
             }
         }, function (res) {
+            var data = "";
             res.on("data", function (chunk) {
                 data += chunk;
             });
@@ -136,6 +132,49 @@ exports.start = function (config) {
             response.send(500);
         });
     });
+
+    app.get("/villages", express.cookieParser(), function (request, response) {
+        if (typeof request.cookies.sessionid === "undefined") {
+            response.send(401);
+            return;
+        }
+        http.get({
+            host: "kob.itch.com",
+            path: "/home.cfm",
+            headers: {
+                Host: "kob.itch.com",
+                "User-Agent": argv["user-agent"],
+                Cookie: "JSESSIONID=" + request.cookies.sessionid,
+                "Cache-Control": "max-age=0"
+            }
+        }, function (res) {
+            res.setEncoding("utf8");
+            var data = "";
+            res.on("data", function (chunk) {
+                data += chunk;
+            });
+            res.on("end", function () {
+                debugger;
+                if (data.indexOf("<option") === -1) {
+                    var err = "no villages";
+                    response.writeHead(500, {
+                        "Content-Length": err.length,
+                        "Content-Type": "text/plain"
+                    });
+                    response.end(err);
+                    return;
+                }
+                var villages = {},
+                    re = /<option value="(\d{1,5})"( selected="selected")?>([A-Za-z0-9 ])*/g,
+                    match;
+                while ((match = re.exec(data)) !== null) {
+                    villages[match[1]] = match[3];
+                }
+                response.send(villages); // Express automatically JSON.stringifys it
+            });
+        });
+    });
+                    
     app.listen(argv.port);
 
     console.log("Listening on port " + argv.port);
