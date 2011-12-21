@@ -35,21 +35,10 @@ var makeBuilding = function (building) {
                 seconds = pad(Math.floor(upTime % 60).toString(), 2);
             upgradeTimeElm.text(hours + ":" + minutes + ":" + seconds);
         };
-        console.log(building.upgradeTime);
         updateInterval = window.setInterval(update, 1000);
         update();
     }
-    return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building).hover(function (e) {
-        var building = $(this).data("building");
-        var type = e.type.toLowerCase();
-        if (type === "mouseenter") {
-            $("#building-information").text("Level " + building.level + " " + building.type);
-        } else if (type === "mouseleave") {
-            $("#building-information").text("");
-        } else {
-            throw new Error("not a hover event");
-        }
-    });
+    return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building);
 };
 
 window.display = function (data) {
@@ -79,3 +68,26 @@ window.display = function (data) {
     $("#morale").text(r.morale.toLocaleString() + " @ " + rr.morale.toLocaleString() + "/hour");
 };
 }());
+
+window.displayVillages = function (villages) {
+    var villageCombo = $("#villages");
+    villageCombo.html("");
+    $.each(villages, function (index, value) {
+        $("<option>").attr("value", index).text(value).appendTo(villageCombo);
+    });
+};
+
+$(document).ready(function () {
+    $(".building").hover(function (e) {
+        var building = $(this).data("building");
+        var type = e.type.toLowerCase();
+        if (type === "mouseenter") {
+            $("#building-information").text("Level " + building.level + " " + building.type);
+        } else if (type === "mouseleave") {
+            $("#building-information").text("");
+        }
+    });
+    $("#villages").change(function (e) {
+        window.update(null, $(this).attr("value"));
+    });
+});
