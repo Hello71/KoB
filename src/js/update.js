@@ -76,7 +76,9 @@ window.updateVillages = function (callback) {
 window.update = function (callback) {
     _update(village, function () {
         $("#loading").hide();
-        callback();
+        if (typeof callback !== "undefined") {
+            callback();
+        }
     });
     $("#loading").show();
 };
