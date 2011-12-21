@@ -44,12 +44,14 @@ var makeBuilding = function (building) {
 window.display = function (data) {
     var $buildingRows = [[], [], [], [], [], [], [], [], []];
     $("#buildings > tbody > tr").each(function (index, row) {
-        $buildingRows[index] = $(row).find("td > span");
+        var row = $(row).find("td");
+        row.find("span").remove();
+        $buildingRows[index] = row;
     });
     
     $.each(data.buildings, function (index, buildingRow) {
         $.each(buildingRow, function (i, building) {
-            $($buildingRows[index][i]).replaceWith(makeBuilding(building));
+            $($buildingRows[index][i]).append(makeBuilding(building));
         });
     });
     $("#queues").html(data.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace("\n", "<br>"));
@@ -76,18 +78,3 @@ window.displayVillages = function (villages) {
         $("<option>").attr("value", index).text(value).appendTo(villageCombo);
     });
 };
-
-$(document).ready(function () {
-    $(".building").hover(function (e) {
-        var building = $(this).data("building");
-        var type = e.type.toLowerCase();
-        if (type === "mouseenter") {
-            $("#building-information").text("Level " + building.level + " " + building.type);
-        } else if (type === "mouseleave") {
-            $("#building-information").text("");
-        }
-    });
-    $("#villages").change(function (e) {
-        window.update(null, $(this).attr("value"));
-    });
-});

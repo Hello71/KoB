@@ -38,7 +38,7 @@ var _update = function (villageID, callback) {
     });
 };
 
-var _updateVillages = function (callback) {
+window.updateVillages = function (callback) {
     $.ajax({
         cache: false,
         dataType: "json",
@@ -53,36 +53,32 @@ var _updateVillages = function (callback) {
                 return;
             }
             window.villages = data;
-            callback(data);
+            var village = /activeVillage=([0-9]*)/.exec(document.cookie);
+            if (village === null) {
+                if (typeof Object.keys !== "undefined") {
+                    window.village = Object.keys(villages)[0];
+                }
+                $.each(villages, function (i, v) {
+                    window.village = i;
+                    return false;
+                });
+                document.cookie = "activeVillage=" + village + ";expires=Wed, 01 Jan 3000 00:00:00 GMT";
+            } else {
+                window.village = village[1];
+            }
+            window.displayVillages(villages);
+            callback(window.village);
         },
         url: "/villages"
     });
 };
 
-window.update = function (callback, village) {
-    _updateVillages(function (villages) {
-        if (typeof village === "undefined") {
-            village = /activeVillage=([0-9]*)/.exec(document.cookie);
-            if (village === null) {
-                if (typeof Object.keys !== "undefined") {
-                    village = Object.keys(villages)[0];
-                }
-                $.each(villages, function (i, v) {
-                    village = i;
-                    return false;
-                });
-                document.cookie = "activeVillage=" + activeVillage + ";expires=Wed, 01 Jan 3000 00:00:00 GMT";
-            } else {
-                village = village[1];
-            }
-        }
-        window.displayVillages(villages);
-        _update(village, function () {
-            if (typeof callback !== "undefined" && callback !== null) {
-                callback();
-            }
-        });
+window.update = function (callback) {
+    _update(village, function () {
+        $("#loading").hide();
+        callback();
     });
+    $("#loading").show();
 };
 
 }());
