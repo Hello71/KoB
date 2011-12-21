@@ -165,7 +165,7 @@ exports.start = function (config) {
                     return;
                 }
                 var villages = {},
-                    re = /<option value="(\d{1,5})"( selected="selected")?>([A-Za-z0-9 ])*/g,
+                    re = /<option value="(\d{1,5})"( selected="selected")?>([A-Za-z0-9 ]*)/g,
                     match;
                 while ((match = re.exec(data)) !== null) {
                     villages[match[1]] = match[3];
