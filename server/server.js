@@ -8,10 +8,10 @@ exports.start = function (config) {
         argv = require("optimist")
             .alias("port", "p")["default"]("port", config.port)
             .alias("root", "r")["default"]("root", config.root)
-            .alias("site", "s")["default"]("site", config.site)
             .argv,
         fs = require("fs"),
         http = require("http"),
+        log = require("lib/log.js").log,
         readFunction = function (response, passTo) {
             return function (err, data) {
                 if (err) {
@@ -82,7 +82,6 @@ exports.start = function (config) {
         response.cookie("SESSIONID", cookie, {
             maxAge: 1000000,
             httpOnly: true,
-            domain: argv.site,
             path: "/"
         });
         fs.readFile("loggedin.html", "utf-8", readFunction(response, function (data) {
