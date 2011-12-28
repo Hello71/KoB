@@ -93,8 +93,7 @@ exports.start = function (config) {
     });
 
     app.get("/villageData", express.cookieParser(), function (request, response) {
-        debugger;
-        if (typeof request.query.villageID === "undefined" || !(request.query.villageID.search(/\d{1-6}/))) {
+        if (typeof request.query.villageID === "undefined" || !(request.query.villageID.search(/\d{1,5}/))) {
             var res = "Malformed village ID.";
             response.writeHead(400, {
                 "Content-Length": res.length,

@@ -48,7 +48,7 @@ body {
     border: thin solid #960;
     color: #fefefe;
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     width: 16px;
     text-align: center;
     font-size: 0.75em;
