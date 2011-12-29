@@ -3,11 +3,13 @@
 exports.start = function (config) {
     "use strict";
 
+    var version = config.version || "0.1";
     var express = require("express"),
         app = express.createServer(),
         argv = require("optimist")
             .alias("port", "p")["default"]("port", config.port)
             .alias("root", "r")["default"]("root", config.root)
+            .alias("user-agent", "u")["default"]("user-agent", config.userAgent || "KoB/" + version)
             .argv,
         fs = require("fs"),
         http = require("http"),
@@ -58,14 +60,13 @@ exports.start = function (config) {
         }));
     });
 
-    app.get("/images/*.png", function (request, response) {
-        if (request.params[0].indexOf("..") > -1) {
+    app.get("/images/*", function (request, response) {
+        var image = request.params[0];
+        if (image.indexOf("..") > -1) {
             response.send(403);
         }
-        fs.readFile("images/" + request.params[0] + ".png", readFunction(response, function (data) {
-            response.send(data, {
-                "Content-Type": "image/png"
-            });
+        fs.readFile("images/" + image, readFunction(response, function (data) {
+            response.send(data);
         }));
     });
 
@@ -80,7 +81,7 @@ exports.start = function (config) {
     app.post("/login", express.bodyParser(), function (request, response) {
         var cookie = request.body.cookie.replace(/\n/g, "").replace(/;/g, "%3B");
         response.cookie("SESSIONID", cookie, {
-            maxAge: 1000000,
+            expires: new Date(3000, 0, 1),
             httpOnly: true,
             path: "/"
         });
@@ -101,26 +102,21 @@ exports.start = function (config) {
             response.end(res, "utf-8");
             return;
         }
-        if (typeof request.header("Cookie") === "undefined") {
+        if (typeof request.cookies.sessionid === "undefined") {
             response.send(401);
             return;
         }
-        var data = "";
         http.get({
             host: "kob.itch.com",
-            port: 80,
-            method: "GET",
             path: "/flash_getVillage.cfm?villageID=" + encodeURIComponent(request.query.villageID),
             headers: {
                 Host: "kob.itch.com",
-                "User-Agent": "KoB/0.1",
-                Accept: "text/plain",
-                "Accept-Charset": "utf-8",
+                "User-Agent": argv["user-agent"],
                 Cookie: "JSESSIONID=" + request.cookies.sessionid,
-                Connection: "close",
                 "Cache-Control": "max-age=0"
             }
         }, function (res) {
+            var data = "";
             res.on("data", function (chunk) {
                 data += chunk;
             });
@@ -135,6 +131,48 @@ exports.start = function (config) {
             response.send(500);
         });
     });
+
+    app.get("/villages", express.cookieParser(), function (request, response) {
+        if (typeof request.cookies.sessionid === "undefined") {
+            response.send(401);
+            return;
+        }
+        http.get({
+            host: "kob.itch.com",
+            path: "/home.cfm",
+            headers: {
+                Host: "kob.itch.com",
+                "User-Agent": argv["user-agent"],
+                Cookie: "JSESSIONID=" + request.cookies.sessionid,
+                "Cache-Control": "max-age=0"
+            }
+        }, function (res) {
+            res.setEncoding("utf8");
+            var data = "";
+            res.on("data", function (chunk) {
+                data += chunk;
+            });
+            res.on("end", function () {
+                if (data.indexOf("<option") === -1) {
+                    var err = "no villages";
+                    response.writeHead(500, {
+                        "Content-Length": err.length,
+                        "Content-Type": "text/plain"
+                    });
+                    response.end(err);
+                    return;
+                }
+                var villages = {},
+                    re = /<option value="(\d{1,5})"( selected="selected")?>([A-Za-z0-9 ]*)/g,
+                    match;
+                while ((match = re.exec(data)) !== null) {
+                    villages[match[1]] = match[3];
+                }
+                response.send(villages); // Express automatically JSON.stringifys it
+            });
+        });
+    });
+                    
     app.listen(argv.port);
 
     console.log("Listening on port " + argv.port);

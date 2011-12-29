@@ -36,32 +36,23 @@ var makeBuilding = function (building) {
                 seconds = pad(Math.floor(upTime % 60).toString(), 2);
             upgradeTimeElm.text(hours + ":" + minutes + ":" + seconds);
         };
-        console.log(building.upgradeTime);
         updateInterval = window.setInterval(update, 1000);
         update();
     }
-    return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building).hover(function (e) {
-        var building = $(this).data("building");
-        var type = e.type.toLowerCase();
-        if (type === "mouseenter") {
-            $("#building-information").text("Level " + building.level + " " + building.type);
-        } else if (type === "mouseleave") {
-            $("#building-information").text("");
-        } else {
-            throw new Error("not a hover event");
-        }
-    });
+    return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building);
 };
 
 window.display = function (data) {
     var $buildingRows = [[], [], [], [], [], [], [], [], []];
     $("#buildings > tbody > tr").each(function (index, row) {
-        $buildingRows[index] = $(row).find("td > span");
+        var row = $(row).find("td");
+        row.find("span").remove();
+        $buildingRows[index] = row;
     });
     
     $.each(data.buildings, function (index, buildingRow) {
         $.each(buildingRow, function (i, building) {
-            $($buildingRows[index][i]).replaceWith(makeBuilding(building));
+            $($buildingRows[index][i]).append(makeBuilding(building));
         });
     });
     $("#queues").html(data.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace("\n", "<br>"));
@@ -77,3 +68,11 @@ window.display = function (data) {
     });
 };
 }());
+
+window.displayVillages = function (villages) {
+    var villageCombo = $("#villages");
+    villageCombo.html("");
+    $.each(villages, function (index, value) {
+        $("<option>").attr("value", index).text(value).appendTo(villageCombo);
+    });
+};
