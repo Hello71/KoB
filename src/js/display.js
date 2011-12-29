@@ -1,6 +1,7 @@
 (function () {
 "use strict";
 
+/*global $:false*/
 
 var pad = function (strnum, amount) {
     if (typeof strnum === "string") {
@@ -62,12 +63,9 @@ window.display = function (data) {
 
     var r = data.resources,
         rr = r.rates;
-    $("#iron").text(r.iron.toLocaleString() + " @ " + rr.iron.toLocaleString() + "/hour");
-    $("#wood").text(r.wood.toLocaleString() + " @ " + rr.wood.toLocaleString() + "/hour");
-    $("#stone").text(r.stone.toLocaleString() + " @ " + rr.stone.toLocaleString() + "/hour");
-    $("#gold").text(r.gold.toLocaleString() + " @ " + rr.gold.toLocaleString() + "/hour");
-    $("#food").text(r.food.toLocaleString() + " @ " + rr.food.toLocaleString() + "/hour");
-    $("#morale").text(r.morale.toLocaleString() + " @ " + rr.morale.toLocaleString() + "/hour");
+    $.each(r, function (i, v) {
+        $("#" + i).text(v.toLocaleString() + " @ " + rr[i].toLocaleString() + "/hour");
+    });
 };
 }());
 
