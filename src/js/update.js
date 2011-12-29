@@ -1,3 +1,4 @@
+/*global $:false */
 (function () {
 "use strict";
 
@@ -6,6 +7,12 @@ window.update = function () {
     $(document).ready(function () {
         documentReady = true;
     });
+    
+    if (document.cookie.indexOf("SESSIONID") === -1) {
+        $("#login").show();
+        return;
+    }
+    
     $.ajax({
         accepts: "text/plain",
         cache: false,
