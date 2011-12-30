@@ -7,9 +7,10 @@ exports.start = function (config) {
     var express = require("express"),
         app = express.createServer(),
         argv = require("optimist")
-            .alias("port", "p")["default"]("port", config.port)
+            .alias("port", "p")["default"]("port", config.port || 8080)
             .alias("root", "r")["default"]("root", config.root)
             .alias("user-agent", "u")["default"]("user-agent", config.userAgent || "KoB/" + version)
+            .alias("cache", "c")["default"]("cache", config.cache || false)
             .argv,
         fs = require("fs"),
         http = require("http"),
@@ -30,7 +31,6 @@ exports.start = function (config) {
     try {
         process.chdir(argv.root);
     } catch (e) {
-        console.log("CURRENT DIRECTORY: " + process.cwd());
         console.log("Could not change directory.\nMake sure that the config root is set correctly.");
         process.exit(1);
     }
