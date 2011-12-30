@@ -13,7 +13,6 @@ exports.start = function (config) {
             .argv,
         fs = require("fs"),
         http = require("http"),
-        log = require("lib/log.js").log,
         readFunction = function (response, passTo) {
             return function (err, data) {
                 if (err) {
