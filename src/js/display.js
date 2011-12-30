@@ -45,7 +45,7 @@ var makeBuilding = function (building) {
 window.display = function (data) {
     var $buildingRows = [[], [], [], [], [], [], [], [], []];
     $("#buildings > tbody > tr").each(function (index, row) {
-        var row = $(row).find("td");
+        row = $(row).find("td");
         row.find("span").remove();
         $buildingRows[index] = row;
     });
@@ -67,7 +67,6 @@ window.display = function (data) {
         $("#" + i).text(v.toLocaleString() + " @ " + rr[i].toLocaleString() + "/hour");
     });
 };
-}());
 
 window.displayVillages = function (villages) {
     var villageCombo = $("#villages");
@@ -76,3 +75,4 @@ window.displayVillages = function (villages) {
         $("<option>").attr("value", index).text(value).appendTo(villageCombo);
     });
 };
+}());
