@@ -1,7 +1,7 @@
 {
     "name": "kob",
     "description": "An interface for KoB (Kings of Babylon).",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "keywords": [
         "kob"
     ],
@@ -29,4 +29,3 @@
         "start": "server/start.js"
     }
 }
-

@@ -3,7 +3,7 @@
 exports.start = function (config) {
     "use strict";
 
-    var version = config.version || "0.1";
+    var version = "0.1";
     var express = require("express"),
         app = express.createServer(),
         argv = require("optimist")
@@ -105,7 +105,7 @@ exports.start = function (config) {
     app.post("/login", express.bodyParser(), function (request, response) {
         var cookie = request.body.cookie.replace(/\n/g, "").replace(/;/g, "%3B");
         response.cookie("SESSIONID", cookie, {
-            expires: new Date(3000, 0, 1),
+            expires: new Date(3000, 0, 1), // 1 January 3000 (Should this be 21 December 2012? :D)
             httpOnly: true,
             path: "/"
         });
