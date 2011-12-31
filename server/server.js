@@ -28,7 +28,7 @@ exports.start = function (config) {
                     callback(cached.data);
                     return cached.data;
                 }
-                // fall through to actual read
+                // else fall through to re-read (assuming most people don't switch back and forth between encoding/callbacks for the same file)
             }
             fs.readFile(path, encoding, function (data) {
                 cache[path] = {
