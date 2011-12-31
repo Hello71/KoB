@@ -14,6 +14,31 @@ exports.start = function (config) {
             .argv,
         fs = require("fs"),
         http = require("http"),
+        cache = {},
+        readFile = function (path, encoding_) {
+            if (!(argv.cache)) {
+                return fs.readFile.apply(this, arguments);
+            }
+            var encoding = typeof(encoding_) === 'string' ? encoding_ : null;
+            var callback = arguments[arguments.length - 1];
+            if (typeof callback !== "function") callback = function () {};
+            if (typeof cache[path] !== "undefined") {
+                var cached = cache[path];
+                if (cached.callback === callback && cached.encoding === encoding) {
+                    callback(cached.data);
+                    return cached.data;
+                }
+                // fall through to actual read
+            }
+            fs.readFile(path, encoding, function (data) {
+                cache[path] = {
+                    callback: callback,
+                    encoding: encoding,
+                    data: data
+                };
+                return data;
+            });
+        },
         readFunction = function (response, passTo) {
             return function (err, data) {
                 if (err) {
@@ -36,7 +61,7 @@ exports.start = function (config) {
     }
 
     app.get("/", function (request, response) {
-        fs.readFile("main.html", "utf-8", readFunction(response, function (data) {
+        readFile("main.html", "utf-8", readFunction(response, function (data) {
             response.send(data, {
                 "Content-Type": "text/html"
             }, 200);
@@ -44,7 +69,7 @@ exports.start = function (config) {
     });
 
     app.get("/js/:js", function (request, response) {
-        fs.readFile("js/" + request.params.js, "utf-8", readFunction(response, function (data) {
+        readFile("js/" + request.params.js, "utf-8", readFunction(response, function (data) {
             response.send(data, {
                 "Content-Type": "application/javascript"
             });
@@ -52,7 +77,7 @@ exports.start = function (config) {
     });
 
     app.get("/css/:css", function (request, response) {
-        fs.readFile("css/" + request.params.css, "utf-8", readFunction(response, function (data) {
+        readFile("css/" + request.params.css, "utf-8", readFunction(response, function (data) {
             response.send(data, {
                 "Content-Type": "text/css"
             });
@@ -64,13 +89,13 @@ exports.start = function (config) {
         if (image.indexOf("..") > -1) {
             response.send(403);
         }
-        fs.readFile("images/" + image, readFunction(response, function (data) {
+        readFile("images/" + image, readFunction(response, function (data) {
             response.send(data);
         }));
     });
 
     app.get("/login", function (request, response) {
-        fs.readFile("login.html", "utf-8", readFunction(response, function (data) {
+        readFile("login.html", "utf-8", readFunction(response, function (data) {
             response.send(data, {
                 "Content-Type": "text/html"
             });
@@ -84,7 +109,7 @@ exports.start = function (config) {
             httpOnly: true,
             path: "/"
         });
-        fs.readFile("loggedin.html", "utf-8", readFunction(response, function (data) {
+        readFile("loggedin.html", "utf-8", readFunction(response, function (data) {
             response.send(data, {
                 "Content-Type": "text/html"
             });
