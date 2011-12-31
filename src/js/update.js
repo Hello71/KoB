@@ -18,26 +18,25 @@ var _update = function (villageID, callback) {
         data: {
             villageID: villageID
         },
-        dataType: "text",
-        error: function (jqXHR, textStatus, errorThrown) {
+        dataType: "json",
+        error: function (jqXHR) {
             if (jqXHR.status === 401) {
                 $("#login").show();
             }
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function (data) {
             if (data.length === 0) {
                 $("#no-data").show();
                 return;
             }
-            window.rawData = data;
-            window.data = window.parse(window.rawData);
+            window.data = data;
             if (documentReady) {
-                window.display(window.data);
+                window.display(data);
                 callback();
             } else {
                 $(document).ready(function () {
-                    window.display(window.data);
-                    callback(window.data, window.rawData);
+                    window.display(data);
+                    callback(data);
                 });
             }
         },
@@ -49,12 +48,12 @@ window.updateVillages = function (callback) {
     $.ajax({
         cache: false,
         dataType: "json",
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR) {
             if (jqXHR.status === 401) {
                 $("#login").show();
             }
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function (data) {
             if (Object.keys(data).length < 1) {
                 $("#no-data").show();
                 return;
@@ -63,18 +62,19 @@ window.updateVillages = function (callback) {
             var village = /activeVillage=([0-9]*)/.exec(document.cookie);
             if (village === null) {
                 if (typeof Object.keys !== "undefined") {
-                    window.village = Object.keys(villages)[0];
+                    village = Object.keys(window.villages)[0];
                 }
-                $.each(villages, function (i, v) {
-                    window.village = i;
+                $.each(window.villages, function (i) {
+                    village = i;
                     return false;
                 });
                 document.cookie = "activeVillage=" + window.village + ";expires=Wed, 01 Jan 3000 00:00:00 GMT";
             } else {
-                window.village = village[1];
+                village = village[1];
             }
-            window.displayVillages(villages);
-            callback(window.village);
+            window.village = village;
+            window.displayVillages(window.villages);
+            callback(village);
         },
         url: "/villages"
     });

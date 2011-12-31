@@ -51,7 +51,8 @@ exports.start = function (config) {
                     passTo(data);
                 }
             };
-        };
+        },
+        parse = require("./parse.js").parse;
 
     try {
         process.chdir(argv.root);
@@ -85,8 +86,9 @@ exports.start = function (config) {
     });
 
     app.get("/images/*", function (request, response) {
-        var image = request.params[0];
-        if (image.indexOf("..") > -1) {
+        var image = request.params[0],
+            ext = image.substring(image.length - 4);
+        if (image.indexOf("..") > -1 || (ext !== ".jpg" && ext !== ".png" && ext !== ".gif" && ext !== "tiff" && ext !== ".tif")) {
             response.send(403);
         }
         readFile("images/" + image, readFunction(response, function (data) {
@@ -145,11 +147,7 @@ exports.start = function (config) {
                 data += chunk;
             });
             res.on("end", function () {
-                response.writeHead(res.statusCode, {
-                    "Content-Length": data.length,
-                    "Content-Type": "text/plain"
-                });
-                response.end(data, "utf-8");
+                response.end(parse(data));
             });
         }).on("error", function (error) {
             response.send(500);
