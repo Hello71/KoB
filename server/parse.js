@@ -1,5 +1,3 @@
-/* jshint: globalstrict:true */ // Shut up JSHint on global
-
 "use strict";
 
 exports.parse = function (data) {

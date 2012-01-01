@@ -22,7 +22,7 @@
     "es5": false,
     "evil": false,
     "expr": false,
-    "globalstrict": false,
+    "globalstrict": true,
     "iterator": false,
     "lastsemic": false,
     "laxbreak": false,
