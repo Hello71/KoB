@@ -17,7 +17,7 @@
 
     "asi": false,
     "boss": false,
-    "debug": true,
+    "debug": false,
     "eqnull": false,
     "es5": false,
     "evil": false,
@@ -35,7 +35,7 @@
     "sub": false,
     "supernew": false,
 
-    "browser": true,
-    "devel": true,
-    "jquery": true
+    "browser": false,
+    "devel": false,
+    "node": true
 }
