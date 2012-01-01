@@ -46,7 +46,6 @@ window.display = function (data) {
     var $buildingRows = [[], [], [], [], [], [], [], [], []];
     $("#buildings > tbody > tr").each(function (index, row) {
         row = $(row).find("td");
-        row.find("span").remove();
         $buildingRows[index] = row;
     });
     
