@@ -16,12 +16,14 @@ exports.start = function (config) {
         http = require("http"),
         cache = {},
         readFile = function (path, encoding_) {
-            if (!(argv.cache)) {
+            if (!argv.cache) {
                 return fs.readFile.apply(this, arguments);
             }
+
             var encoding = typeof(encoding_) === 'string' ? encoding_ : null;
             var callback = arguments[arguments.length - 1];
             if (typeof callback !== "function") callback = function () {};
+
             if (typeof cache[path] !== "undefined") {
                 var cached = cache[path];
                 if (cached.callback === callback && cached.encoding === encoding) {
@@ -30,13 +32,17 @@ exports.start = function (config) {
                 }
                 // else fall through to re-read (assuming most people don't switch back and forth between encoding/callbacks for the same file)
             }
-            fs.readFile(path, encoding, function (data) {
-                cache[path] = {
-                    callback: callback,
-                    encoding: encoding,
-                    data: data
-                };
-                return data;
+            fs.readFile(path, encoding, function (err, data) {
+                if (err) {
+                    callback(err, data);
+                } else {
+                    cache[path] = {
+                        callback: callback,
+                        encoding: encoding,
+                        data: data
+                    };
+                    callback(err, data);
+                }
             });
         },
         readFunction = function (response, passTo) {
