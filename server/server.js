@@ -45,7 +45,7 @@ exports.start = function (config) {
                 }
             });
         },
-        readFunction = function (response, passTo) {
+        readCallback = function (response, passTo) {
             return function (err, data) {
                 if (err) {
                     if (err.code === "ENOENT") {
@@ -68,7 +68,7 @@ exports.start = function (config) {
     }
 
     app.get("/", function (request, response) {
-        readFile("main.html", "utf-8", readFunction(response, function (data) {
+        readFile("main.html", "utf-8", readCallback(response, function (data) {
             response.send(data, {
                 "Content-Type": "text/html"
             }, 200);
@@ -76,7 +76,7 @@ exports.start = function (config) {
     });
 
     app.get("/js/:js", function (request, response) {
-        readFile("js/" + request.params.js, "utf-8", readFunction(response, function (data) {
+        readFile("js/" + request.params.js, "utf-8", readCallback(response, function (data) {
             response.send(data, {
                 "Content-Type": "application/javascript"
             });
@@ -84,7 +84,7 @@ exports.start = function (config) {
     });
 
     app.get("/css/:css", function (request, response) {
-        readFile("css/" + request.params.css, "utf-8", readFunction(response, function (data) {
+        readFile("css/" + request.params.css, "utf-8", readCallback(response, function (data) {
             response.send(data, {
                 "Content-Type": "text/css"
             });
@@ -97,13 +97,13 @@ exports.start = function (config) {
         if (image.indexOf("..") > -1 || (ext !== ".jpg" && ext !== ".png" && ext !== ".gif" && ext !== "tiff" && ext !== ".tif")) {
             response.send(403);
         }
-        readFile("images/" + image, readFunction(response, function (data) {
+        readFile("images/" + image, readCallback(response, function (data) {
             response.send(data);
         }));
     });
 
     app.get("/login", function (request, response) {
-        readFile("login.html", "utf-8", readFunction(response, function (data) {
+        readFile("login.html", "utf-8", readCallback(response, function (data) {
             response.send(data, {
                 "Content-Type": "text/html"
             });
@@ -117,7 +117,7 @@ exports.start = function (config) {
             httpOnly: true,
             path: "/"
         });
-        readFile("loggedin.html", "utf-8", readFunction(response, function (data) {
+        readFile("loggedin.html", "utf-8", readCallback(response, function (data) {
             response.send(data, {
                 "Content-Type": "text/html"
             });
