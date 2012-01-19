@@ -153,7 +153,7 @@ this.start = function (config) {
                 data += chunk;
             });
             res.on("end", function () {
-                response.end(parse(data));
+                response.end(JSON.stringify(parse(data)));
             });
         }).on("error", function (error) {
             response.send(500);
