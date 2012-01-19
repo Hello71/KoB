@@ -148,7 +148,13 @@ this.start = function (config) {
                 "Cache-Control": "max-age=0"
             }
         }, function (res) {
-            res.pipe(response);
+            var data = "";
+            res.on("data", function (chunk) {
+                data += chunk;
+            });
+            res.on("end", function () {
+                response.end(parse(data));
+            });
         }).on("error", function (error) {
             response.send(500);
         });
