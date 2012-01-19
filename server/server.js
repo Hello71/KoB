@@ -29,7 +29,7 @@ this.start = function (config) {
             if (typeof cache[path] !== "undefined") {
                 var cached = cache[path];
                 if (cached.encoding === encoding) {
-                    callback(null, cached.data);
+                    callback(cached.err, cached.data);
                 }
                 // else fall through to re-read (assuming most people don't switch back and forth between encodings for the same file)
             }
@@ -39,6 +39,7 @@ this.start = function (config) {
                 } else {
                     cache[path] = {
                         encoding: encoding,
+                        err: err,
                         data: data
                     };
                     callback(err, data);
