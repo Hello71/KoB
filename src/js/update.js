@@ -8,11 +8,6 @@ var _update = function (villageID, callback) {
         documentReady = true;
     });
     
-    if (document.cookie.indexOf("SESSIONID") === -1) {
-        $("#login").show();
-        return;
-    }
-    
     $.ajax({
         cache: false,
         data: {
