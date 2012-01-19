@@ -14,7 +14,7 @@ var pad = function (strnum, amount) {
     return strnum;
 };
 var makeBuilding = function (building) {
-    if (typeof building === "undefined") {
+    if (typeof building === "undefined" || building === null) {
         return $("<span class=\"empty-building\">");
     }
     var img = $("<img>").attr("src", "images/buildings/" + building.type + ".png"),
