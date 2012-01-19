@@ -63,7 +63,7 @@ window.updateVillages = function (callback) {
                     village = i;
                     return false;
                 });
-                document.cookie = "activeVillage=" + window.village + ";expires=Wed, 01 Jan 3000 00:00:00 GMT";
+                document.cookie = "activeVillage=" + village + ";expires=Wed, 01 Jan 3000 00:00:00 GMT";
             } else {
                 village = village[1];
             }
