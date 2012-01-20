@@ -153,3 +153,7 @@ noscript {
     z-index: 2;
     color: white;
 }
+
+#unit-training {
+    display: none; /* not finished yet */
+}
