@@ -91,11 +91,11 @@ body {
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    height: 7.3em;
+    height: 120px;
     width: 48%;
 }
-#resources > table {
-    border-collapse: collapse;
+#resources td, #resources tr {
+    padding: 0 10px 0 1px;
 }
 #queues {
     float: right;
