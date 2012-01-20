@@ -5,12 +5,13 @@
     window.updateVillages(function (villages) {
         window.update();
     });
-        $(document).ready(function () {
-            $("button").button();
-            $("#update").click(function () {
-                window.update();
-            });
-    
+    window.setInterval(window.update, 60000);
+    $(document).ready(function () {
+        $("button").button();
+        $("#update").click(function () {
+            window.update();
+        });
+
         $(".building").hover(function (e) {
             var building = $(this).data("building");
             var type = e.type.toLowerCase();
