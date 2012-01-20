@@ -74,4 +74,8 @@ window.displayVillages = function (villages) {
         $("<option>").attr("value", index).text(value).appendTo(villageCombo);
     });
 };
+
+window.clearBuildings = function () {
+    $(".building").remove();
+};
 }());

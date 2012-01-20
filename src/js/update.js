@@ -17,21 +17,24 @@ var _update = function (villageID, callback) {
         error: function (jqXHR) {
             if (jqXHR.status === 401) {
                 $("#login").show();
+                callback(false);
             }
         },
         success: function (data) {
             if (data.length === 0) {
                 $("#no-data").show();
+                callback(false);
                 return;
             }
             window.data = data;
             if (documentReady) {
+                window.clearBuildings();
                 window.display(data);
-                callback();
+                callback(true);
             } else {
                 $(document).ready(function () {
                     window.display(data);
-                    callback(data);
+                    callback(true);
                 });
             }
         },
@@ -76,10 +79,12 @@ window.updateVillages = function (callback) {
 };
 
 window.update = function (callback) {
-    _update(window.village, function () {
-        $("#loading").hide();
+    _update(window.village, function (success) {
+        if (success) {
+            $("#loading").hide();
+        }
         if (typeof callback !== "undefined") {
-            callback();
+            callback.apply(this, arguments);
         }
     });
     $("#loading").show();
