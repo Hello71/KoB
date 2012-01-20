@@ -28,16 +28,18 @@ this.start = function (config) {
 
             if (typeof cache[path] !== "undefined") {
                 var cached = cache[path];
-                if (cached.encoding === encoding) {
-                    callback(cached.err, cached.data);
+                if (cached.callback === callback && cached.encoding === encoding) {
+                    callback(cached.data);
+                    return cached.data;
                 }
-                // else fall through to re-read (assuming most people don't switch back and forth between encodings for the same file)
+                // else fall through to re-read (assuming most people don't switch back and forth between encoding/callbacks for the same file)
             }
             fs.readFile(path, encoding, function (err, data) {
                 if (err) {
                     callback(err, data);
                 } else {
                     cache[path] = {
+                        callback: callback,
                         encoding: encoding,
                         err: err,
                         data: data
