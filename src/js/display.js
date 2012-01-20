@@ -63,7 +63,9 @@ window.display = function (data) {
     var r = data.resources,
         rr = r.rates;
     $.each(r, function (i, v) {
-        if (i === "rates") return;
+        if (i === "rates") {
+            return;
+        }
         $("#" + i).text(v.toLocaleString());
         $("#" + i + "-rates").text(rr[i].toLocaleString() + "/hour");
     });
