@@ -94,6 +94,9 @@ body {
     height: 7.3em;
     width: 48%;
 }
+#resources > table {
+    border-collapse: collapse;
+}
 #queues {
     float: right;
     color: #cbcbcb;

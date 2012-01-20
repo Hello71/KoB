@@ -67,7 +67,7 @@ window.display = function (data) {
             return;
         }
         $("#" + i).text(v.toLocaleString());
-        $("#" + i + "-rates").text(rr[i].toLocaleString() + "/hour");
+        $("#" + i + "-rate").text(rr[i].toLocaleString() + "/hour");
     });
 };
 
