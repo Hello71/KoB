@@ -12,42 +12,8 @@ this.start = function (config) {
             .alias("user-agent", "u")["default"]("user-agent", config.userAgent || "KoB/" + version)
             .alias("cache", "c")["default"]("cache", config.cache || false)
             .argv,
-        fs = require("fs"),
+        util = require("./util.js").init(argv),
         http = require("http"),
-        cache = {},
-        readFile = function (path, encoding_) {
-            if (!argv.cache) {
-                return fs.readFile.apply(this, arguments);
-            }
-
-            var encoding = typeof(encoding_) === 'string' ? encoding_ : null;
-            var callback = arguments[arguments.length - 1];
-            if (typeof callback !== "function") {
-                callback = function () {};
-            }
-
-            if (typeof cache[path] !== "undefined") {
-                var cached = cache[path];
-                if (cached.callback === callback && cached.encoding === encoding) {
-                    callback(cached.data);
-                    return cached.data;
-                }
-                // else fall through to re-read (assuming most people don't switch back and forth between encoding/callbacks for the same file)
-            }
-            fs.readFile(path, encoding, function (err, data) {
-                if (err) {
-                    callback(err, data);
-                } else {
-                    cache[path] = {
-                        callback: callback,
-                        encoding: encoding,
-                        err: err,
-                        data: data
-                    };
-                    callback(err, data);
-                }
-            });
-        },
         readCallback = function (response, passTo) {
             return function (err, data) {
                 if (err) {
@@ -61,7 +27,35 @@ this.start = function (config) {
                 }
             };
         },
-        parse = require("./parse.js").parse;
+        readFile = util.readFile,
+        parse = require("./parse.js").parse,
+        unitData = "",
+        extend = function (target) {
+            for (var i = 1; i < arguments.length; i++) {
+                var source = arguments[i];
+                for (var j in source) {
+                    if (source.hasOwnProperty(j)) {
+                        target[j] = source[j];
+                    }
+                }
+            }
+            return target;
+        },
+        prepareHeaders = function (request, customHeaders) {
+            var headers = {
+                Host: "kob.itch.com",
+                "User-Agent": argv["user-agent"],
+                "Cache-Control": "max-age=0",
+                Cookie: "JSESSIONID=" + request.cookies.sessionid
+            },
+                clientIP = request.connection.remoteAddress;
+            if (typeof request.headers["X-Forwarded-For"] === "undefined") {
+                headers["X-Forwarded-For"] = clientIP;
+            } else {
+                headers["X-Forwarded-For"] = request.headers["X-Forwarded-For"] + ", " + clientIP;
+            }
+            return extend(headers, customHeaders);
+        };
 
     try {
         process.chdir(argv.root);
@@ -144,12 +138,7 @@ this.start = function (config) {
         http.get({
             host: "kob.itch.com",
             path: "/flash_getVillage.cfm?villageID=" + encodeURIComponent(request.query.villageID),
-            headers: {
-                Host: "kob.itch.com",
-                "User-Agent": argv["user-agent"],
-                Cookie: "JSESSIONID=" + request.cookies.sessionid,
-                "Cache-Control": "max-age=0"
-            }
+            headers: prepareHeaders(request, {}),
         }, function (res) {
             var data = "";
             res.on("data", function (chunk) {
@@ -171,12 +160,7 @@ this.start = function (config) {
         http.get({
             host: "kob.itch.com",
             path: "/home.cfm",
-            headers: {
-                Host: "kob.itch.com",
-                "User-Agent": argv["user-agent"],
-                Cookie: "JSESSIONID=" + request.cookies.sessionid,
-                "Cache-Control": "max-age=0"
-            }
+            headers: prepareHeaders(request, {}),
         }, function (res) {
             res.setEncoding("utf8");
             var data = "";
@@ -203,7 +187,22 @@ this.start = function (config) {
             });
         });
     });
-                    
+/*
+    app.get("/units", express.cookieParser(), function (request, response) {
+        if (typeof request.cookies.sessionid === "undefined") {
+            response.send(401);
+            return;
+        }
+        http.get({
+            host: "kob.itch.com",
+            path: "/flash_troopRef.cfm?villageID=" + encodeURIComponent(request.params.villageID),
+            headers: {
+                Host: "kob.itch.com",
+                "User-Agent": argv["user-agent"],
+                Cookie: "JSESSIONID=" + request.cookies.sessionid,
+                "Cache-Control": "max-age=0",
+                "X-Forwarded-For"
+  */                  
     app.listen(argv.port);
 
     console.log("Listening on port " + argv.port);
