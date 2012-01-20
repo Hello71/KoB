@@ -39,7 +39,11 @@ var makeBuilding = function (building) {
         updateInterval = window.setInterval(update, 1000);
         update();
     }
-    return $("<span class='building'>").append(img).append(level).append(upgradeTime).data("building", building);
+    return $("<span class='building'>").append(img).append(level).append(upgradeTime).hover(function () {
+        $("#building-information").text("Level " + building.level + building.type);
+    }, function () {
+        $("#building-information").text("");
+    });
 };
 
 window.display = function (data) {
