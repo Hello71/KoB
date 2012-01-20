@@ -54,7 +54,7 @@ window.display = function (data) {
             $($buildingRows[index][i]).append(makeBuilding(building));
         });
     });
-    $("#queues").html(data.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace("\n", "<br>"));
+    $("#queues").html(data.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\r\n]/g, "<br>"));
 
     $.each(data.units, function (type, number) {
         $("#" + type).text(number);
