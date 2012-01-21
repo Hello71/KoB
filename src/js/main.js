@@ -5,7 +5,9 @@
     window.updateVillages(function (villages) {
         window.update();
     });
-    window.setInterval(window.update, 60000);
+    window.setInterval(function () {
+        window.update()
+    }, 60000);
     $(document).ready(function () {
         $("button").button();
         $("#update").click(function () {
