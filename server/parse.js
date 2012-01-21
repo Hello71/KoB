@@ -89,3 +89,41 @@ exports.parse = function (data) {
         queue: queue
     };
 };
+
+exports.parseUnits = function (rawData) {
+    var data = rawData.slice(14, -5);
+    data = data.split("|");
+    return data.map(function (value) {
+        var rawUnit = value.split("~");
+        return {
+            name: rawUnit[1],
+            description: rawUnit[3],
+            villageType: rawUnit[4],
+            cost: {
+                food: rawUnit[5],
+                gold: rawUnit[6],
+                iron: rawUnit[7],
+                stone: rawUnit[9],
+                wood: rawUnit[10]
+            },
+            production: {
+                food: rawUnit[11],
+                gold: rawUnit[12],
+                iron: rawUnit[13],
+                stone: rawUnit[14],
+                wood: rawUnit[15],
+                morale: rawUnit[16]
+            },
+            morale: rawUnit[8],
+            trainTime: rawUnit[17],
+            attack: rawUnit[18],
+            defend: rawUnit[19],
+            speed: rawUnit[20],
+            siege: rawUnit[21],
+            hp: rawUnit[22],
+            amount: rawUnit[23],
+            amountTraining: rawUnit[24],
+            carry: rawUnit[27]
+        };
+    });
+};

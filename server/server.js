@@ -55,7 +55,8 @@ this.start = function (config) {
                 headers["X-Forwarded-For"] = request.headers["X-Forwarded-For"] + ", " + clientIP;
             }
             return extend(headers, customHeaders);
-        };
+        },
+        parseUnits = require("./parse.js").parseUnits;
 
     try {
         process.chdir(argv.root);
@@ -160,15 +161,17 @@ this.start = function (config) {
         http.get({
             host: "kob.itch.com",
             path: "/home.cfm",
-            headers: prepareHeaders(request, {}),
+            headers: prepareHeaders(request, {})
         }, function (res) {
             res.setEncoding("utf8");
             var data = "";
             res.on("data", function (chunk) {
-                data += chunk;
+                if (chunk.indexOf("<option") > -1) {
+                    data += chunk;
+                }
             });
             res.on("end", function () {
-                if (data.indexOf("<option") === -1) {
+                if (data.length === 0) {
                     var err = "no villages";
                     response.writeHead(500, {
                         "Content-Length": err.length,
@@ -187,7 +190,6 @@ this.start = function (config) {
             });
         });
     });
-/*
     app.get("/units", express.cookieParser(), function (request, response) {
         if (typeof request.cookies.sessionid === "undefined") {
             response.send(401);
@@ -195,14 +197,19 @@ this.start = function (config) {
         }
         http.get({
             host: "kob.itch.com",
-            path: "/flash_troopRef.cfm?villageID=" + encodeURIComponent(request.params.villageID),
-            headers: {
-                Host: "kob.itch.com",
-                "User-Agent": argv["user-agent"],
-                Cookie: "JSESSIONID=" + request.cookies.sessionid,
-                "Cache-Control": "max-age=0",
-                "X-Forwarded-For"
-  */                  
+            path: "/flash_troopRef.cfm?villageID=" + encodeURIComponent(request.query.villageID),
+            headers: prepareHeaders(request, {})
+        }, function (res) {
+            res.setEncoding("utf8");
+            var data = "";
+            res.on("data", function (chunk) {
+                data += chunk;
+            });
+            res.on("end", function () {
+                response.send(parseUnits(data));
+            });
+        });
+    });
     app.listen(argv.port);
 
     console.log("Listening on port " + argv.port);
