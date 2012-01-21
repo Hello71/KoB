@@ -4,11 +4,15 @@
 
 $.ajaxSetup({
     cache: false,
-    dataType: "json",
-    error: function (jqXHR) {
-        if (jqXHR.status === 401) {
-            $("#login").show();
-        }
+    dataType: "json"
+});
+$(document).ajaxComplete(function (e, jqXHR) {
+    if (jqXHR.status === 401) {
+        $("#login").show();
+        e.stopPropagation();
+    } else if (jqXHR.responseText === "") {
+        $("#no-data").show();
+        e.stopPropagation();
     }
 });
 var _update = function (villageID, callback) {
@@ -16,30 +20,43 @@ var _update = function (villageID, callback) {
     $(document).ready(function () {
         documentReady = true;
     });
-    
+
+    var halfFinished = false,
+        finish = function () {
+            if (!halfFinished) {
+                halfFinished = true;
+            } else {
+                if (documentReady) {
+                    window.clearBuildings();
+                    window.display();
+                    callback(true);
+                } else {
+                    $(document).ready(function () {
+                        window.display();
+                        callback(true);
+                    });
+                }
+            }
+        };
     $.ajax({
         data: {
             villageID: villageID
         },
-        success: function (data) {
-            if (data.length === 0) {
-                $("#no-data").show();
-                callback(false);
-                return;
-            }
-            window.data = data;
-            if (documentReady) {
-                window.clearBuildings();
-                window.display(data);
-                callback(true);
-            } else {
-                $(document).ready(function () {
-                    window.display(data);
-                    callback(true);
-                });
-            }
+        success: function (response) {
+            window.data = response;
+            finish();
         },
         url: "/villageData"
+    });
+    $.ajax({
+        data: {
+            villageID: villageID
+        },
+        success: function (response) {
+            window.unitData = response;
+            finish();
+        },
+        url: "/units"
     });
 };
 

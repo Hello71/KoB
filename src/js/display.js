@@ -46,7 +46,7 @@ var makeBuilding = function (building) {
     });
 };
 
-window.display = function (data) {
+window.display = function () {
     var $buildingRows = [[], [], [], [], [], [], [], [], []];
     $("#buildings > tbody > tr").each(function (index, row) {
         row = $(row).find("td");
