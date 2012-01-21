@@ -171,4 +171,5 @@ noscript {
     border: solid #630 2px;
     border-radius: 15px;
     box-shadow: 0 0 3px 1px #8d7c77;
+    display: none;
 }

@@ -2,6 +2,15 @@
 (function () {
 "use strict";
 
+$.ajaxSetup({
+    cache: false,
+    dataType: "json",
+    error: function (jqXHR) {
+        if (jqXHR.status === 401) {
+            $("#login").show();
+        }
+    }
+});
 var _update = function (villageID, callback) {
     var documentReady = false;
     $(document).ready(function () {
@@ -9,16 +18,8 @@ var _update = function (villageID, callback) {
     });
     
     $.ajax({
-        cache: false,
         data: {
             villageID: villageID
-        },
-        dataType: "json",
-        error: function (jqXHR) {
-            if (jqXHR.status === 401) {
-                $("#login").show();
-                callback(false);
-            }
         },
         success: function (data) {
             if (data.length === 0) {
@@ -44,13 +45,6 @@ var _update = function (villageID, callback) {
 
 window.updateVillages = function (callback) {
     $.ajax({
-        cache: false,
-        dataType: "json",
-        error: function (jqXHR) {
-            if (jqXHR.status === 401) {
-                $("#login").show();
-            }
-        },
         success: function (data) {
             if (Object.keys(data).length < 1) {
                 $("#no-data").show();
