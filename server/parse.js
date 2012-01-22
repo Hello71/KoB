@@ -53,7 +53,11 @@ exports.parse = function (data) {
     }
 
     units = fields.shift().substring(8).split(":").map(function (str) {
-        return str.split("-")[1];
+        var split = str.split("-");
+        return {
+            current: split[1],
+            training: split[2]
+        };
     });
 
     units = {
