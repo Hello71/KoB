@@ -15,89 +15,78 @@ $(document).ajaxComplete(function (e, jqXHR) {
         e.stopPropagation();
     }
 });
-var _update = function (villageID, callback) {
-    var documentReady = false;
-    $(document).ready(function () {
-        documentReady = true;
-    });
 
-    var halfFinished = false,
-        finish = function () {
-            if (!halfFinished) {
-                halfFinished = true;
-            } else {
-                if (documentReady) {
-                    window.clearBuildings();
-                    window.display();
-                    callback(true);
-                } else {
-                    $(document).ready(function () {
-                        window.display();
-                        callback(true);
-                    });
-                }
-            }
-        };
-    $.ajax({
-        data: {
-            villageID: villageID
-        },
-        success: function (response) {
-            window.data = response;
-            finish();
-        },
-        url: "/villageData"
-    });
-    $.ajax({
-        data: {
-            villageID: villageID
-        },
-        success: function (response) {
-            window.unitData = response;
-            finish();
-        },
-        url: "/units"
-    });
-};
-
-window.updateVillages = function (callback) {
-    $.ajax({
-        success: function (data) {
-            if (Object.keys(data).length < 1) {
-                $("#no-data").show();
-                return;
-            }
-            window.villages = data;
-            var village = /activeVillage=([0-9]*)/.exec(document.cookie);
-            if (village === null) {
+var getUnits = function (callback) {
+        $.ajax({
+            data: {
+                villageID: villageID
+            },
+            success: function (response) {
+                window.data.units = response;
+                callback();
+            },
+            url: "/units"
+        });
+    },
+    updateVillages = function (callback) {
+        $.ajax({
+            success: function (data) {
+                window.villages = data;
                 if (typeof Object.keys !== "undefined") {
-                    village = Object.keys(window.villages)[0];
+                    window.village = Object.keys(data)[0];
                 }
-                $.each(window.villages, function (i) {
-                    village = i;
+                $.each(data, function (i) {
+                    window.village = i;
                     return false;
                 });
-                document.cookie = "activeVillage=" + village + ";expires=Wed, 01 Jan 3000 00:00:00 GMT";
-            } else {
-                village = village[1];
-            }
-            window.village = village;
-            window.displayVillages(window.villages);
-            callback(village);
-        },
-        url: "/villages"
-    });
-};
-
+                window.displayVillages(data);
+                callback();
+            },
+            url: "/villages"
+        });
+    },
+    updateVillage = function (callback) {
+        $.ajax({
+            data: {
+                villageID: window.village
+            },
+            success: function (response) {
+                window.data.village = response;
+                done();
+            },
+            url: "/villageData"
+        });
+    };
+var firstUpdate = true;
 window.update = function (callback) {
-    _update(window.village, function (success) {
-        if (success) {
-            $("#loading").hide();
-        }
-        if (typeof callback !== "undefined") {
-            callback.apply(this, arguments);
-        }
-    });
+    var halfFinished = false,
+        done = function () {
+            if (halfFinished) {
+                if (!firstUpdate) {
+                    window.clearBuildings();
+                } else {
+                    firstUpdate = false;
+                }
+                $(document).ready(function () {
+                    window.display();
+                    if (success) {
+                        $("#loading").hide();
+                    }
+                    if (typeof callback !== "undefined") {
+                        callback();
+                    }
+                });
+            } else {
+                halfFinished = true;
+            }
+        };
+    if (firstUpdate) {
+        updateUnits(done);
+        updateVillages(function () {
+            updateVillage(done);
+        });
+    }
+    
     $("#loading").show();
 };
 
