@@ -2,11 +2,10 @@
 (function () {
     "use strict";
 
-    window.updateVillages(function (villages) {
-        window.update();
-    });
+    window.data = {};
+    window.update();
     window.setInterval(function () {
-        window.update()
+        window.update();
     }, 60000);
     $(document).ready(function () {
         $("button").button();
@@ -25,9 +24,7 @@
         });
         $("#villages").change(function () {
             window.village = $(this).attr("value");
-            window.update(function () {
-                $("#buildings").find("span").remove();
-            });
+            window.update();
         });
     });
 }());

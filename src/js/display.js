@@ -20,7 +20,7 @@ window.displayBuildings = function () {
         $buildingRows[index] = row;
     });
     
-    $.each(data.buildings, function (index, buildingRow) {
+    $.each(window.data.village.buildings, function (index, buildingRow) {
         $.each(buildingRow, function (i, building) {
             if (typeof building === "undefined" || building === null) {
                 return $("<span class=\"empty-building\">");
@@ -57,14 +57,15 @@ window.displayBuildings = function () {
 };
 
 window.display = function () {
-    $("#queues").html(data.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\r\n]/g, "<br>"));
+    var village = window.data.village;
+    $("#queues").html(village.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\r\n]/g, "<br>"));
 
     displayBuildings();
-    $.each(data.units, function (type, number) {
+    $.each(village.units, function (type, number) {
         $("#" + type).text(number);
     });
 
-    var r = data.resources,
+    var r = village.resources,
         rr = r.rates;
     $.each(r, function (i, v) {
         if (i === "rates") {
@@ -75,10 +76,10 @@ window.display = function () {
     });
 };
 
-window.displayVillages = function (villages) {
+window.displayVillages = function () {
     var villageCombo = $("#villages");
     villageCombo.html("");
-    $.each(villages, function (index, value) {
+    $.each(window.data.villages, function (index, value) {
         $("<option>").attr("value", index).text(value).appendTo(villageCombo);
     });
 };

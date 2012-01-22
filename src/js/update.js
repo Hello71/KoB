@@ -16,10 +16,10 @@ $(document).ajaxComplete(function (e, jqXHR) {
     }
 });
 
-var getUnits = function (callback) {
+var updateUnits = function (callback) {
         $.ajax({
             data: {
-                villageID: villageID
+                villageID: window.village
             },
             success: function (response) {
                 window.data.units = response;
@@ -31,7 +31,7 @@ var getUnits = function (callback) {
     updateVillages = function (callback) {
         $.ajax({
             success: function (data) {
-                window.villages = data;
+                window.data.villages = data;
                 if (typeof Object.keys !== "undefined") {
                     window.village = Object.keys(data)[0];
                 }
@@ -52,7 +52,7 @@ var getUnits = function (callback) {
             },
             success: function (response) {
                 window.data.village = response;
-                done();
+                callback();
             },
             url: "/villageData"
         });
@@ -62,16 +62,9 @@ window.update = function (callback) {
     var halfFinished = false,
         done = function () {
             if (halfFinished) {
-                if (!firstUpdate) {
-                    window.clearBuildings();
-                } else {
-                    firstUpdate = false;
-                }
+                firstUpdate = false;
                 $(document).ready(function () {
                     window.display();
-                    if (success) {
-                        $("#loading").hide();
-                    }
                     if (typeof callback !== "undefined") {
                         callback();
                     }
@@ -84,6 +77,14 @@ window.update = function (callback) {
         updateUnits(done);
         updateVillages(function () {
             updateVillage(done);
+        });
+    } else {
+        updateVillage(function () {
+            window.clearBuildings();
+            window.display();
+            if (typeof callback === "function") {
+                callback();
+            }
         });
     }
     
