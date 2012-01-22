@@ -139,7 +139,7 @@ this.start = function (config) {
         http.get({
             host: "kob.itch.com",
             path: "/flash_getVillage.cfm?villageID=" + encodeURIComponent(request.query.villageID),
-            headers: prepareHeaders(request, {}),
+            headers: prepareHeaders(request, {})
         }, function (res) {
             var data = "";
             res.on("data", function (chunk) {
@@ -191,24 +191,11 @@ this.start = function (config) {
         });
     });
     app.get("/units", express.cookieParser(), function (request, response) {
-        if (typeof request.cookies.sessionid === "undefined") {
-            response.send(401);
-            return;
-        }
-        http.get({
-            host: "kob.itch.com",
-            path: "/flash_troopRef.cfm?villageID=" + encodeURIComponent(request.query.villageID),
-            headers: prepareHeaders(request, {})
-        }, function (res) {
-            res.setEncoding("utf8");
-            var data = "";
-            res.on("data", function (chunk) {
-                data += chunk;
+        readFile("json/units.json", "utf-8", readCallback(response, function (data) {
+            response.send(data, {
+                "Content-Type": "application/json"
             });
-            res.on("end", function () {
-                response.send(parseUnits(data));
-            });
-        });
+        }));
     });
     app.listen(argv.port);
 

@@ -59,8 +59,8 @@ exports.parse = function (data) {
     units = {
         farmers: parseInt(units[0], 10),
         lumberjacks: parseInt(units[1], 10),
-        "stone-masons": parseInt(units[2], 10),
-        "iron-miners": parseInt(units[3], 10),
+        stonemasons: parseInt(units[2], 10),
+        ironminers: parseInt(units[3], 10),
         peasants: parseInt(units[4], 10),
         merchants: parseInt(units[5], 10),
         swordsmen: parseInt(units[6], 10),
@@ -73,7 +73,7 @@ exports.parse = function (data) {
         catapults: parseInt(units[13], 10),
         sultans: parseInt(units[14], 10),
         villagers: parseInt(units[15], 10),
-        elephants: parseInt(units[16], 10),
+        "war-elephants": parseInt(units[16], 10),
         chariots: parseInt(units[17], 10),
         mongols: parseInt(units[18], 10),
         "camel-riders": parseInt(units[19], 10),
@@ -88,42 +88,4 @@ exports.parse = function (data) {
         map: map,
         queue: queue
     };
-};
-
-exports.parseUnits = function (rawData) {
-    var data = rawData.slice(14, -5);
-    data = data.split("|");
-    return data.map(function (value) {
-        var rawUnit = value.split("~");
-        return {
-            name: rawUnit[1],
-            description: rawUnit[3],
-            villageType: rawUnit[4],
-            cost: {
-                food: rawUnit[5],
-                gold: rawUnit[6],
-                iron: rawUnit[7],
-                stone: rawUnit[9],
-                wood: rawUnit[10]
-            },
-            production: {
-                food: rawUnit[11],
-                gold: rawUnit[12],
-                iron: rawUnit[13],
-                stone: rawUnit[14],
-                wood: rawUnit[15],
-                morale: rawUnit[16]
-            },
-            morale: rawUnit[8],
-            trainTime: rawUnit[17],
-            attack: rawUnit[18],
-            defend: rawUnit[19],
-            speed: rawUnit[20],
-            siege: rawUnit[21],
-            hp: rawUnit[22],
-            amount: rawUnit[23],
-            amountTraining: rawUnit[24],
-            carry: rawUnit[27]
-        };
-    });
 };

@@ -1,6 +1,7 @@
 var fs = require("fs");
 
-exports["init"] = function (argv) {
+exports.init = function (argv) {
+    "use strict";
     var cache = {};
     return {
         readFile: function (path, encoding_) {
