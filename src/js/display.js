@@ -82,6 +82,10 @@ window.displayVillages = function () {
     $.each(window.data.villages, function (index, value) {
         $("<option>").attr("value", index).text(value).appendTo(villageCombo);
     });
+    villageCombo.change(function () {
+        window.village = $(this).attr("value");
+        window.update();
+    });
 };
 
 window.clearBuildings = function () {
