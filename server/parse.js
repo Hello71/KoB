@@ -55,33 +55,33 @@ exports.parse = function (data) {
     units = fields.shift().substring(8).split(":").map(function (str) {
         var split = str.split("-");
         return {
-            current: split[1],
-            training: split[2]
+            current: parseInt(split[1], 10),
+            training: parseInt(split[2], 10)
         };
     });
 
     units = {
-        farmers: parseInt(units[0], 10),
-        lumberjacks: parseInt(units[1], 10),
-        stonemasons: parseInt(units[2], 10),
-        ironminers: parseInt(units[3], 10),
-        peasants: parseInt(units[4], 10),
-        merchants: parseInt(units[5], 10),
-        swordsmen: parseInt(units[6], 10),
-        archers: parseInt(units[7], 10),
-        janissaries: parseInt(units[8], 10),
-        paladins: parseInt(units[9], 10),
-        mameluks: parseInt(units[10], 10),
-        spies: parseInt(units[11], 10),
-        emissaries: parseInt(units[12], 10),
-        catapults: parseInt(units[13], 10),
-        sultans: parseInt(units[14], 10),
-        villagers: parseInt(units[15], 10),
-        "war-elephants": parseInt(units[16], 10),
-        chariots: parseInt(units[17], 10),
-        mongols: parseInt(units[18], 10),
-        "camel-riders": parseInt(units[19], 10),
-        hussars: parseInt(units[20], 10)
+        farmers: units[0],
+        lumberjacks: units[1],
+        stonemasons: units[2],
+        ironminers: units[3],
+        peasants: units[4],
+        merchants: units[5],
+        swordsmen: units[6],
+        archers: units[7],
+        janissaries: units[8],
+        paladins: units[9],
+        mameluks: units[10],
+        spies: units[11],
+        emissaries: units[12],
+        catapults: units[13],
+        sultans: units[14],
+        villagers: units[15],
+        "war-elephants": units[16],
+        chariots: units[17],
+        mongols: units[18],
+        "camel-riders": units[19],
+        hussars: units[20]
     };
 
     queue = fields.shift().substring(6);
