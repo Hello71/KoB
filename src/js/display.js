@@ -76,7 +76,6 @@ window.display = function () {
     });
 
     $("#units > div").click(function () {
-        $("#unit-training").show();
         var unitType = this.id.replace("-container", ""),
             unit = window.data.units[unitType],
             $unitTraining = $("#unit-training"),
@@ -85,9 +84,17 @@ window.display = function () {
             $unitResources = $unitTraining.find("#unit-resources"),
             time = unit.time,
             villageUnit,
-            $minutesToTrain = $unitTraining.find("#minutes-to-train");
+            $minutesToTrain = $unitTraining.find("#minutes-to-train"),
+            $unitType = $("#unit-type");
 
-        $("#unit-type").text(unit.name.singular);
+        if ($unitTraining.css("display") === "block") {
+            if (unit.name.singular === $unitType.text()) {
+                $unitTraining.hide();
+            }
+        } else {
+            $unitTraining.show();
+        }
+        $unitType.text(unit.name.singular);
         $("#unit-description").text(unit.description);
 
         $.each(["attack", "carry", "defend", "hp", "morale", "siege", "speed"], function (index, prop) {
