@@ -181,6 +181,7 @@ noscript {
     background-color: #666;
     border-radius: 4px;
     box-shadow: 0 0 5px 0 #866;
+    margin: 7px;
 }
 #unit-attributes th {
     padding-left: 5px;
