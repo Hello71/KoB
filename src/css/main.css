@@ -196,3 +196,9 @@ noscript {
     margin-right: auto;
     width: 120px;
 }
+#unit-type {
+    text-align: center;
+}
+#unit-training td td {
+    color: white;
+}
