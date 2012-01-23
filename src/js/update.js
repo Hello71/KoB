@@ -64,13 +64,17 @@ window.update = function (callback) {
             if (halfFinished) {
                 firstUpdate = false;
                 $(document).ready(function () {
-                    window.display();
-                    if (typeof callback !== "undefined") {
-                        callback();
-                    }
+                    finish();
                 });
             } else {
                 halfFinished = true;
+            }
+        },
+        finish = function () {
+            $("#loading").hide();
+            window.display();
+            if (typeof callback === "function") {
+                callback();
             }
         };
     if (firstUpdate) {
@@ -81,10 +85,7 @@ window.update = function (callback) {
     } else {
         updateVillage(function () {
             window.clearBuildings();
-            window.display();
-            if (typeof callback === "function") {
-                callback();
-            }
+            finish();
         });
     }
     
