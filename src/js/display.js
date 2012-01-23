@@ -96,9 +96,12 @@ window.display = function () {
                 $unitResources.find("#unit-production-" + resource).text(production.toLocaleString());
             }
             if (resource !== "morale") {
-                var cost = unit.cost[resource];
+                var cost = unit.cost[resource],
+                    $cost = $unitResources.find("#unit-cost-" + resource);
                 if (cost !== 0) {
-                    $unitResources.find("#unit-cost-" + resource).text(cost.toLocaleString());
+                    $cost.text(cost.toLocaleString());
+                } else {
+                    $cost.text("");
                 }
             }
         });
