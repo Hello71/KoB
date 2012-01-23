@@ -207,3 +207,7 @@ noscript {
 #unit-amount td {
     width: 100px;
 }
+#unit-description {
+    width: 550px;
+    text-align: center;
+}
