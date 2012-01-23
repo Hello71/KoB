@@ -211,3 +211,8 @@ noscript {
     width: 550px;
     text-align: center;
 }
+#unit-training-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}

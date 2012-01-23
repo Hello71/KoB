@@ -90,9 +90,8 @@ window.display = function () {
         if ($unitTraining.css("display") === "block") {
             if (unit.name.singular === $unitType.text()) {
                 $unitTraining.hide();
+                return;
             }
-        } else {
-            $unitTraining.show();
         }
         $unitType.text(unit.name.singular);
         $("#unit-description").text(unit.description);
@@ -127,6 +126,11 @@ window.display = function () {
                 }
             }
         });
+
+        $unitTraining.show(); // Put here to reduce reflow
+    });
+    $("#unit-training-close").click(function () {
+        $("#unit-training").hide()
     });
 };
 
