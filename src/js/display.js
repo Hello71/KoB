@@ -61,8 +61,8 @@ window.display = function () {
     $("#queues").html(village.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\r\n]/g, "<br>"));
 
     displayBuildings();
-    $.each(village.units, function (type, number) {
-        $("#" + type).text(number);
+    $.each(village.units, function (type, amount) {
+        $("#" + type).text(amount.current.toLocaleString());
     });
 
     var r = village.resources,
@@ -73,6 +73,34 @@ window.display = function () {
         }
         $("#" + i).text(v.toLocaleString());
         $("#" + i + "-rate").text(rr[i].toLocaleString() + "/hour");
+    });
+
+    $("#units > div").click(function () {
+        $("#unit-training").show();
+        var unitType = this.id.replace("-container", ""),
+            unit = window.data.units[unitType],
+            $unitTraining = $("#unit-training"),
+            $unitAttributes = $unitTraining.find("#unit-attributes"),
+            $unitAmount = $unitTraining.find("#unit-amount"),
+            $unitResources = $unitTraining.find("#unit-resources");
+        $.each(["attack", "carry", "defend", "hp", "morale", "siege", "speed"], function (index, prop) {
+            $unitAttributes.find("#unit-" + prop).text(unit[prop]);
+        });
+        var villageUnit = window.data.village.units[unitType];
+        $unitAmount.find("#unit-amount-current").text(villageUnit.current.toLocaleString());
+        $unitAmount.find("#unit-amount-training").text(villageUnit.training.toLocaleString());
+        $.each(["food", "gold", "wood", "stone", "iron", "morale"], function (index, resource) {
+            var production = unit.production[resource];
+            if (production !== 0) {
+                $unitResources.find("#unit-production-" + resource).text(production.toLocaleString());
+            }
+            if (resource !== "morale") {
+                var cost = unit.cost[resource];
+                if (cost !== 0) {
+                    $unitResources.find("#unit-cost-" + resource).text(cost.toLocaleString());
+                }
+            }
+        });
     });
 };
 

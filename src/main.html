@@ -15,7 +15,7 @@
             You need to log in. Go to <a href="/login">/login</a> now.
         </div>
         <div id="no-data">
-            No data was received when querying for village data. Make sure you are logged in on the KoB side too, and that you are querying a legitimate village ID.
+            No data was received when querying for data. Try logging into KoB (if you aren't), and <a href="/login">logging into this again</a>.
         </div>
         <noscript>
             <p>
@@ -177,7 +177,7 @@
             <div id="farmers-container">Farmers<br><div id="farmers"></div></div>
             <div id="lumberjacks-container">Lumberjacks<br><div id="lumberjacks"></div></div>
             <div id="stonemasons-container">Stonemasons<br><div id="stonemasons"></div></div>
-            <div id="iron-miners-container">Iron Miners<br><div id="iron-miners"></div></div>
+            <div id="ironminers-container">Ironminers<br><div id="ironminers"></div></div>
             <div id="peasants-container">Peasants<br><div id="peasants"></div></div>
             <div id="merchants-container">Merchants<br><div id="merchants"></div></div>
             <div id="swordsmen-container">Swordsmen<br><div id="swordsmen"></div></div>
@@ -203,46 +203,42 @@
                 <tbody>
                     <tr>
                         <td>
-                            <div id="unit-attributes">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <th>Attack</th><td id="unit-attack"></td>
-                                            <th>Siege</th><td id="unit-siege"></td>
-                                            <th>Morale</th><td id="unit-morale"></td>
-                                            <th>Carry</th><td id="unit-carry"></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Defend</th><td id="unit-defend"></td>
-                                            <th>HP</th><td id="unit-hp"></td>
-                                            <th>Speed</th><td id="unit-speed"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <table id="unit-attributes">
+                                <tbody>
+                                    <tr>
+                                        <th>Attack</th><td id="unit-attack"></td>
+                                        <th>Siege</th><td id="unit-siege"></td>
+                                        <th>Morale</th><td id="unit-morale"></td>
+                                        <th>Carry</th><td id="unit-carry"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Defend</th><td id="unit-defend"></td>
+                                        <th>HP</th><td id="unit-hp"></td>
+                                        <th>Speed</th><td id="unit-speed"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </td>
                         <td>
-                            <div id="unit-amount">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <th>Current</th>
-                                            <td id="unit-amount-current"></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Training</th>
-                                            <td id="unit-amount-training"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <table id="unit-amount">
+                                <tbody>
+                                    <tr>
+                                        <th>Current</th>
+                                        <td id="unit-amount-current"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Training</th>
+                                        <td id="unit-amount-training"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <img id="unit-image">
                         </td>
-                        <td>
+                        <td id="unit-resources">
                             <table>
                                 <thead>
                                     <tr>
@@ -254,36 +250,40 @@
                                 <tbody>
                                     <tr>
                                         <th>Food</th>
-                                        <td id="unit-purchase-food"></td>
-                                        <td id="unit-hourly-food"></td>
+                                        <td id="unit-cost-food"></td>
+                                        <td id="unit-production-food"></td>
                                     </tr>
                                     <tr>
                                         <th>Gold</th>
-                                        <td id="unit-purchase-gold"></td>
-                                        <td id="unit-hourly-gold"></td>
+                                        <td id="unit-cost-gold"></td>
+                                        <td id="unit-production-gold"></td>
                                     </tr>
                                     <tr>
                                         <th>Wood</th>
-                                        <td id="unit-purchase-wood"></td>
-                                        <td id="unit-hourly-wood"></td>
+                                        <td id="unit-cost-wood"></td>
+                                        <td id="unit-production-wood"></td>
                                     </tr>
                                     <tr>
                                         <th>Stone</th>
-                                        <td id="unit-purchase-stone"></td>
-                                        <td id="unit-hourly-stone"></td>
+                                        <td id="unit-cost-stone"></td>
+                                        <td id="unit-production-stone"></td>
                                     </tr>
                                     <tr>
                                         <th>Iron</th>
-                                        <td id="unit-purchase-iron"></td>
-                                        <td id="unit-hourly-iron"></td>
+                                        <td id="unit-cost-iron"></td>
+                                        <td id="unit-production-iron"></td>
                                     </tr>
                                     <tr>
                                         <th>Morale</th>
-                                        <td id="unit-purchase-morale"></td>
-                                        <td id="unit-hourly-morale"></td>
+                                        <td></td>
+                                        <td id="unit-production-morale"></td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <div id="unit-train">
+                                <div id="unit-train-time"><span id="minutes-to-train">minutes to train</span></div>
+                                <input type="text" value="0" id="unit-train-amount"><input type="button" value="Train" id="unit-train-button">
+                            </div>
                         </td>
                     </tr>
                 </tbody>

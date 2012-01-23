@@ -169,7 +169,30 @@ noscript {
     background-color: #300;
     color: #f9f9c8;
     border: solid #630 2px;
-    border-radius: 15px;
+    -webkit-box-shadow: 0 0 3px 1px #8d7c77;
+    -moz-box-shadow: 0 0 3px 1px #8d7c77;
     box-shadow: 0 0 3px 1px #8d7c77;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
     display: none;
+}
+#unit-attributes, #unit-image, #unit-amount, #unit-resources {
+    background-color: #666;
+    border-radius: 4px;
+    box-shadow: 0 0 5px 0 #866;
+}
+#unit-attributes th {
+    padding-left: 5px;
+}
+#unit-attributes td {
+    padding: 1px 5px;
+}
+#unit-train-amount {
+    width: 50px;
+}
+#unit-train {
+    margin-left: auto;
+    margin-right: auto;
+    width: 120px;
 }
