@@ -111,7 +111,6 @@ this.start = function (config) {
     app.post("/login", express.bodyParser(), function (request, response) {
         var cookie = request.body.cookie.replace(/\n/g, "").replace(/;/g, "%3B");
         response.cookie("SESSIONID", cookie, {
-            expires: new Date(3000, 0, 1),
             httpOnly: true,
             path: "/"
         });
