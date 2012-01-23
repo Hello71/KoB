@@ -85,7 +85,8 @@ window.display = function () {
             time = unit.time,
             villageUnit,
             $minutesToTrain = $unitTraining.find("#minutes-to-train"),
-            $unitType = $("#unit-type");
+            $unitType = $("#unit-type"),
+            $unitImage = $("#unit-image");
 
         if ($unitTraining.css("display") === "block") {
             if (unit.name.singular === $unitType.text()) {
@@ -126,6 +127,8 @@ window.display = function () {
                 }
             }
         });
+        $unitImage.find("img").remove();
+        $unitImage.append($("<img>").attr("src", "/images/units/" + unit.name.singular + ".png"));
 
         $unitTraining.show(); // Put here to reduce reflow
     });
