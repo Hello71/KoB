@@ -95,8 +95,17 @@ this.start = function (config) {
         if (image.indexOf("..") > -1 || (ext !== ".jpg" && ext !== ".png" && ext !== ".gif" && ext !== "tiff" && ext !== ".tif")) {
             response.send(403);
         }
+        var imgExts = {
+            ".jpg": "image/jpeg",
+            ".png": "image/png",
+            ".gif": "image/gif",
+            "tiff": "image/tiff",
+            ".tif": "image/tiff"
+        };
         readFile("images/" + image, readCallback(response, function (data) {
-            response.send(data);
+            response.send(data, {
+                "Content-Type": imgExts[ext]
+            });
         }));
     });
 
