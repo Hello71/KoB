@@ -88,6 +88,7 @@ window.display = function () {
             $minutesToTrain = $unitTraining.find("#minutes-to-train");
 
         $("#unit-type").text(unit.name.singular);
+        $("#unit-description").text(unit.description);
 
         $.each(["attack", "carry", "defend", "hp", "morale", "siege", "speed"], function (index, prop) {
             $unitAttributes.find("#unit-" + prop).text(unit[prop]);
