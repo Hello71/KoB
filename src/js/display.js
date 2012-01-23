@@ -82,14 +82,28 @@ window.display = function () {
             $unitTraining = $("#unit-training"),
             $unitAttributes = $unitTraining.find("#unit-attributes"),
             $unitAmount = $unitTraining.find("#unit-amount"),
-            $unitResources = $unitTraining.find("#unit-resources");
+            $unitResources = $unitTraining.find("#unit-resources"),
+            time = unit.time,
+            villageUnit,
+            $minutesToTrain = $unitTraining.find("#minutes-to-train");
+
         $("#unit-type").text(unit.name.singular);
+
         $.each(["attack", "carry", "defend", "hp", "morale", "siege", "speed"], function (index, prop) {
             $unitAttributes.find("#unit-" + prop).text(unit[prop]);
         });
+
         var villageUnit = window.data.village.units[unitType];
         $unitAmount.find("#unit-amount-current").text(villageUnit.current.toLocaleString());
         $unitAmount.find("#unit-amount-training").text(villageUnit.training.toLocaleString());
+
+        $unitTraining.find("#unit-train-time").text(time);
+        if (unit.time === 1) {
+            $minutesToTrain.text("minute to train");
+        } else {
+            $minutesToTrain.text("minutes to train");
+        }
+
         $.each(["food", "gold", "wood", "stone", "iron", "morale"], function (index, resource) {
             var production = unit.production[resource];
             if (production !== 0) {
