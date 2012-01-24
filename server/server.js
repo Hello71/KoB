@@ -169,6 +169,10 @@ this.start = function (config) {
                     data += chunk;
                 }
             });
+            res.on("error", function (err) {
+                console.log("error retrieving home.cfm");
+                console.log(err);
+            });
             res.on("end", function () {
                 if (data.length === 0) {
                     var err = "no villages";
@@ -189,12 +193,31 @@ this.start = function (config) {
             });
         });
     });
-    app.get("/units", express.cookieParser(), function (request, response) {
+    app.get("/units", function (request, response) {
         readFile("json/units.json", "utf-8", readCallback(response, function (data) {
             response.send(data, {
                 "Content-Type": "application/json"
             });
         }));
+    });
+
+    app.post("/trainUnits", express.cookieParser(), express.bodyParser(), function (request, response) {
+        http.get({
+            host: "kob.itch.com",
+            path: "/flash_trainTroops.cfm?unitID=" + encodeURIComponent(request.body.unitID) + "&count=" + encodeURIComponent(request.body.count) + "&villageID=" + encodeURIComponent(request.body.villageID),
+            headers: prepareHeaders(request, {})
+        }, function (res) {
+            var data = "";
+            res.setEncoding("utf8");
+            res.on("data", function (chunk) {
+                data += chunk;
+            });
+            res.on("end", function () {
+                response.send(data, {
+                    "Content-Type": "text/plain"
+                });
+            });
+        });
     });
     app.listen(argv.port);
 
