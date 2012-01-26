@@ -2,20 +2,6 @@
 (function () {
 "use strict";
 
-$.ajaxSetup({
-    cache: false,
-    dataType: "json"
-});
-$(document).ajaxComplete(function (e, jqXHR) {
-    if (jqXHR.status === 401) {
-        $("#login").show();
-        e.stopPropagation();
-    } else if (jqXHR.responseText === "") {
-        $("#no-data").show();
-        e.stopPropagation();
-    }
-});
-
 var updateUnits = function (callback) {
         $.ajax({
             data: {
