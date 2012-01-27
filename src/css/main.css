@@ -230,3 +230,9 @@ noscript {
 #unit-training-result > * {
     margin: 20px;
 }
+#unit-training-result-close {
+    position: absolute;
+    bottom: 0;
+    width: 90%;
+    text-align: center;
+}

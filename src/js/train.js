@@ -1,7 +1,14 @@
 /*global $:false */
+var $trainResponse;
+$(document).ready(function () {
+    $trainResponse = $("#unit-training-result");
+    $trainResult = $($trainResponse.find("div")[0]);
+    $("#unit-training-result-close").click(function () {
+        $trainResponse.hide();
+    });
+});
 window.train = function (amount, id) {
     "use strict";
-    var $trainResponse = $("#unit-training-result > div");
     $.ajax({
         cache: false,
         data: {
@@ -13,7 +20,7 @@ window.train = function (amount, id) {
             console.log(jqXHR);
             console.log(textStatus);
             console.log(errorThrown);
-            $trainResponse.text("An error occurred while trying to train units. Please inform the developer or maintainer of the KoB HTML5 client of this issue. Further details have been logged to the Console.");
+            $trainResult.text("An error occurred while trying to train units. Please inform the developer or maintainer of the KoB HTML5 client of this issue. Further details have been logged to the Console.");
             $trainResponse.show();
         },
         success: function (data) {
