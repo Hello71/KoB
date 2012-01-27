@@ -216,3 +216,23 @@ noscript {
     top: 5px;
     right: 5px;
 }
+#unit-training-result {
+    position: absolute;
+    left: 103px;
+    top: 163px;
+    background-color: #330;
+    color: #ff0;
+    width: 373px;
+    height: 274px;
+    border-radius: 15px;
+    box-shadow: 0 0 5px 0 #999;
+}
+#unit-training-result > * {
+    margin: 20px;
+}
+#unit-training-result-close {
+    position: absolute;
+    bottom: 0;
+    width: 90%;
+    text-align: center;
+}
