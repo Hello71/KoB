@@ -5,7 +5,7 @@ this.start = function (config) {
 
     var version = "0.1";
     var express = require("express"),
-        app = express.createServer(),
+        app = express.createServer(express.logger()),
         argv = require("optimist")
             .alias("port", "p")["default"]("port", config.port || 8080)
             .alias("root", "r")["default"]("root", config.root)
