@@ -73,8 +73,13 @@ this.start = function (config) {
         }));
     });
 
-    app.get("/js/:js", function (request, response) {
-        readFile("js/" + request.params.js, "utf-8", readCallback(response, function (data) {
+    app.get("/js/*", function (request, response) {
+        var js = request.params[0];
+        if (js.indexOf("..") > -1) {
+            response.send(403);
+            return;
+        }
+        readFile("js/" + js, "utf-8", readCallback(response, function (data) {
             response.send(data, {
                 "Content-Type": "application/javascript"
             });
@@ -94,6 +99,7 @@ this.start = function (config) {
             ext = image.substring(image.length - 4);
         if (image.indexOf("..") > -1 || (ext !== ".jpg" && ext !== ".png" && ext !== ".gif" && ext !== "tiff" && ext !== ".tif")) {
             response.send(403);
+            return;
         }
         var imgExts = {
             ".jpg": "image/jpeg",
