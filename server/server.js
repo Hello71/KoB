@@ -5,12 +5,13 @@ this.start = function (config) {
 
     var version = "0.1";
     var express = require("express"),
-        app = express.createServer(express.logger()),
+        app = express.createServer(),
         argv = require("optimist")
             .alias("port", "p")["default"]("port", config.port || 8080)
             .alias("root", "r")["default"]("root", config.root)
             .alias("user-agent", "u")["default"]("user-agent", config.userAgent || "KoB/" + version)
             .alias("cache", "c")["default"]("cache", config.cache || false)
+            .alias("verbose", "v")["default"]("verbose", config.verbose || false)
             .argv,
         util = require("./util.js").init(argv),
         http = require("http"),
@@ -63,6 +64,9 @@ this.start = function (config) {
     } catch (e) {
         console.log("Could not change directory.\nMake sure that the config root is set correctly.");
         process.exit(1);
+    }
+    if (argv.verbose) {
+        app.use(express.logger());
     }
 
     app.get("/", function (request, response) {
