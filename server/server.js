@@ -7,12 +7,25 @@ this.start = function (config) {
     var express = require("express"),
         app = express.createServer(),
         argv = require("optimist")
-            .alias("port", "p")["default"]("port", config.port || 8080)
-            .alias("root", "r")["default"]("root", config.root)
-            .alias("user-agent", "u")["default"]("user-agent", config.userAgent || "KoB/" + version)
-            .alias("cache", "c")["default"]("cache", config.cache || false)
-            .alias("verbosity", "v")["default"]("verbosity", config.verbosity || 1)
-            .argv,
+            .options("port", {
+                alias: "p",
+                default: config.port || 8080
+            }).options("root", {
+                alias: "r",
+                "default": config.root
+            }).options("user-agent", {
+                alias: "u",
+                "default": config.userAgent || "KoB/" + version
+            }).options("cache", {
+                alias: "c",
+                "default" config.cache || false
+            }).options("verbosity", {
+                alias: "v",
+                "default": config.verbosity || 1)
+            }).options("host", {
+                alias: "h",
+                "default": config.host || null
+            }).argv,
         util = require("./util.js").init(argv),
         log = util.log,
         http = require("http"),
@@ -261,7 +274,9 @@ this.start = function (config) {
             });
         });
     });
-    app.listen(argv.port);
-
-    log("Listening on port " + argv.port, 1);
+    if (argv.host) {
+        app.listen(argv.port, argv.host);
+    } else {
+        app.listen(argv.port);
+    }
 };
