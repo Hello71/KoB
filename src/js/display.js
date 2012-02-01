@@ -75,66 +75,6 @@ window.display = function () {
         $("#" + i + "-rate").text(rr[i].toLocaleString() + "/hour");
     });
 
-    $("#units > div").click(function () {
-        var unitType = this.id.replace("-container", ""),
-            unit = window.data.units[unitType],
-            $unitTraining = $("#unit-training"),
-            $unitAttributes = $unitTraining.find("#unit-attributes"),
-            $unitAmount = $unitTraining.find("#unit-amount"),
-            $unitResources = $unitTraining.find("#unit-resources"),
-            time = unit.time,
-            villageUnit,
-            $minutesToTrain = $unitTraining.find("#minutes-to-train"),
-            $unitType = $("#unit-type"),
-            $unitImage = $("#unit-image");
-
-        if ($unitTraining.css("display") === "block") {
-            if (unit.name.singular === $unitType.text()) {
-                $unitTraining.hide();
-                return;
-            }
-        }
-        $unitType.text(unit.name.singular);
-        $("#unit-description").text(unit.description);
-
-        $.each(["attack", "carry", "defend", "hp", "morale", "siege", "speed"], function (index, prop) {
-            $unitAttributes.find("#unit-" + prop).text(unit[prop]);
-        });
-
-        var villageUnit = village.units[unitType];
-        $unitAmount.find("#unit-amount-current").text(villageUnit.current.toLocaleString());
-        $unitAmount.find("#unit-amount-training").text(villageUnit.training.toLocaleString());
-
-        $unitTraining.find("#unit-train-time").text(time);
-        if (unit.time === 1) {
-            $minutesToTrain.text("minute to train");
-        } else {
-            $minutesToTrain.text("minutes to train");
-        }
-
-        $.each(["food", "gold", "wood", "stone", "iron", "morale"], function (index, resource) {
-            var production = unit.production[resource];
-            if (production !== 0) {
-                $unitResources.find("#unit-production-" + resource).text(production.toLocaleString());
-            }
-            if (resource !== "morale") {
-                var cost = unit.cost[resource],
-                    $cost = $unitResources.find("#unit-cost-" + resource);
-                if (cost !== 0) {
-                    $cost.text(cost.toLocaleString());
-                } else {
-                    $cost.text("");
-                }
-            }
-        });
-        $unitImage.find("img").remove();
-        $unitImage.append($("<img>").attr("src", "/images/units/" + unit.name.singular + ".png"));
-
-        $unitTraining.show(); // Put here to reduce reflow
-    });
-    $("#unit-training-close").click(function () {
-        $("#unit-training").hide()
-    });
 };
 
 window.displayVillages = function () {

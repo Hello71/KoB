@@ -240,7 +240,7 @@ this.start = function (config) {
         var ended = false,
             req = http.get({
             host: "kob.itch.com",
-            path: "/flash_trainTroops.cfm?unitID=" + encodeURIComponent(request.body.unitID) + "&count=" + encodeURIComponent(request.body.count) + "&villageID=" + encodeURIComponent(request.body.villageID),
+            path: "/flash_trainTroops.cfm?unitID=" + encodeURIComponent(request.body.type) + "&count=" + encodeURIComponent(request.body.amount) + "&villageID=" + encodeURIComponent(request.body.village),
             headers: prepareHeaders(request, {})
         }, function (res) {
             var data = "";
