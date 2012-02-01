@@ -11,9 +11,10 @@ this.start = function (config) {
             .alias("root", "r")["default"]("root", config.root)
             .alias("user-agent", "u")["default"]("user-agent", config.userAgent || "KoB/" + version)
             .alias("cache", "c")["default"]("cache", config.cache || false)
-            .alias("verbose", "v")["default"]("verbose", config.verbose || false)
+            .alias("verbosity", "v")["default"]("verbosity", config.verbosity || 1)
             .argv,
         util = require("./util.js").init(argv),
+        log = util.log,
         http = require("http"),
         readCallback = function (response, passTo) {
             return function (err, data) {
@@ -65,7 +66,7 @@ this.start = function (config) {
         console.log("Could not change directory.\nMake sure that the config root is set correctly.");
         process.exit(1);
     }
-    if (argv.verbose) {
+    if (argv.verbosity > 1) {
         app.use(express.logger());
     }
 
@@ -240,5 +241,5 @@ this.start = function (config) {
     });
     app.listen(argv.port);
 
-    console.log("Listening on port " + argv.port);
+    log("Listening on port " + argv.port, 1);
 };

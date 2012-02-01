@@ -1,4 +1,5 @@
-var fs = require("fs");
+var fs = require("fs"),
+    assert = require("assert");
 
 exports.init = function (argv) {
     "use strict";
@@ -36,6 +37,15 @@ exports.init = function (argv) {
                     callback(err, data);
                 }
             });
+        },
+        log: function (msg, level) {
+            assert(typeof msg !== "undefined");
+            if (typeof level !== "undefined") {
+                assert(level > -1);
+            }
+            if (argv.verbosity >= level) {
+                console.log(msg);
+            }
         }
     };
 };
