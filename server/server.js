@@ -21,7 +21,7 @@ this.start = function (config) {
                 "default": config.cache || false
             }).options("verbosity", {
                 alias: "v",
-                "default": config.verbosity || 1)
+                "default": config.verbosity || 1
             }).options("host", {
                 alias: "h",
                 "default": config.host || null
