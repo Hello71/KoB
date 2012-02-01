@@ -20,7 +20,7 @@ window.displayBuildings = function () {
         $buildingRows[index] = row;
     });
     
-    $.each(window.data.village.buildings, function (index, buildingRow) {
+    $.each(window.data.village[window.village].buildings, function (index, buildingRow) {
         $.each(buildingRow, function (i, building) {
             if (typeof building === "undefined" || building === null) {
                 return $("<span class=\"empty-building\">");
@@ -57,7 +57,7 @@ window.displayBuildings = function () {
 };
 
 window.display = function () {
-    var village = window.data.village;
+    var village = window.data.village[window.village];
     $("#queues").html(village.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\r\n]/g, "<br>"));
 
     displayBuildings();
@@ -101,7 +101,7 @@ window.display = function () {
             $unitAttributes.find("#unit-" + prop).text(unit[prop]);
         });
 
-        var villageUnit = window.data.village.units[unitType];
+        var villageUnit = village.units[unitType];
         $unitAmount.find("#unit-amount-current").text(villageUnit.current.toLocaleString());
         $unitAmount.find("#unit-amount-training").text(villageUnit.training.toLocaleString());
 

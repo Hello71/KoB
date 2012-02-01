@@ -37,7 +37,7 @@ var updateUnits = function (callback) {
                 villageID: window.village
             },
             success: function (response) {
-                window.data.village = response;
+                window.data.village[window.village] = response;
                 callback();
             },
             url: "/villageData"

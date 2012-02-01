@@ -17,7 +17,7 @@ $(document).ajaxComplete(function (e, jqXHR) {
     }
 });
 
-    window.data = {};
+    window.data = {village: {}};
     window.update();
     window.setInterval(function () {
         window.update();
