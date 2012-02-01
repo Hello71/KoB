@@ -35,7 +35,7 @@ var updateUnits = function (callback) {
         var data = window.data,
             village = window.data.village[window.village];
         // Use cached version if update time is less than 1 minute
-        if (village && Date.now() - village.fetched < 60000) {
+        if (!force && village && Date.now() - village.fetched < 60000) {
             callback();
             return;
         }
