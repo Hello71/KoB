@@ -15,3 +15,8 @@ Create a file in the `server` directory called `config.json` with JSON (must be 
 * cache (Optional): Whether to read files once per run of the server. Reduces disk usage by a lot, but does not re-read files if they've been edited since the server was started. Recommended for production, not for development. I'm too lazy to implement a proper server with Last-Modified and If-Modified-Since. Defaults to false.
 * userAgent (Optional): What User-Agent to send to the KoB server. Defaults to "KoB/" + version, where version is currently 0.1 (which will change in the future).
 * verbosity: Verbosity. Options are 0 (quiet), 1 (normal), 2 (verbose). Defaults to 1.
+
+Note: These options can also be specified on the command line with camelCase replaced with hy-phens.
+
+    ./start.js --root ../src --port 80 --cache=true --user-agent=KoB/1.0 --verbosity=2
+
