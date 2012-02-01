@@ -18,7 +18,7 @@ this.start = function (config) {
                 "default": config.userAgent || "KoB/" + version
             }).options("cache", {
                 alias: "c",
-                "default" config.cache || false
+                "default": config.cache || false
             }).options("verbosity", {
                 alias: "v",
                 "default": config.verbosity || 1)
