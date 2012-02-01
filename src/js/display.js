@@ -35,7 +35,7 @@ window.displayBuildings = function () {
                     update = function () {
                     if (upTime === 0) {
                         window.clearInterval(updateInterval);
-                        window.update();
+                        window.update(false);
                         return;
                     }
                     upTime--;
@@ -145,7 +145,7 @@ window.displayVillages = function () {
     });
     villageCombo.change(function () {
         window.village = $(this).attr("value");
-        window.update();
+        window.update(false);
     });
 };
 

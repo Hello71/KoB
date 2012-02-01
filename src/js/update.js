@@ -31,20 +31,28 @@ var updateUnits = function (callback) {
             url: "/villages"
         });
     },
-    updateVillage = function (callback) {
+    updateVillage = function (force, callback) {
+        var data = window.data,
+            village = window.data.village[window.village];
+        // Use cached version if update time is less than 1 minute
+        if (village && Date.now() - village.fetched < 60000) {
+            callback();
+            return;
+        }
         $.ajax({
             data: {
                 villageID: window.village
             },
             success: function (response) {
                 window.data.village[window.village] = response;
+                window.data.village[window.village].fetched = Date.now();
                 callback();
             },
             url: "/villageData"
         });
     };
 var firstUpdate = true;
-window.update = function (callback) {
+window.update = function (force, callback) {
     var halfFinished = false,
         done = function () {
             if (halfFinished) {
@@ -66,10 +74,10 @@ window.update = function (callback) {
     if (firstUpdate) {
         updateUnits(done);
         updateVillages(function () {
-            updateVillage(done);
+            updateVillage(true, done);
         });
     } else {
-        updateVillage(function () {
+        updateVillage(force, function () {
             window.clearBuildings();
             finish();
         });
