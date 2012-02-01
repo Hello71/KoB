@@ -11,6 +11,9 @@
         if (jqXHR.status === 401) {
             $("#login").show();
             e.stopPropagation();
+        } else if (jqXHR.status === 418) {
+            $("#re-login").show();
+            e.stopPropagation();
         } else if (jqXHR.responseText === "") {
             $("#no-data").show();
             e.stopPropagation();

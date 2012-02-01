@@ -58,7 +58,15 @@ this.start = function (config) {
             }
             return extend(headers, customHeaders);
         },
-        parseUnits = require("./parse.js").parseUnits;
+        parseUnits = require("./parse.js").parseUnits,
+        httpResponse = function (data, response) {
+            if (data.indexOf("<TITLE>Earn your") > -1) {
+                response.send(418);
+                return false;
+            } else {
+                return true;
+            }
+        };
 
     try {
         process.chdir(argv.root);
@@ -155,7 +163,7 @@ this.start = function (config) {
             response.send(401);
             return;
         }
-        http.get({
+        var req = http.get({
             host: "kob.itch.com",
             path: "/flash_getVillage.cfm?villageID=" + encodeURIComponent(request.query.villageID),
             headers: prepareHeaders(request, {})
@@ -177,7 +185,8 @@ this.start = function (config) {
             response.send(401);
             return;
         }
-        http.get({
+        var ended = false,
+            req = http.get({
             host: "kob.itch.com",
             path: "/home.cfm",
             headers: prepareHeaders(request, {})
@@ -185,6 +194,11 @@ this.start = function (config) {
             res.setEncoding("utf8");
             var data = "";
             res.on("data", function (chunk) {
+                if (!httpResponse(chunk, response)) {
+                    req.end();
+                    ended = true;
+                    return;
+                }
                 if (chunk.indexOf("<option") > -1) {
                     data += chunk;
                 }
@@ -194,6 +208,7 @@ this.start = function (config) {
                 console.log(err);
             });
             res.on("end", function () {
+                if (ended) return;
                 if (data.length === 0) {
                     var err = "no villages";
                     response.writeHead(500, {
@@ -222,7 +237,8 @@ this.start = function (config) {
     });
 
     app.post("/trainUnits", express.cookieParser(), express.bodyParser(), function (request, response) {
-        http.get({
+        var ended = false,
+            req = http.get({
             host: "kob.itch.com",
             path: "/flash_trainTroops.cfm?unitID=" + encodeURIComponent(request.body.unitID) + "&count=" + encodeURIComponent(request.body.count) + "&villageID=" + encodeURIComponent(request.body.villageID),
             headers: prepareHeaders(request, {})
@@ -230,9 +246,15 @@ this.start = function (config) {
             var data = "";
             res.setEncoding("utf8");
             res.on("data", function (chunk) {
+                if (!httpResponse(chunk, response)) {
+                    req.end();
+                    ended = true;
+                    return;
+                }
                 data += chunk;
             });
             res.on("end", function () {
+                if (ended) return;
                 response.send(data, {
                     "Content-Type": "text/plain"
                 });
