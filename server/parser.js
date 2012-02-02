@@ -1,6 +1,6 @@
 "use strict";
 
-exports.parse = function (data) {
+exports.parseVillage = function (data) {
     var fields = data.substring(1).split("&"),
         res = fields.shift().substring(10).split(":"),
         resourceRates = fields.shift().substring(15).split(":"),
@@ -43,12 +43,12 @@ exports.parse = function (data) {
             player: parseInt(building[2], 10),
             level: parseInt(building[5], 10),
             upgrading: building[6],
-            type: building[8],
-            upgradeTime: parseInt(building[9], 10)
-        };
-        if (o.vertical > 10 || o.horizontal > 10 || o.level > 11) {
-            throw new Error("building parser broken");
+            type: building[8]
+        }, upgradeTime = parseInt(building[9], 10);
+        if (upgradeTime > 0) {
+            o.upgradeTime = upgradeTime;
         }
+        assert(o.vertical < 11 && o.horizontal < 11 && o.level < 12);
         buildings[o.horizontal][o.vertical] = o;
     }
 
@@ -92,4 +92,23 @@ exports.parse = function (data) {
         map: map,
         queue: queue
     };
+};
+
+exports.parseVillages = function (data, response) {
+    if (data.length === 0) {
+        var err = "no villages";
+        response.writeHead(500, {
+            "Content-Length": err.length,
+            "Content-Type": "text/plain"
+        });
+        response.end(err);
+        return;
+    }
+    var villages = {},
+        re = /<option value="(\d{1,5})"( selected="selected")?>([A-Za-z0-9 ]*)/g,
+        match;
+    while ((match = re.exec(data)) !== null) {
+        villages[match[1]] = match[3];
+    }
+    return villages;
 };

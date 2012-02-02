@@ -43,7 +43,7 @@ this.start = function (config) {
             };
         },
         readFile = util.readFile,
-        parse = require("./parse.js").parse,
+        parser = require("./parser.js"),
         unitData = "",
         extend = function (target) {
             for (var i = 1; i < arguments.length; i++) {
@@ -71,7 +71,6 @@ this.start = function (config) {
             }
             return extend(headers, customHeaders);
         },
-        parseUnits = require("./parse.js").parseUnits,
         httpResponse = function (data, response) {
             if (data.indexOf("<TITLE>Earn your") > -1) {
                 response.send(418);
@@ -186,7 +185,7 @@ this.start = function (config) {
                 data += chunk;
             });
             res.on("end", function () {
-                response.send(parse(data));
+                response.send(parser.parseVillage(data));
             });
         }).on("error", function (error) {
             response.send(500);
@@ -222,22 +221,7 @@ this.start = function (config) {
             });
             res.on("end", function () {
                 if (ended) return;
-                if (data.length === 0) {
-                    var err = "no villages";
-                    response.writeHead(500, {
-                        "Content-Length": err.length,
-                        "Content-Type": "text/plain"
-                    });
-                    response.end(err);
-                    return;
-                }
-                var villages = {},
-                    re = /<option value="(\d{1,5})"( selected="selected")?>([A-Za-z0-9 ]*)/g,
-                    match;
-                while ((match = re.exec(data)) !== null) {
-                    villages[match[1]] = match[3];
-                }
-                response.send(villages); // Express automatically JSON.stringifys it
+                response.send(parser.parseVillages(data, response)); // Express automatically JSON.stringifys it
             });
         });
     });
