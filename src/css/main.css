@@ -226,6 +226,7 @@ noscript {
     height: 274px;
     border-radius: 15px;
     box-shadow: 0 0 5px 0 #999;
+    display: none;
 }
 #unit-training-result > * {
     margin: 20px;
