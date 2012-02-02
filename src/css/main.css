@@ -127,7 +127,6 @@ body {
     text-align: center;
 }
 #units > div {
-    background-color: #c0a876;
     border: 1px solid #630;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -138,6 +137,9 @@ body {
     font-size: 0.9em;
     height: 28.4px;
     cursor: pointer;
+}
+#units > div:not(.ui-state-highlight) {
+    background-color: #c0a876;
 }
 
 #loading {

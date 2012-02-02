@@ -65,6 +65,9 @@ window.display = function () {
     displayBuildings();
     $.each(village.units, function (type, amount) {
         $("#" + type).text(amount.current.toLocaleString());
+        if (amount.training > 0) {
+            $("#" + type + "-container").addClass("ui-state-highlight");
+        }
     });
 
     var r = village.resources,
