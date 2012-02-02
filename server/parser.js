@@ -1,5 +1,7 @@
 "use strict";
 
+var assert = require("assert");
+
 exports.parseVillage = function (data) {
     var fields = data.substring(1).split("&"),
         res = fields.shift().substring(10).split(":"),
