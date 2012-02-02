@@ -239,3 +239,11 @@ noscript {
     width: 90%;
     text-align: center;
 }
+
+.ui-tabs-panel {
+    display: none !important;
+}
+
+#villages {
+    display: inline-block;
+}

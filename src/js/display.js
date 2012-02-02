@@ -63,6 +63,7 @@ window.display = function () {
     $("#queues").html(village.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\r\n]/g, "<br>"));
 
     displayBuildings();
+    $("#units .ui-state-highlight").removeClass("ui-state-highlight");
     $.each(village.units, function (type, amount) {
         $("#" + type).text(amount.current.toLocaleString());
         if (amount.training > 0) {
@@ -83,14 +84,17 @@ window.display = function () {
 };
 
 window.displayVillages = function () {
-    var villageCombo = $("#villages");
-    villageCombo.html("");
+    var villageList = $("<ul>"),
+        villages = $("#villages").append(villageList);
     $.each(window.data.villages, function (index, value) {
-        $("<option>").attr("value", index).text(value).appendTo(villageCombo);
+        $("<li>").append($("<a>").attr("href", "#village-" + index).text(value)).appendTo(villageList);
+        villages.append($("<div>").attr("id", "village-" + index));
     });
-    villageCombo.change(function () {
-        window.village = $(this).attr("value");
-        window.update(false);
+    $("#villages").tabs({
+        select: function (e, ui) {
+            window.village = $(ui.tab).attr("href").replace("#village-", "");
+            window.update(false);
+        }
     });
 };
 
