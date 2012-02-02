@@ -111,8 +111,13 @@ this.start = function (config) {
         }));
     });
 
-    app.get("/css/:css", function (request, response) {
-        readFile("css/" + request.params.css, "utf-8", readCallback(response, function (data) {
+    app.get("/css/*", function (request, response) {
+        var css = request.params[0];
+        if (css.indexOf("..") > -1) {
+            response.send(403);
+            return;
+        }
+        readFile("css/" + css, "utf-8", readCallback(response, function (data) {
             response.send(data, {
                 "Content-Type": "text/css"
             });

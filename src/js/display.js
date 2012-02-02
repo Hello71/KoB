@@ -33,17 +33,19 @@ window.displayBuildings = function () {
                     upTime = building.upgradeTime,
                     updateInterval = 0,
                     update = function () {
-                    if (upTime === 0) {
-                        window.clearInterval(updateInterval);
-                        window.update(false);
-                        return;
-                    }
-                    upTime--;
-                    var hours = pad(Math.floor(upTime / 3600).toString(), 2),
-                        minutes = pad(Math.floor((upTime % 3600) / 60).toString(), 2),
-                        seconds = pad(Math.floor(upTime % 60).toString(), 2);
-                    upgradeTimeElm.text(hours + ":" + minutes + ":" + seconds);
-                };
+                        if (upTime === 0) {
+                            window.clearInterval(updateInterval);
+                            window.update(true);
+                            $("#buildings-done-village").text(window.data.villages[window.village]);
+                            $("#buildings-done").dialog();
+                        } else {
+                            upTime--;
+                            var hours = pad(Math.floor(upTime / 3600).toString(), 2),
+                                minutes = pad(Math.floor((upTime % 3600) / 60).toString(), 2),
+                                seconds = pad(Math.floor(upTime % 60).toString(), 2);
+                            upgradeTimeElm.text(hours + ":" + minutes + ":" + seconds);
+                        }
+                    };
                 updateInterval = window.setInterval(update, 1000);
                 update();
             }
