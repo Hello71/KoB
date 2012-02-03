@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 5px;
     background-color: #300;
-    width: 670px;
+    width: 675px;
     font-size: 0.9em;
 }
 
@@ -178,6 +178,8 @@ noscript {
     -moz-border-radius: 15px;
     border-radius: 15px;
     display: none;
+    width: 594px;
+    height: 653px;
 }
 #unit-attributes, #unit-image, #unit-amount, #unit-resources {
     background-color: #666;
