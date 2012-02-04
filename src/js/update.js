@@ -31,12 +31,20 @@ var updateUnits = function (callback) {
             url: "/villages"
         });
     },
-    updateVillage = function (force, callback) {
+    updateVillage = function (force, callback, villageID) {
         var data = window.data,
-            village = window.data.village[window.village];
-        // Use cached version if update time is less than 1 minute
+            id,
+            villageData = window.data.village,
+            village;
+        if (typeof villageID === "undefined") {
+            id = window.village;
+        } else {
+            id = villageID;
+        }
+        village = villageData[id];
+        // Use current version if update time is less than 1 minute
         if (!force && village && Date.now() - village.fetched < 60000) {
-            callback();
+            window.setTimeout(callback, 0);
             return;
         }
         $.ajax({
@@ -44,11 +52,27 @@ var updateUnits = function (callback) {
                 villageID: window.village
             },
             success: function (response) {
-                window.data.village[window.village] = response;
-                window.data.village[window.village].fetched = Date.now();
+                villageData[id] = response;
+                villageData[id].fetched = Date.now();
                 callback();
             },
             url: "/villageData"
+        });
+    },
+    updateAllVillages = function (force, callback_) {
+        var villageNum = 0,
+            callback = function () {};
+        if (typeof callback_ === "function") {
+            callback = callback_;
+        }
+        $.each(window.data.villages, function (index, village) {
+            villageNum++;
+            window.village = index;
+            updateVillage(force, function () {
+                if (!(--villageNum)) {
+                    callback();
+                }
+            });
         });
     };
 var firstUpdate = true;
@@ -74,7 +98,7 @@ window.update = function (force, callback) {
     if (firstUpdate) {
         updateUnits(done);
         updateVillages(function () {
-            updateVillage(true, done);
+            updateAllVillages(true, done);
         });
     } else {
         updateVillage(force, function () {
