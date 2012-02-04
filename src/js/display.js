@@ -37,10 +37,7 @@ window.displayBuildings = function () {
                             window.clearInterval(updateInterval);
                             window.update(true);
                             $("#buildings-done-village").text(window.data.villages[window.village]);
-                            $("#buildings-done").dialog({
-                                position: [200, 400],
-                                title: "Buildings complete."
-                            });
+                            $("#buildings-done").dialog("open");
                         } else {
                             upTime--;
                             var hours = pad(Math.floor(upTime / 3600).toString(), 2),

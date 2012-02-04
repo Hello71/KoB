@@ -30,5 +30,10 @@
         $("#update").click(function () {
             window.update(true);
         });
+        $("#buildings-done").dialog({
+            position: [200, 400],
+            title: "Buildings complete.",
+            autoOpen: false
+        });
     });
 }());
