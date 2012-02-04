@@ -2,15 +2,40 @@
 <html>
     <head>
         <title>Login to KoB HTML5 interface</title>
+        <script src="/js/lib/ZeroClipboard.js" type="application/javascript"></script>
+        <script type="application/javascript">
+            document.addEventListener("DOMContentLoaded", function () {
+                ZeroClipboard.setMoviePath("/flash/ZeroClipboard.swf");
+                var clip = new ZeroClipboard.Client();
+                clip.setText(document.getElementById("copy-text").innerHTML);
+                clip.addEventListener("onComplete", function () {
+                    document.getElementById("cookie").focus();
+                });
+                var copyToClipboard = document.getElementById("copy-to-clipboard");
+                copyToClipboard.style.display = "inline";
+                clip.glue(copyToClipboard, "copy-to-clipboard-container");
+            }, false);
+        </script>
+        <style type="text/css">
+            #copy-to-clipboard-container {
+                position: relative;
+            }
+            #copy-to-clipboard {
+                display: none;
+            }
+            #copy-text {
+                display: inline;
+            }
+        </style>
     </head>
     <body>
         <p>Copy and paste this into a KoB tab/window:</p>
-        <pre>javascript:alert(/[a-z0-9]+/.exec(document.cookie))</pre>
+        <pre id="copy-text">javascript:alert(/[a-z0-9]+/.exec(document.cookie))</pre> <span id="copy-to-clipboard-container"><input type="button" id="copy-to-clipboard" value="Copy"></span>
         <p>Copy and paste the result into the box below.</p>
         <form action="/login" method="post" autocomplete="off">
             <p>
                 <label for="cookie">SESSIONID/JSESSIONID: </label>
-                <input type="text" name="cookie" autocomplete="off">
+                <input type="text" id="cookie" name="cookie" autocomplete="off">
             </p>
             <p>
                 <input type="submit" value="Log in">

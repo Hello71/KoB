@@ -100,7 +100,7 @@ this.start = function (config) {
 
     app.get("/js/*", function (request, response) {
         var js = request.params[0];
-        if (js.indexOf("..") > -1) {
+        if (js.indexOf("..") > -1 || js.substr(-3) !== ".js") {
             response.send(403);
             return;
         }
@@ -113,7 +113,7 @@ this.start = function (config) {
 
     app.get("/css/*", function (request, response) {
         var css = request.params[0];
-        if (css.indexOf("..") > -1) {
+        if (css.indexOf("..") > -1 || css.substr(-4) !== ".css") {
             response.send(403);
             return;
         }
@@ -124,9 +124,22 @@ this.start = function (config) {
         }));
     });
 
+    app.get("/flash/*", function (request, response) {
+        var flash = request.params[0];
+        if (flash.indexOf("..") > -1 || flash.substr(-4) !== ".swf") {
+            response.send(403);
+            return;
+        }
+        readFile("flash/" + flash, readCallback(response, function (data) {
+            response.send(data, {
+                "Content-Type": "application/x-shockwave-flash"
+            });
+        }));
+    });
+
     app.get("/images/*", function (request, response) {
         var image = request.params[0],
-            ext = image.substring(image.length - 4);
+            ext = image.substr(-4);
         if (image.indexOf("..") > -1 || (ext !== ".jpg" && ext !== ".png" && ext !== ".gif" && ext !== "tiff" && ext !== ".tif")) {
             response.send(403);
             return;
