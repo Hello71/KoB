@@ -172,7 +172,7 @@ this.start = function (config) {
             path: "/"
         });
         response.send(303, {
-            "Location: /loggedin"
+            "Location": "/loggedin"
         });
     });
     app.get("/loggedin", function (request, response) {
@@ -184,7 +184,11 @@ this.start = function (config) {
     });
 
     app.get("/logout", function (request, response) {
-        response.send(405);
+        readFile("logout.html", "utf-8", readCallback(response, function (data) {
+            response.send(data, {
+                "Content-Type": "text/html"
+            });
+        });
     });
     app.post("/logout", function (request, response) {
         response.send(303, {
