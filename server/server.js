@@ -188,7 +188,7 @@ this.start = function (config) {
             response.send(data, {
                 "Content-Type": "text/html"
             });
-        });
+        }));
     });
     app.post("/logout", function (request, response) {
         response.send(303, {
