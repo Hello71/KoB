@@ -165,14 +165,35 @@ this.start = function (config) {
             });
         }));
     });
-
     app.post("/login", express.bodyParser(), function (request, response) {
         var cookie = request.body.cookie.replace(/\n/g, "").replace(/;/g, "%3B");
         response.cookie("SESSIONID", cookie, {
             httpOnly: true,
             path: "/"
         });
+        response.send(303, {
+            "Location: /loggedin"
+        });
+    });
+    app.get("/loggedin", function (request, response) {
         readFile("loggedin.html", "utf-8", readCallback(response, function (data) {
+            response.send(data, {
+                "Content-Type": "text/html"
+            });
+        }));
+    });
+
+    app.get("/logout", function (request, response) {
+        response.send(405);
+    });
+    app.post("/logout", function (request, response) {
+        response.send(303, {
+            "Set-Cookie": "SESSIONID=LOGGED OUT; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT",
+            "Location": "/loggedout"
+        });
+    });
+    app.get("/loggedout", function (request, response) {
+        readFile("loggedout.html", "utf-8", readCallback(response, function (data) {
             response.send(data, {
                 "Content-Type": "text/html"
             });
