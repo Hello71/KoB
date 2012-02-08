@@ -40,8 +40,8 @@ exports.parseVillage = function (data) {
             throw new Error("levels do not match up");
         }
         var o = {
-            horizontal: parseInt(building[0], 10) - 1,
-            vertical: parseInt(building[1], 10) - 1,
+            horizontal: parseInt(building[0], 10),
+            vertical: parseInt(building[1], 10),
             player: parseInt(building[2], 10),
             level: parseInt(building[5], 10),
             upgrading: building[6],
@@ -51,7 +51,7 @@ exports.parseVillage = function (data) {
             o.upgradeTime = upgradeTime;
         }
         assert(o.vertical < 11 && o.horizontal < 11 && o.level < 12);
-        buildings[o.vertical][o.horizontal] = o;
+        buildings[o.vertical - 1][o.horizontal - 1] = o;
     }
 
     units = fields.shift().substring(8).split(":").map(function (str) {
