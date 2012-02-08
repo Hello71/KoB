@@ -40,8 +40,8 @@ exports.parseVillage = function (data) {
             throw new Error("levels do not match up");
         }
         var o = {
-            vertical: parseInt(building[0], 10) - 1,
-            horizontal: parseInt(building[1], 10) - 1,
+            horizontal: parseInt(building[0], 10) - 1,
+            vertical: parseInt(building[1], 10) - 1,
             player: parseInt(building[2], 10),
             level: parseInt(building[5], 10),
             upgrading: building[6],
