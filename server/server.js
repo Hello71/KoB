@@ -301,6 +301,10 @@ this.start = function (config) {
             });
         });
     });
+
+    app.get("/mapDetail.cfm", function (request, response) {
+        response.redirect("http://kob.itch.com" + request.url);
+    });
     if (argv.host) {
         app.listen(argv.port, argv.host);
     } else {
