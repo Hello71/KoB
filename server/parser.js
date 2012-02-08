@@ -51,7 +51,7 @@ exports.parseVillage = function (data) {
             o.upgradeTime = upgradeTime;
         }
         assert(o.vertical < 11 && o.horizontal < 11 && o.level < 12);
-        buildings[o.horizontal][o.vertical] = o;
+        buildings[o.vertical][o.horizontal] = o;
     }
 
     units = fields.shift().substring(8).split(":").map(function (str) {
