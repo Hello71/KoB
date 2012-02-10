@@ -1,5 +1,4 @@
 {
     "root": "/home/hello71/kob/src",
-    "port": 8080,
-    "cache": true
+    "port": 8080
 }
