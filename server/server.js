@@ -91,11 +91,7 @@ this.start = function (config) {
     }
 
     app.get("/", function (request, response) {
-        readFile("main.html", "utf-8", readCallback(response, function (data) {
-            response.send(data, {
-                "Content-Type": "text/html"
-            }, 200);
-        }));
+        response.sendfile("main.html");
     });
 
     app.get("/js/*", function (request, response) {
@@ -104,11 +100,7 @@ this.start = function (config) {
             response.send(403);
             return;
         }
-        readFile("js/" + js, "utf-8", readCallback(response, function (data) {
-            response.send(data, {
-                "Content-Type": "application/javascript"
-            });
-        }));
+        response.sendfile("js/" + js);
     });
 
     app.get("/css/*", function (request, response) {
@@ -117,11 +109,7 @@ this.start = function (config) {
             response.send(403);
             return;
         }
-        readFile("css/" + css, "utf-8", readCallback(response, function (data) {
-            response.send(data, {
-                "Content-Type": "text/css"
-            });
-        }));
+        response.sendfile("css/" + css);
     });
 
     app.get("/flash/*", function (request, response) {
@@ -130,11 +118,7 @@ this.start = function (config) {
             response.send(403);
             return;
         }
-        readFile("flash/" + flash, readCallback(response, function (data) {
-            response.send(data, {
-                "Content-Type": "application/x-shockwave-flash"
-            });
-        }));
+        response.sendfile("flash/" + flash);
     });
 
     app.get("/images/*", function (request, response) {
@@ -144,26 +128,11 @@ this.start = function (config) {
             response.send(403);
             return;
         }
-        var imgExts = {
-            ".jpg": "image/jpeg",
-            ".png": "image/png",
-            ".gif": "image/gif",
-            "tiff": "image/tiff",
-            ".tif": "image/tiff"
-        };
-        readFile("images/" + image, readCallback(response, function (data) {
-            response.send(data, {
-                "Content-Type": imgExts[ext]
-            });
-        }));
+        response.sendfile("images/" + image);
     });
 
     app.get("/login", function (request, response) {
-        readFile("login.html", "utf-8", readCallback(response, function (data) {
-            response.send(data, {
-                "Content-Type": "text/html"
-            });
-        }));
+        response.sendfile("login.html");
     });
     app.post("/login", express.bodyParser(), function (request, response) {
         var cookie = request.body.cookie.replace(/\n/g, "").replace(/;/g, "%3B");
@@ -176,19 +145,11 @@ this.start = function (config) {
         });
     });
     app.get("/loggedin", function (request, response) {
-        readFile("loggedin.html", "utf-8", readCallback(response, function (data) {
-            response.send(data, {
-                "Content-Type": "text/html"
-            });
-        }));
+        response.sendfile("loggedin.html");
     });
 
     app.get("/logout", function (request, response) {
-        readFile("logout.html", "utf-8", readCallback(response, function (data) {
-            response.send(data, {
-                "Content-Type": "text/html"
-            });
-        }));
+        response.sendfile("logout.html");
     });
     app.post("/logout", function (request, response) {
         response.send(303, {
@@ -197,11 +158,7 @@ this.start = function (config) {
         });
     });
     app.get("/loggedout", function (request, response) {
-        readFile("loggedout.html", "utf-8", readCallback(response, function (data) {
-            response.send(data, {
-                "Content-Type": "text/html"
-            });
-        }));
+        response.sendfile("loggedout.html");
     });
 
     app.get("/villageData", express.cookieParser(), function (request, response) {
@@ -269,11 +226,7 @@ this.start = function (config) {
         });
     });
     app.get("/units", function (request, response) {
-        readFile("json/units.json", "utf-8", readCallback(response, function (data) {
-            response.send(data, {
-                "Content-Type": "application/json"
-            });
-        }));
+        response.sendfile("json/units.json");
     });
 
     app.post("/trainUnits", express.cookieParser(), express.bodyParser(), function (request, response) {
