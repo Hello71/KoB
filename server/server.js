@@ -29,20 +29,6 @@ this.start = function (config) {
         util = require("./util.js").init(argv),
         log = util.log,
         http = require("http"),
-        readCallback = function (response, passTo) {
-            return function (err, data) {
-                if (err) {
-                    if (err.code === "ENOENT") {
-                        response.send(404);
-                    } else {
-                        response.send(500);
-                    }
-                } else {
-                    passTo(data);
-                }
-            };
-        },
-        readFile = util.readFile,
         parser = require("./parser.js"),
         unitData = "",
         extend = function (target) {
