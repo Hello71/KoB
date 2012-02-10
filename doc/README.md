@@ -3,3 +3,6 @@ This is a browser-based implementation of the KoB ("Kings of Babylon, an empire-
 
 ## USAGE ##
 Simply run `node server/start.js.`
+
+## Recommended version ##
+I always suggest using `master` at least for now. THere *is* a 1.0.0 tag, but... I don't plan on doing a full release very often.
