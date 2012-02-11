@@ -49,7 +49,7 @@ window.displayBuildings = function () {
                 updateInterval = window.setInterval(update, 1000);
                 update();
             }
-            $($buildingRows[index][i]).append($("<a class='building' href='/mapDetail.cfm?x=" + encodeURIComponent(building.horizontal) + "&y=" + encodeURIComponent(building.vertical) + "&villageID=" + encodeURIComponent(window.village) + "'>").append(img).append(level).append(upgradeTime).hover(function () {
+            $($buildingRows[index][i]).append($("<a class='building' href='/mapDetail.cfm?x=" + encodeURIComponent(building.horizontal) + "&y=" + encodeURIComponent(building.vertical) + "&villageID=" + encodeURIComponent(window.village) + "' target='_top'>").append(img).append(level).append(upgradeTime).hover(function () {
                 $("#building-information").text("Level " + building.level + " " + building.type);
             }, function () {
                 $("#building-information").text("");
