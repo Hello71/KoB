@@ -12,7 +12,7 @@ this.start = function (config) {
                 default: config.port || 8080
             }).options("root", {
                 alias: "r",
-                "default": config.root
+                "default": config.root || /.*\//.exec(process.argv[1])[0] + "../src"
             }).options("user-agent", {
                 alias: "u",
                 "default": config.userAgent || "KoB/" + version
