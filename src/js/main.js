@@ -24,7 +24,7 @@
         window.update();
     }, 60000);
     $(document).ready(function () {
-        $("button").button();
+        $("button, input[type='submit'], input[type='button']").button();
         $("#update").click(function () {
             window.update(true);
         });

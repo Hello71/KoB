@@ -4,8 +4,11 @@ body {
     margin: 0;
     padding: 5px;
     background-color: #300;
-    width: 675px;
     font-size: 0.9em;
+}
+#container {
+    width: 675px;
+    position: absolute;
 }
 
 /* buildings... and such */
@@ -248,4 +251,14 @@ noscript {
 
 #villages {
     display: inline-block;
+}
+#logout {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#update {
+    position: relative;
+    top: -20px;
+    left: 0;
 }

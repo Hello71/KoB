@@ -23,281 +23,288 @@
         <div id="re-login">
             You need to log in again. Make sure that you are logged in on the KoB side, then go to <a href="/login">/login</a>.
         </div>
-        <noscript>
-            <p>
-                Apologies, but this currently requires JavaScript. I *could* make it server-side, but that would be "less compatible", and, at the least, far more work.
-            </p>
-        </noscript>
-        <div id="top">
-            <span id="update">
-                <button><span id="loading"><img src="images/loading.gif">&nbsp;</span>Update</button>
-            </span>
-            <div id="villages"></div>
-        </div>
-        <div id="resources">
-            <table>
-                <tbody>
-                    <tr id="gold-container">
-                        <td>Gold</td>
-                        <td id="gold"></td>
-                        <td id="gold-rate"></td>
-                    </tr>
-                    <tr id="food-container">
-                        <td>Food</td>
-                        <td id="food"></td>
-                        <td id="food-rate"></td>
-                    </tr>
-                    <tr id="wood-container">
-                        <td>Wood</td>
-                        <td id="wood"></td>
-                        <td id="wood-rate"></td>
-                    </tr>
-                    <tr id="stone-container">
-                        <td>Stone</td>
-                        <td id="stone"></td>
-                        <td id="stone-rate"></td>
-                    </tr>
-                    <tr id="iron-container">
-                        <td>Iron</td>
-                        <td id="iron"></td>
-                        <td id="iron-rate"></td>
-                    </tr>
-                    <tr id="morale-container">
-                        <td>Morale</td>
-                        <td id="morale"></td>
-                        <td id="morale-rate"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div id="queues">
-        </div>
-        <div id="buildings-div">
-            <div id="building-information">
+        <div id="container">
+            <div id="logout">
+                <form action="/logout" method="POST">
+                    <input type="submit" value="Log out">
+                </form>
             </div>
-            <table id="buildings">
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div id="units">
-            <div id="farmers-container">Farmers<br><div id="farmers"></div></div>
-            <div id="lumberjacks-container">Lumberjacks<br><div id="lumberjacks"></div></div>
-            <div id="stonemasons-container">Stonemasons<br><div id="stonemasons"></div></div>
-            <div id="ironminers-container">Ironminers<br><div id="ironminers"></div></div>
-            <div id="peasants-container">Peasants<br><div id="peasants"></div></div>
-            <div id="merchants-container">Merchants<br><div id="merchants"></div></div>
-            <div id="swordsmen-container">Swordsmen<br><div id="swordsmen"></div></div>
-            <div id="archers-container">Archers<br><div id="archers"></div></div>
-            <div id="janissaries-container">Janissaries<br><div id="janissaries"></div></div>
-            <div id="paladins-container">Paladins<br><div id="paladins"></div></div>
-            <div id="mameluks-container">Mameluks<br><div id="mameluks"></div></div>
-            <div id="spies-container">Spies<br><div id="spies"></div></div>
-            <div id="emissaries-container">Emissaries<br><div id="emissaries"></div></div>
-            <div id="catapults-container">Catapults<br><div id="catapults"></div></div>
-            <div id="sultans-container">Sultans<br><div id="sultans"></div></div>
-            <div id="villagers-container">Villagers<br><div id="villagers"></div></div>
-            <div id="war-elephants-container">War Elephants<br><div id="war-elephants"></div></div>
-            <div id="chariots-container">Chariots<br><div id="chariots"></div></div>
-            <div id="mongols-container">Mongols<br><div id="mongols"></div></div>
-            <div id="camel-riders-container">Camel Riders<br><div id="camel-riders"></div></div>
-            <div id="hussars-container">Hussars<br><div id="hussars"></div></div>
-        </div>
-        <div id="unit-training">
-            <h2 id="unit-type"></h2>
-            <h3 id="unit-description"></h3>
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <table id="unit-attributes">
-                                <tbody>
-                                    <tr>
-                                        <th>Attack</th><td id="unit-attack"></td>
-                                        <th>Siege</th><td id="unit-siege"></td>
-                                        <th>Morale</th><td id="unit-morale"></td>
-                                        <th>Carry</th><td id="unit-carry"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Defend</th><td id="unit-defend"></td>
-                                        <th>HP</th><td id="unit-hp"></td>
-                                        <th>Speed</th><td id="unit-speed"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                        <td>
-                            <table id="unit-amount">
-                                <tbody>
-                                    <tr>
-                                        <th>Current</th>
-                                        <td id="unit-amount-current"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Training</th>
-                                        <td id="unit-amount-training"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="unit-image">
-                        </td>
-                        <td id="unit-resources">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <td></td>
-                                        <th>Purchase</th>
-                                        <th>Hourly</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>Food</th>
-                                        <td id="unit-cost-food"></td>
-                                        <td id="unit-production-food"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Gold</th>
-                                        <td id="unit-cost-gold"></td>
-                                        <td id="unit-production-gold"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Wood</th>
-                                        <td id="unit-cost-wood"></td>
-                                        <td id="unit-production-wood"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Stone</th>
-                                        <td id="unit-cost-stone"></td>
-                                        <td id="unit-production-stone"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Iron</th>
-                                        <td id="unit-cost-iron"></td>
-                                        <td id="unit-production-iron"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Morale</th>
-                                        <td></td>
-                                        <td id="unit-production-morale"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div id="unit-train">
-                                <div><span id="unit-train-time"></span> <span id="minutes-to-train">minutes to train</span></div>
-                                <input type="text" value="0" id="unit-train-amount"><input type="button" value="Train" id="unit-train-button">
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-                <div id="unit-training-result"><div>test</div><div id="unit-training-result-close"><hr><input type="button" value="close"></div></div>
-            </table>
-            <input type="button" value="Close" id="unit-training-close">
-        </div>
-        <div id="buildings-done">
-            The buildings in <span id="buildings-done-village"></span> have finished building.
+            <noscript>
+                <p>
+                    Apologies, but this currently requires JavaScript. I *could* make it server-side, but that would be "less compatible", and, at the least, far more work.
+                </p>
+            </noscript>
+            <div id="top">
+                <span id="update">
+                    <button><span id="loading"><img src="images/loading.gif">&nbsp;</span>Update</button>
+                </span>
+                <div id="villages"></div>
+            </div>
+            <div id="resources">
+                <table>
+                    <tbody>
+                        <tr id="gold-container">
+                            <td>Gold</td>
+                            <td id="gold"></td>
+                            <td id="gold-rate"></td>
+                        </tr>
+                        <tr id="food-container">
+                            <td>Food</td>
+                            <td id="food"></td>
+                            <td id="food-rate"></td>
+                        </tr>
+                        <tr id="wood-container">
+                            <td>Wood</td>
+                            <td id="wood"></td>
+                            <td id="wood-rate"></td>
+                        </tr>
+                        <tr id="stone-container">
+                            <td>Stone</td>
+                            <td id="stone"></td>
+                            <td id="stone-rate"></td>
+                        </tr>
+                        <tr id="iron-container">
+                            <td>Iron</td>
+                            <td id="iron"></td>
+                            <td id="iron-rate"></td>
+                        </tr>
+                        <tr id="morale-container">
+                            <td>Morale</td>
+                            <td id="morale"></td>
+                            <td id="morale-rate"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="queues">
+            </div>
+            <div id="buildings-div">
+                <div id="building-information">
+                </div>
+                <table id="buildings">
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="units">
+                <div id="farmers-container">Farmers<br><div id="farmers"></div></div>
+                <div id="lumberjacks-container">Lumberjacks<br><div id="lumberjacks"></div></div>
+                <div id="stonemasons-container">Stonemasons<br><div id="stonemasons"></div></div>
+                <div id="ironminers-container">Ironminers<br><div id="ironminers"></div></div>
+                <div id="peasants-container">Peasants<br><div id="peasants"></div></div>
+                <div id="merchants-container">Merchants<br><div id="merchants"></div></div>
+                <div id="swordsmen-container">Swordsmen<br><div id="swordsmen"></div></div>
+                <div id="archers-container">Archers<br><div id="archers"></div></div>
+                <div id="janissaries-container">Janissaries<br><div id="janissaries"></div></div>
+                <div id="paladins-container">Paladins<br><div id="paladins"></div></div>
+                <div id="mameluks-container">Mameluks<br><div id="mameluks"></div></div>
+                <div id="spies-container">Spies<br><div id="spies"></div></div>
+                <div id="emissaries-container">Emissaries<br><div id="emissaries"></div></div>
+                <div id="catapults-container">Catapults<br><div id="catapults"></div></div>
+                <div id="sultans-container">Sultans<br><div id="sultans"></div></div>
+                <div id="villagers-container">Villagers<br><div id="villagers"></div></div>
+                <div id="war-elephants-container">War Elephants<br><div id="war-elephants"></div></div>
+                <div id="chariots-container">Chariots<br><div id="chariots"></div></div>
+                <div id="mongols-container">Mongols<br><div id="mongols"></div></div>
+                <div id="camel-riders-container">Camel Riders<br><div id="camel-riders"></div></div>
+                <div id="hussars-container">Hussars<br><div id="hussars"></div></div>
+            </div>
+            <div id="unit-training">
+                <h2 id="unit-type"></h2>
+                <h3 id="unit-description"></h3>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table id="unit-attributes">
+                                    <tbody>
+                                        <tr>
+                                            <th>Attack</th><td id="unit-attack"></td>
+                                            <th>Siege</th><td id="unit-siege"></td>
+                                            <th>Morale</th><td id="unit-morale"></td>
+                                            <th>Carry</th><td id="unit-carry"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Defend</th><td id="unit-defend"></td>
+                                            <th>HP</th><td id="unit-hp"></td>
+                                            <th>Speed</th><td id="unit-speed"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <table id="unit-amount">
+                                    <tbody>
+                                        <tr>
+                                            <th>Current</th>
+                                            <td id="unit-amount-current"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Training</th>
+                                            <td id="unit-amount-training"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="unit-image">
+                            </td>
+                            <td id="unit-resources">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <th>Purchase</th>
+                                            <th>Hourly</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Food</th>
+                                            <td id="unit-cost-food"></td>
+                                            <td id="unit-production-food"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Gold</th>
+                                            <td id="unit-cost-gold"></td>
+                                            <td id="unit-production-gold"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Wood</th>
+                                            <td id="unit-cost-wood"></td>
+                                            <td id="unit-production-wood"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Stone</th>
+                                            <td id="unit-cost-stone"></td>
+                                            <td id="unit-production-stone"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Iron</th>
+                                            <td id="unit-cost-iron"></td>
+                                            <td id="unit-production-iron"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Morale</th>
+                                            <td></td>
+                                            <td id="unit-production-morale"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div id="unit-train">
+                                    <div><span id="unit-train-time"></span> <span id="minutes-to-train">minutes to train</span></div>
+                                    <input type="text" value="0" id="unit-train-amount"><input type="button" value="Train" id="unit-train-button">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <div id="unit-training-result"><div>test</div><div id="unit-training-result-close"><hr><input type="button" value="close"></div></div>
+                </table>
+                <input type="button" value="Close" id="unit-training-close">
+            </div>
+            <div id="buildings-done">
+                The buildings in <span id="buildings-done-village"></span> have finished building.
+            </div>
         </div>
     </body>
 </html>
