@@ -29,9 +29,7 @@ this.start = function (config) {
                 alias: "f",
                 default: config.file || "STDOUT"
             }).argv,
-        util = require("./util.js").init(argv),
         fs = require("fs");
-        log = util.log,
         http = require("http"),
         parser = require("./parser.js"),
         unitData = "",
