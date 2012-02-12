@@ -19,11 +19,14 @@ window.displayBuildings = function () {
         row = $(row).find("td");
         $buildingRows[index] = row;
     });
-    
+    for (var i = 0; i < 9; i++) {
+        for (var j = 0; j < 9; j++) {
+            $($buildingRows[i][j]).append($("<a class=\"empty-building\" href='/build.cfm?x=" + (i + 1) + "&y=" + (j + 1) + "&villageID=" + encodeURIComponent(window.village) + "' target='_top'>"));
+        }
+    }
     $.each(window.data.village[window.village].buildings, function (index, buildingRow) {
         $.each(buildingRow, function (i, building) {
-            if (typeof building === "undefined" || building === null) {
-                $($buildingRows[index][i]).append($("<a class=\"empty-building\" href='/build.cfm?x=" + index + "&y=" + i + "&villageID=" + encodeURIComponent(window.village) + "' target='_top'>"));
+            if (building === null) {
                 return;
             }
             var img = $("<img>").attr("src", "images/buildings/" + building.type + ".png"),
@@ -50,6 +53,7 @@ window.displayBuildings = function () {
                 updateInterval = window.setInterval(update, 1000);
                 update();
             }
+            $($buildingRows[index][i]).find(".empty-building").remove();
             $($buildingRows[index][i]).append($("<a class='building' href='/mapDetail.cfm?x=" + encodeURIComponent(building.horizontal) + "&y=" + encodeURIComponent(building.vertical) + "&villageID=" + encodeURIComponent(window.village) + "' target='_top'>").append(img).append(level).append(upgradeTime).hover(function () {
                 $("#building-information").text("Level " + building.level + " " + building.type);
             }, function () {
