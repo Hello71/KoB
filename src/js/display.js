@@ -21,7 +21,7 @@ window.displayBuildings = function () {
     });
     for (var i = 0; i < 9; i++) {
         for (var j = 0; j < 9; j++) {
-            $($buildingRows[i][j]).append($("<a class=\"empty-building\" href='/build.cfm?x=" + (i + 1) + "&y=" + (j + 1) + "&villageID=" + encodeURIComponent(window.village) + "' target='_top'>"));
+            $($buildingRows[i][j]).append($("<a class=\"empty-building\" href='/build.cfm?x=" + (j + 1) + "&y=" + (i + 1) + "&villageID=" + encodeURIComponent(window.village) + "' target='_top'>"));
         }
     }
     $.each(window.data.village[window.village].buildings, function (index, buildingRow) {
