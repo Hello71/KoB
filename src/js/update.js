@@ -36,7 +36,7 @@ var updateUnits = function (callback) {
             url: "/villages"
         });
     },
-    updateVillage = function (callback, villageID) {
+    updateVillage = function (force, callback, villageID) {
         var data = window.data,
             id,
             villageData = window.data.village,
@@ -47,6 +47,11 @@ var updateUnits = function (callback) {
             id = villageID;
         }
         village = villageData[id];
+        // Use current version if update time is less than 1 minute
+        if (!force && village && Date.now() - village.fetched < 60000) {
+            window.setTimeout(callback, 0);
+            return;
+        }
         $.ajax({
             data: {
                 villageID: id
@@ -59,7 +64,7 @@ var updateUnits = function (callback) {
             url: "/villageData"
         });
     },
-    updateAllVillages = function (callback_) {
+    updateAllVillages = function (force, callback_) {
         var villageNum = 0,
             callback = function () {};
         if (typeof callback_ === "function") {
@@ -67,7 +72,7 @@ var updateUnits = function (callback) {
         }
         $.each(window.data.villages, function (index, village) {
             villageNum++;
-            updateVillage(function () {
+            updateVillage(force, function () {
                 if (!(--villageNum)) {
                     callback();
                 }
@@ -97,10 +102,10 @@ window.update = function (force, callback) {
     if (firstUpdate) {
         updateUnits(done);
         updateVillages(function () {
-            updateAllVillages(done);
+            updateAllVillages(true, done);
         });
     } else {
-        updateVillage(function () {
+        updateVillage(force, function () {
             window.clearBuildings();
             finish();
         });

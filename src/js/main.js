@@ -2,7 +2,9 @@
 (function () {
     "use strict";
 
+
     $.ajaxSetup({
+        cache: false,
         dataType: "json"
     });
     $(document).ajaxComplete(function (e, jqXHR) {
