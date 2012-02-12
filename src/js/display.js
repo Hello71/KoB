@@ -23,7 +23,8 @@ window.displayBuildings = function () {
     $.each(window.data.village[window.village].buildings, function (index, buildingRow) {
         $.each(buildingRow, function (i, building) {
             if (typeof building === "undefined" || building === null) {
-                return $("<span class=\"empty-building\">");
+                $($buildingRows[index][i]).append($("<a class=\"empty-building\" href='/build.cfm?x=" + index + "&y=" + i + "&villageID=" + encodeURIComponent(window.village) + "' target='_top'>"));
+                return;
             }
             var img = $("<img>").attr("src", "images/buildings/" + building.type + ".png"),
                 level = $("<span class='building-level-container'>").append($("<span>").addClass("building-level").text(building.level)),

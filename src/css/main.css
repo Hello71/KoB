@@ -36,6 +36,7 @@ body {
 }
 .empty-building {
     display: block;
+    height: 68px;
 }
 .building {
     display: block;

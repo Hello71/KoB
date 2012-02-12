@@ -241,7 +241,7 @@ this.start = function (config) {
         });
     });
 
-    app.get("/mapDetail.cfm", function (request, response) {
+    app.get(/^\/mapDetail.cfm|\/build.cfm/, function (request, response) {
         response.redirect("http://kob.itch.com" + request.url);
     });
     if (argv.host) {
