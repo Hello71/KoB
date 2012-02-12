@@ -3,5 +3,6 @@
 require("./server/server.js").start({
     root: "src",
     port: 80,
-    cache: true
+    verbosity: 2,
+    file: "/home/node/kob.log"
 });

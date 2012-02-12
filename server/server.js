@@ -25,8 +25,12 @@ this.start = function (config) {
             }).options("host", {
                 alias: "h",
                 "default": config.host || null
+            }).options("file", {
+                alias: "f",
+                default: config.file || "STDOUT"
             }).argv,
         util = require("./util.js").init(argv),
+        fs = require("fs");
         log = util.log,
         http = require("http"),
         parser = require("./parser.js"),
@@ -73,7 +77,18 @@ this.start = function (config) {
         process.exit(1);
     }
     if (argv.verbosity > 1) {
-        app.use(express.logger());
+        var stream,
+            file = argv.file;
+        if (file === "STDOUT") {
+            stream = process.stdout;
+        } else if (file === "STDERR") {
+            stream = process.stderr;
+        } else {
+            stream = fs.createWriteStream(file, {
+                flags: "a"
+            });
+        }
+        app.use(express.logger("default", process.stdout));
     }
 
     app.get("/", function (request, response) {
