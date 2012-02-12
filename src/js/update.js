@@ -18,13 +18,18 @@ var updateUnits = function (callback) {
         $.ajax({
             success: function (data) {
                 window.data.villages = data;
-                if (typeof Object.keys !== "undefined") {
+
+                var villageID = /villageID=(\d{1,5})/.exec(window.location.search);
+                if (villageID !== null) {
+                    window.village = villageID[1];
+                } else if (typeof Object.keys !== "undefined") {
                     window.village = Object.keys(data)[0];
+                } else {
+                    $.each(data, function (i) {
+                        window.village = i;
+                        return false;
+                    });
                 }
-                $.each(data, function (i) {
-                    window.village = i;
-                    return false;
-                });
                 window.displayVillages(data);
                 callback();
             },
@@ -62,12 +67,11 @@ var updateUnits = function (callback) {
         }
         $.each(window.data.villages, function (index, village) {
             villageNum++;
-            window.village = index;
             updateVillage(function () {
                 if (!(--villageNum)) {
                     callback();
                 }
-            });
+            }, index);
         });
     };
 var firstUpdate = true;
