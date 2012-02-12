@@ -87,7 +87,7 @@ window.displayVillages = function () {
     var villageList = $("<ul>"),
         villages = $("#villages").append(villageList),
         activeVillage,
-        i = 0;
+        i = -1;
     $.each(window.data.villages, function (index, value) {
         i++;
         if (window.village === index) {

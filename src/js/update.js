@@ -49,7 +49,7 @@ var updateUnits = function (callback) {
         village = villageData[id];
         $.ajax({
             data: {
-                villageID: window.village
+                villageID: id
             },
             success: function (response) {
                 villageData[id] = response;
