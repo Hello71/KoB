@@ -107,6 +107,6 @@ window.displayVillages = function () {
 };
 
 window.clearBuildings = function () {
-    $(".building").remove();
+    $(".building, .empty-building").remove();
 };
 }());
