@@ -86,7 +86,7 @@ this.start = function (config) {
                 flags: "a"
             });
         }
-        app.use(express.logger("default", process.stdout));
+        app.use(express.logger("default", stream));
     }
 
     app.get("/", function (request, response) {
