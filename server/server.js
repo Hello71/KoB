@@ -29,7 +29,7 @@ this.start = function (config) {
                 alias: "f",
                 default: config.file || "STDOUT"
             }).argv,
-        fs = require("fs");
+        fs = require("fs"),
         http = require("http"),
         parser = require("./parser.js"),
         unitData = "",
