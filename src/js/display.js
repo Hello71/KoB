@@ -85,8 +85,14 @@ window.display = function () {
 
 window.displayVillages = function () {
     var villageList = $("<ul>"),
-        villages = $("#villages").append(villageList);
+        villages = $("#villages").append(villageList),
+        activeVillage,
+        i = 0;
     $.each(window.data.villages, function (index, value) {
+        i++;
+        if (window.village === index) {
+            activeVillage = i;
+        }
         $("<li>").append($("<a>").attr("href", "#village-" + index).text(value)).appendTo(villageList);
         villages.append($("<div>").attr("id", "village-" + index));
     });
@@ -94,7 +100,8 @@ window.displayVillages = function () {
         select: function (e, ui) {
             window.village = $(ui.tab).attr("href").replace("#village-", "");
             window.update(false);
-        }
+        },
+        selected: activeVillage
     });
 };
 
