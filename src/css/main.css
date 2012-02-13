@@ -1,9 +1,6 @@
 @charset "utf-8";
 
 body {
-    margin: 0;
-    padding: 5px;
-    background-color: #300;
     font-size: 0.9em;
 }
 #container {
@@ -15,8 +12,6 @@ body {
 #buildings {
     background-image: url("../images/buildings/Empty.png");
     margin: 3px auto;
-    -moz-box-shadow: 0 0 4px 2px white;
-    -webkit-box-shadow: 0 0 4px 2px white;
     box-shadow: 0 0 4px 2px white;
     border-collapse: collapse;
 }
@@ -27,8 +22,6 @@ body {
     height: 68px;
 }
 #buildings td:hover {
-    -moz-box-shadow: inset 0 0 30px 8px #999;
-    -webkit-box-shadow: inset 0 0 30px 8px #999;
     box-shadow: inset 0 0 30px 8px #999;
 }
 #buildings-div {
@@ -41,8 +34,6 @@ body {
 .building {
     display: block;
     border: 2px solid #bdb792;
-    -moz-box-shadow: 1px 1px 0 0;
-    -webkit-box-shadow: 1px 1px 0 0;
     box-shadow: 1px 1px 0 0;
 }
 .building-level-container {
@@ -68,7 +59,6 @@ body {
     position: relative;
     top: 21px;
     left: -57px;
-    color: white;
     text-shadow: red 0 0 1px, black 3px 3px 3px;
     font-size: 0.85em;
 }
@@ -77,10 +67,7 @@ body {
     height: 1.15em;
     width: 307px;
     margin: 0 auto;
-    -moz-box-shadow: 0 0 4px 2px white;
-    -webkit-box-shadow: 0 0 4px 2px white;
     box-shadow: 0 0 4px 2px white;
-    color: white;
     text-align: center;
     font-size: 0.85em;
     margin-top: 5px;
@@ -92,8 +79,6 @@ body {
     padding: 2px;
     display: inline-block;
     border: solid 2px #826958;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
     border-radius: 5px;
     height: 130px;
     width: 48%;
@@ -109,16 +94,16 @@ body {
 }
 #queues {
     float: right;
-    color: #cbcbcb;
+    color: #ccc;
 }
 #gold-container {
-    color: #fefe00;
+    color: #ff0;
 }
 #food-container {
-    color: #98fe98;
+    color: #9f9;
 }
 #wood-container, #stone-container, #iron-container {
-    color: #cbcbcb;
+    color: #ccc;
 }
 #morale-container {
     color: #fbfbfb;
@@ -129,14 +114,11 @@ body {
     float: right;
     font-size: 0.8em;
     text-align: center;
+    color: black;
 }
 #units > div {
     border: 1px solid #630;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
     border-radius: 5px;
-    -moz-box-shadow: 0 0 0 1px #630;
-    -webkit-box-shadow: 0 0 0 1px #630;
     box-shadow: 0 0 0 1px #630;
     font-size: 0.9em;
     height: 28.4px;
@@ -158,7 +140,6 @@ body {
     width: 100%;
     height: 100%;
     text-align: center;
-    color: white;
     font-size: 5em;
     position: absolute;
     display: none;
@@ -166,7 +147,6 @@ body {
 }
 noscript {
     z-index: 2;
-    color: white;
 }
 
 #unit-training {
@@ -175,11 +155,7 @@ noscript {
     background-color: #300;
     color: #f9f9c8;
     border: solid #630 2px;
-    -webkit-box-shadow: 0 0 3px 1px #8d7c77;
-    -moz-box-shadow: 0 0 3px 1px #8d7c77;
     box-shadow: 0 0 3px 1px #8d7c77;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
     border-radius: 15px;
     display: none;
     width: 594px;
@@ -208,9 +184,6 @@ noscript {
 }
 #unit-type {
     text-align: center;
-}
-#unit-training td td {
-    color: white;
 }
 #unit-amount td {
     width: 100px;
