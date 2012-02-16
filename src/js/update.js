@@ -4,6 +4,7 @@
 
 var updateUnits = function (callback) {
         $.ajax({
+            cache: true,
             data: {
                 villageID: window.village
             },

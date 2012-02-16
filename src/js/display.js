@@ -64,6 +64,7 @@ window.displayBuildings = function () {
 };
 
 window.display = function () {
+    $("body").hide();
     var village = window.data.village[window.village];
     $("#queues").html(village.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\r\n]/g, "<br>"));
 
@@ -85,7 +86,7 @@ window.display = function () {
         $("#" + i).text(v.toLocaleString());
         $("#" + i + "-rate").text(rr[i].toLocaleString() + "/hour");
     });
-
+    $("body").show();
 };
 
 window.displayVillages = function () {
