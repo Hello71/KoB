@@ -227,42 +227,43 @@ this.start = function (config) {
     });
 
     app.post("/trainUnits", express.cookieParser(), express.bodyParser(), function (request, response) {
-        var train = function (type, amount, village) {
-            var ended = false,
-                req = http.get({
-                    host: "kob.itch.com",
-                    path: "/flash_trainTroops.cfm?unitID=" + type + "&count=" + amount + "&villageID=" + village,
-                    headers: prepareHeaders(request, {})
-                }, function (res) {
-                    var data = "";
-                    res.setEncoding("utf8");
-                    res.on("data", function (chunk) {
-                        if (!httpResponse(chunk, response)) {
-                            req.end();
-                            ended = true;
-                            return;
-                        }
-                        data += chunk;
-                    });
-                    res.on("end", function () {
-                        if (ended) return;
-                        response.send(data, {
-                            "Content-Type": "text/plain"
+        var headers = prepareHeaders(request, {}),
+            train = function (type, amount, village) {
+                var ended = false,
+                    req = http.get({
+                        host: "kob.itch.com",
+                        path: "/flash_trainTroops.cfm?unitID=" + type + "&count=" + amount + "&villageID=" + village,
+                        headers: headers
+                    }, function (res) {
+                        var data = "";
+                        res.setEncoding("utf8");
+                        res.on("data", function (chunk) {
+                            if (!httpResponse(chunk, response)) {
+                                req.end();
+                                ended = true;
+                                return;
+                            }
+                            data += chunk;
+                        });
+                        res.on("end", function () {
+                            if (ended) return;
+                            response.send(data, {
+                                "Content-Type": "text/plain"
+                            });
                         });
                     });
-                });
-        },
+            },
             type = encodeURIComponent(request.body.type),
             amount = parseInt(request.body.amount, 10),
             village = encodeURIComponent(request.body.village);
-        while (amount > 0) {
+        do {
             var realAmount = 999;
             if (amount < 999) {
                 realAmount = amount;
             }
             amount -= realAmount;
             train(type, realAmount, village);
-        }
+        } while (amount > 0)
     });
 
     app.get(/^\/mapDetail.cfm|\/build.cfm/, function (request, response) {
