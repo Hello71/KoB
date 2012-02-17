@@ -226,7 +226,7 @@ this.start = function (config) {
         response.sendfile("json/units.json");
     });
 
-    app.post("/trainUnits", express.cookieParser(), express.bodyParser(), function (request, response) {
+    app.get("/trainUnits", express.cookieParser(), express.bodyParser(), function (request, response) {
         var headers = prepareHeaders(request, {}),
             train = function (type, amount, village) {
                 var ended = false,
@@ -237,21 +237,10 @@ this.start = function (config) {
                     }, function (res) {
                         var data = "";
                         res.setEncoding("utf8");
-                        res.on("data", function (chunk) {
-                            if (!httpResponse(chunk, response)) {
-                                req.end();
-                                ended = true;
-                                return;
-                            }
-                            data += chunk;
+                        response.writeHead(200, {
+                            "Content-Type": "text/plain; charset=UTF-8",
                         });
-                        res.on("end", function () {
-                            if (!ended) {
-                                response.send(data, {
-                                    "Content-Type": "text/plain"
-                                });
-                            }
-                        });
+                        res.pipe(response);
                     });
             },
             type = encodeURIComponent(request.body.type),
