@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 var fs = require("fs"),
-    configFile = /.*\//.exec(process.argv[1])[0] + "config.json",
+    path = require("path"),
+    configFile = path.dirname(process.argv[1]) + "/config.json",
     config = {};
 
 if (fs.existsSync(configFile)) {

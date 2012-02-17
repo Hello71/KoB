@@ -5,14 +5,17 @@ this.start = function (config) {
 
     var version = "0.1";
     var express = require("express"),
-        app = express.createServer(),
+        path = require("path"),
+        fs = require("fs"),
+        http = require("http"),
+        parser = require("./parser.js"),
         argv = require("optimist")
             .options("port", {
                 alias: "p",
-                default: config.port || 8080
+                "default": config.port || 8080
             }).options("root", {
                 alias: "r",
-                "default": config.root || /.*\//.exec(process.argv[1])[0] + "../src"
+                "default": config.root || path.dirname(process.argv[1]) + "../src"
             }).options("user-agent", {
                 alias: "u",
                 "default": config.userAgent || "KoB/" + version
@@ -27,12 +30,9 @@ this.start = function (config) {
                 "default": config.host || null
             }).options("file", {
                 alias: "f",
-                default: config.file || "STDOUT"
+                "default": config.file || "STDOUT"
             }).argv,
-        fs = require("fs"),
-        http = require("http"),
-        parser = require("./parser.js"),
-        unitData = "",
+        app = express.createServer(),
         extend = function (target) {
             for (var i = 1; i < arguments.length; i++) {
                 var source = arguments[i];
@@ -246,10 +246,11 @@ this.start = function (config) {
                             data += chunk;
                         });
                         res.on("end", function () {
-                            if (ended) return;
-                            response.send(data, {
-                                "Content-Type": "text/plain"
-                            });
+                            if (!ended) {
+                                response.send(data, {
+                                    "Content-Type": "text/plain"
+                                });
+                            }
                         });
                     });
             },
@@ -263,10 +264,10 @@ this.start = function (config) {
             }
             amount -= realAmount;
             train(type, realAmount, village);
-        } while (amount > 0)
+        } while (amount > 0);
     });
 
-    app.get(/^\/mapDetail.cfm|\/build.cfm/, function (request, response) {
+    app.get(/^\/mapDetail\.cfm|\/build\.cfm/, function (request, response) {
         response.redirect("http://kob.itch.com" + request.url);
     });
     if (argv.host) {
