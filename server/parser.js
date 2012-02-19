@@ -106,6 +106,7 @@ exports.parseVillage = function (data) {
 
 exports.parseTrainUnits = function (data) {
     var fields = data.split("&");
+    fields.shift();
     if (fields.shift() === "trainSuccess=1") {
         return {
             success: true,
