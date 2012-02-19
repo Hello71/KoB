@@ -234,7 +234,7 @@ this.start = function (config) {
     app.post("/trainUnits", express.cookieParser(), express.bodyParser(), function (request, response) {
         http.get({
             host: "kob.itch.com",
-            path: "/flash_trainTroops.cfm?unitID=" + 1111121 + "&count=" + 99999 + "&villageID=" + 871,
+            path: "/flash_trainTroops.cfm?unitID=" + request.body.type + "&count=" + request.body.amount + "&villageID=" + request.body.village,
             headers: prepareHeaders(request, {})
         }, function (res) {
             var data = "";
