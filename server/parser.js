@@ -1,7 +1,7 @@
 "use strict";
 
 var assert = require("assert"),
-    parseUnits;
+    parseUnits, parseResources;
 
 parseUnits = function (data) {
     var units = data.substring(8).split(":").map(function (str) {
@@ -39,7 +39,7 @@ parseUnits = function (data) {
 
 parseResources = function (ires, resRates) {
     var res = ires.substring(10).split(":"),
-        resourceRates = resRates.substring(15).split(":"),
+        resourceRates = resRates.substring(15).split(":");
     return {
         iron: Math.round(parseInt(res[0], 10)),
         wood: Math.round(parseInt(res[1], 10)),
