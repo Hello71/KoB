@@ -211,14 +211,19 @@ this.start = function (config) {
                 if (!httpResponse(chunk, response)) {
                     req.end();
                     ended = true;
-                } else if (chunk.indexOf("<option") > -1) {
+                    return;
+                }
+                if (chunk.indexOf("<option") > -1) {
                     data += chunk;
                 }
             });
+            res.on("error", function (err) {
+                console.log("error retrieving home.cfm");
+                console.log(err);
+            });
             res.on("end", function () {
-                if (!ended) {
-                    response.send(parser.parseVillages(data, response));
-                }
+                if (ended) return;
+                response.send(parser.parseVillages(data, response)); // Express automatically JSON.stringifys it
             });
         });
     });
@@ -226,34 +231,30 @@ this.start = function (config) {
         response.sendfile("json/units.json");
     });
 
-    app.get("/trainUnits", express.cookieParser(), express.bodyParser(), function (request, response) {
-        var headers = prepareHeaders(request, {}),
-            train = function (type, amount, village) {
-                var ended = false,
-                    req = http.get({
-                        host: "kob.itch.com",
-                        path: "/flash_trainTroops.cfm?unitID=" + type + "&count=" + amount + "&villageID=" + village,
-                        headers: headers
-                    }, function (res) {
-                        var data = "";
-                        res.setEncoding("utf8");
-                        response.writeHead(200, {
-                            "Content-Type": "text/plain; charset=UTF-8",
-                        });
-                        res.pipe(response);
-                    });
-            },
-            type = encodeURIComponent(request.body.type),
-            amount = parseInt(request.body.amount, 10),
-            village = encodeURIComponent(request.body.village);
-        do {
-            var realAmount = 999;
-            if (amount < 999) {
-                realAmount = amount;
-            }
-            amount -= realAmount;
-            train(type, realAmount, village);
-        } while (amount > 0);
+    app.post("/trainUnits", express.cookieParser(), express.bodyParser(), function (request, response) {
+        var ended = false,
+            req = http.get({
+            host: "kob.itch.com",
+            path: "/flash_trainTroops.cfm?unitID=" + encodeURIComponent(request.body.type) + "&count=" + encodeURIComponent(request.body.amount) + "&villageID=" + encodeURIComponent(request.body.village),
+            headers: prepareHeaders(request, {})
+        }, function (res) {
+            var data = "";
+            res.setEncoding("utf8");
+            res.on("data", function (chunk) {
+                if (!httpResponse(chunk, response)) {
+                    req.end();
+                    ended = true;
+                    return;
+                }
+                data += chunk;
+            });
+            res.on("end", function () {
+                if (ended) return;
+                response.send(data, {
+                    "Content-Type": "text/plain"
+                });
+            });
+        });
     });
 
     app.get(/^\/mapDetail\.cfm|\/build\.cfm/, function (request, response) {
