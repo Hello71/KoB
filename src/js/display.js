@@ -68,7 +68,7 @@ window.display = function () {
     var village = window.data.village[window.village];
     $("#queues").html(village.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\r\n]/g, "<br>"));
 
-    window.displayBuildings();
+    displayBuildings();
     $("#units .ui-state-highlight").removeClass("ui-state-highlight");
     $.each(village.units, function (type, amount) {
         $("#" + type).text(amount.current.toLocaleString());
