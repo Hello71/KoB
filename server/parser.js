@@ -92,7 +92,7 @@ exports.parseVillage = function (data) {
         buildings[o.vertical - 1][o.horizontal - 1] = o;
     }
 
-    units = fields.shift();
+    units = parseUnits(fields.shift());
 
     queue = fields.shift().substring(6);
     return {
