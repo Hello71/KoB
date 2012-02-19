@@ -18,7 +18,7 @@ window.train = function (amount, id) {
         },
         success: function (data) {
             window.data.village.units = data.units;
-            $trainResponse.text(data.result);
+            $trainResult.text(data.msg);
             $trainResponse.show();
         },
         type: "POST",
