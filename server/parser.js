@@ -1,27 +1,65 @@
 "use strict";
 
-var assert = require("assert");
+var assert = require("assert"),
+    parseUnits;
 
+parseUnits = function (data) {
+    var units = data.substring(8).split(":").map(function (str) {
+        var split = str.split("-");
+        return {
+            current: parseInt(split[1], 10),
+            training: parseInt(split[2], 10)
+        };
+    });
+
+    return {
+        farmers: units[0],
+        lumberjacks: units[1],
+        stonemasons: units[2],
+        ironminers: units[3],
+        peasants: units[4],
+        merchants: units[5],
+        swordsmen: units[6],
+        archers: units[7],
+        janissaries: units[8],
+        paladins: units[9],
+        mameluks: units[10],
+        spies: units[11],
+        emissaries: units[12],
+        catapults: units[13],
+        sultans: units[14],
+        villagers: units[15],
+        "war-elephants": units[16],
+        chariots: units[17],
+        mongols: units[18],
+        "camel-riders": units[19],
+        hussars: units[20]
+    };
+};
+
+parseResources = function (ires, resRates) {
+    var res = ires.substring(10).split(":"),
+        resourceRates = resRates.substring(15).split(":"),
+    return {
+        iron: Math.round(parseInt(res[0], 10)),
+        wood: Math.round(parseInt(res[1], 10)),
+        stone: Math.round(parseInt(res[2], 10)),
+        gold: Math.round(parseInt(res[3], 10)),
+        food: Math.round(parseInt(res[4], 10)),
+        morale: Math.round(parseInt(res[5], 10)),
+        rates: {
+            iron: parseInt(resourceRates[0], 10),
+            wood: parseInt(resourceRates[1], 10),
+            stone: parseInt(resourceRates[2], 10),
+            gold: parseInt(resourceRates[3], 10),
+            food: parseInt(resourceRates[4], 10),
+            morale: parseInt(resourceRates[5], 10)
+        }
+    };
+};
 exports.parseVillage = function (data) {
     var fields = data.substring(1).split("&"),
-        res = fields.shift().substring(10).split(":"),
-        resourceRates = fields.shift().substring(15).split(":"),
-        resources = {
-            iron: Math.round(parseInt(res[0], 10)),
-            wood: Math.round(parseInt(res[1], 10)),
-            stone: Math.round(parseInt(res[2], 10)),
-            gold: Math.round(parseInt(res[3], 10)),
-            food: Math.round(parseInt(res[4], 10)),
-            morale: Math.round(parseInt(res[5], 10)),
-            rates: {
-                iron: parseInt(resourceRates[0], 10),
-                wood: parseInt(resourceRates[1], 10),
-                stone: parseInt(resourceRates[2], 10),
-                gold: parseInt(resourceRates[3], 10),
-                food: parseInt(resourceRates[4], 10),
-                morale: parseInt(resourceRates[5], 10)
-            }
-        },
+        resources = parseResources(fields.shift(), fields.shift()),
         map = fields.shift(),
         buildings = [[], [], [], [], [], [], [], [], []],
         units = [],
@@ -54,37 +92,7 @@ exports.parseVillage = function (data) {
         buildings[o.vertical - 1][o.horizontal - 1] = o;
     }
 
-    units = fields.shift().substring(8).split(":").map(function (str) {
-        var split = str.split("-");
-        return {
-            current: parseInt(split[1], 10),
-            training: parseInt(split[2], 10)
-        };
-    });
-
-    units = {
-        farmers: units[0],
-        lumberjacks: units[1],
-        stonemasons: units[2],
-        ironminers: units[3],
-        peasants: units[4],
-        merchants: units[5],
-        swordsmen: units[6],
-        archers: units[7],
-        janissaries: units[8],
-        paladins: units[9],
-        mameluks: units[10],
-        spies: units[11],
-        emissaries: units[12],
-        catapults: units[13],
-        sultans: units[14],
-        villagers: units[15],
-        "war-elephants": units[16],
-        chariots: units[17],
-        mongols: units[18],
-        "camel-riders": units[19],
-        hussars: units[20]
-    };
+    units = fields.shift();
 
     queue = fields.shift().substring(6);
     return {
@@ -94,6 +102,23 @@ exports.parseVillage = function (data) {
         map: map,
         queue: queue
     };
+};
+
+exports.parseTrainUnits = function (data) {
+    var fields = data.split("&");
+    if (fields.shift() === "trainSuccess=1") {
+        return {
+            success: true,
+            units: parseUnits(fields.shift()),
+            resources: parseResources(fields.shift(), fields.shift()),
+            msg: fields.shift().substring(4)
+        };
+    } else {
+        return {
+            success: false,
+            msg: fields[0].substring(4)
+        };
+    }
 };
 
 exports.parseVillages = function (data, response) {

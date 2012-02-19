@@ -177,7 +177,7 @@ this.start = function (config) {
             response.send(401);
             return;
         }
-        var req = http.get({
+        http.get({
             host: "kob.itch.com",
             path: "/flash_getVillage.cfm?villageID=" + encodeURIComponent(request.query.villageID),
             headers: prepareHeaders(request, {})
@@ -232,27 +232,18 @@ this.start = function (config) {
     });
 
     app.post("/trainUnits", express.cookieParser(), express.bodyParser(), function (request, response) {
-        var ended = false,
-            req = http.get({
+        http.get({
             host: "kob.itch.com",
-            path: "/flash_trainTroops.cfm?unitID=" + encodeURIComponent(request.body.type) + "&count=" + encodeURIComponent(request.body.amount) + "&villageID=" + encodeURIComponent(request.body.village),
+            path: "/flash_trainTroops.cfm?unitID=" + 1111121 + "&count=" + 99999 + "&villageID=" + 871,
             headers: prepareHeaders(request, {})
         }, function (res) {
             var data = "";
             res.setEncoding("utf8");
             res.on("data", function (chunk) {
-                if (!httpResponse(chunk, response)) {
-                    req.end();
-                    ended = true;
-                    return;
-                }
                 data += chunk;
             });
             res.on("end", function () {
-                if (ended) return;
-                response.send(data, {
-                    "Content-Type": "text/plain"
-                });
+                response.send(parser.parseTrainUnits(data));
             });
         });
     });
