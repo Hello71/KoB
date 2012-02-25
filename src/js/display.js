@@ -63,12 +63,7 @@ var pad = function (strnum, amount) {
         });
     };
 
-window.display = function () {
-    $("body").hide();
-    var village = window.data.village[window.village];
-    $("#queues").html(village.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\r\n]/g, "<br>"));
-
-    displayBuildings();
+window.displayUnits = function () {
     $("#units .ui-state-highlight").removeClass("ui-state-highlight");
     $.each(village.units, function (type, amount) {
         $("#" + type).text(amount.current.toLocaleString());
@@ -76,7 +71,19 @@ window.display = function () {
             $("#" + type + "-container").addClass("ui-state-highlight");
         }
     });
+};
+window.display = function () {
+    $("body").hide();
+    var village = window.data.village[window.village];
+    $("#queues").html(village.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\r\n]/g, "<br>"));
 
+    displayBuildings();
+    
+    window.displayUnits();
+    window.displayResources();
+};
+window.displayResources = function () {
+    var village = window.data.village[window.village];
     var r = village.resources,
         rr = r.rates;
     $.each(r, function (i, v) {

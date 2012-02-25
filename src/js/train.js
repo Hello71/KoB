@@ -17,7 +17,10 @@ window.train = function (amount, id) {
             $trainResponse.show();
         },
         success: function (data) {
-            window.data.village.units = data.units;
+            window.data.village[window.village].units = data.units;
+            window.data.village[window.village].resources = data.resources;
+            window.displayUnits();
+            window.displayResources();
             $trainResult.text(data.msg);
             $trainResponse.show();
         },
