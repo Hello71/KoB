@@ -64,6 +64,7 @@ var pad = function (strnum, amount) {
     };
 
 window.displayUnits = function () {
+    var village = window.data.village[window.village];
     $("#units .ui-state-highlight").removeClass("ui-state-highlight");
     $.each(village.units, function (type, amount) {
         $("#" + type).text(amount.current.toLocaleString());
