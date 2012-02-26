@@ -84,7 +84,6 @@ this.start = function (config) {
                     var ext = file.substr(-3);
                     for (var i = 0; i < allowedExts.length; i++) {
                         if (allowedExts[i] === ext) {
-                            response.cache("max-age=" + argv.maxAge);
                             response.sendfile(base + "/" + file);
                             return;
                         }
@@ -120,7 +119,8 @@ this.start = function (config) {
     
     getFile("/", "main.html");
     staticResource("js", [".js"]);
-    staticResource("flash", [".swf"]);
+    staticResource("css", ["css"]);
+    staticResource("flash", ["swf"]);
     staticResource("images", ["jpg", "png", "gif"]);
     getFile("/units", "json/units.json");
 
