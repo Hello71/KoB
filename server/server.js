@@ -66,6 +66,32 @@ this.start = function (config) {
             } else {
                 return true;
             }
+        },
+        getFile = function (path, file) {
+            app.get(path, function (request, response) {
+                response.sendfile(file);
+            });
+        },
+        getFileName = function (name) {
+            getFile("/" + name, name + ".html");
+        },
+        staticResource = function (base, allowedExts) {
+            app.get("/" + base + "/*", function (request, response) {
+                var file = request.params[0];
+                if (file.indexOf("..") > -1) {
+                    response.send(403);
+                } else {
+                    var ext = file.substr(-3);
+                    for (var i = 0; i < allowedExts.length; i++) {
+                        if (allowedExts[i] === ext) {
+                            response.cache("max-age=" + argv.maxAge);
+                            response.sendfile(base + "/" + file);
+                            return;
+                        }
+                    }
+                    response.send(404);
+                }
+            });
         };
 
     try {
@@ -92,51 +118,14 @@ this.start = function (config) {
         }));
     }
     
-    app.get("/", function (request, response) {
-        response.sendfile("main.html");
-    });
-    app.get("/js/*", function (request, response) {
-        var js = request.params[0];
-        if (js.indexOf("..") > -1 || js.substr(-3) !== ".js") {
-            response.send(403);
-            return;
-        }
-        response.sendfile("js/" + js, {maxAge: argv.maxAge});
-    });
-    app.get("/css/*", function (request, response) {
-        var css = request.params[0];
-        if (css.indexOf("..") > -1 || css.substr(-4) !== ".css") {
-            response.send(403);
-            return;
-        }
-        response.sendfile("css/" + css, {maxAge: argv.maxAge});
-    });
-    app.get("/flash/*", function (request, response) {
-        var flash = request.params[0];
-        if (flash.indexOf("..") > -1 || flash.substr(-4) !== ".swf") {
-            response.send(403);
-            return;
-        }
-        response.sendfile("flash/" + flash, {maxAge: argv.maxAge});
-    });
-    app.get("/images/*", function (request, response) {
-        var image = request.params[0],
-            ext = image.substr(-4);
-        if (image.indexOf("..") > -1 || (ext !== ".jpg" && ext !== ".png" && ext !== ".gif" && ext !== "tiff" && ext !== ".tif")) {
-            response.send(403);
-            return;
-        }
-        response.sendfile("images/" + image, {maxAge: argv.maxAge});
-    });
-    app.get("/units", function (request, response) {
-        response.sendfile("json/units.json", {maxAge: argv.maxAge});
-    });
+    getFile("/", "main.html");
+    staticResource("js", [".js"]);
+    staticResource("flash", [".swf"]);
+    staticResource("images", ["jpg", "png", "gif"]);
+    getFile("/units", "json/units.json");
 
 
-
-    app.get("/login", function (request, response) {
-        response.sendfile("login.html", {maxAge: argv.maxAge});
-    });
+    getFileName("login");
     app.post("/login", express.bodyParser(), function (request, response) {
         var cookie = request.body.cookie.replace(/\n/g, "").replace(/;/g, "%3B");
         response.cookie("SESSIONID", cookie, {
@@ -147,13 +136,9 @@ this.start = function (config) {
             "Location": "/loggedin"
         });
     });
-    app.get("/loggedin", function (request, response) {
-        response.sendfile("loggedin.html", {maxAge: argv.maxAge});
-    });
+    getFileName("loggedin");
 
-    app.get("/logout", function (request, response) {
-        response.sendfile("logout.html", {maxAge: argv.maxAge});
-    });
+    getFileName("loggedout");
     app.post("/logout", function (request, response) {
         response.send(303, {
             "Set-Cookie": "SESSIONID=LOGGED OUT; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT",
