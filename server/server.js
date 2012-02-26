@@ -19,18 +19,18 @@ this.start = function (config) {
             }).options("user-agent", {
                 alias: "u",
                 "default": config.userAgent || "KoB/" + version
-            }).options("cache", {
+            }).options("max-age", {
                 alias: "c",
-                "default": config.cache || false
+                "default": config.maxAge || 600
             }).options("verbosity", {
                 alias: "v",
                 "default": config.verbosity || 1
-            }).options("host", {
-                alias: "h",
-                "default": config.host || null
             }).options("file", {
                 alias: "f",
                 "default": config.file || "STDOUT"
+            }).options("format", {
+                alias: "o",
+                "default": config.format || "default"
             }).argv,
         app = express.createServer(),
         extend = function (target) {
@@ -74,7 +74,7 @@ this.start = function (config) {
         console.log("Could not change directory.\nMake sure that the config root is set correctly.");
         process.exit(1);
     }
-    if (argv.verbosity > 1) {
+    if (argv.verbosity > 2) {
         var stream,
             file = argv.file;
         if (file === "STDOUT") {
@@ -87,42 +87,38 @@ this.start = function (config) {
             });
         }
         app.use(express.logger({
-            format: "default",
+            format: argv.format,
             stream: stream
         }));
     }
-
+    
     app.get("/", function (request, response) {
         response.sendfile("main.html");
     });
-
     app.get("/js/*", function (request, response) {
         var js = request.params[0];
         if (js.indexOf("..") > -1 || js.substr(-3) !== ".js") {
             response.send(403);
             return;
         }
-        response.sendfile("js/" + js);
+        response.sendfile("js/" + js, {maxAge: argv.maxAge});
     });
-
     app.get("/css/*", function (request, response) {
         var css = request.params[0];
         if (css.indexOf("..") > -1 || css.substr(-4) !== ".css") {
             response.send(403);
             return;
         }
-        response.sendfile("css/" + css);
+        response.sendfile("css/" + css, {maxAge: argv.maxAge});
     });
-
     app.get("/flash/*", function (request, response) {
         var flash = request.params[0];
         if (flash.indexOf("..") > -1 || flash.substr(-4) !== ".swf") {
             response.send(403);
             return;
         }
-        response.sendfile("flash/" + flash);
+        response.sendfile("flash/" + flash, {maxAge: argv.maxAge});
     });
-
     app.get("/images/*", function (request, response) {
         var image = request.params[0],
             ext = image.substr(-4);
@@ -130,11 +126,16 @@ this.start = function (config) {
             response.send(403);
             return;
         }
-        response.sendfile("images/" + image);
+        response.sendfile("images/" + image, {maxAge: argv.maxAge});
+    });
+    app.get("/units", function (request, response) {
+        response.sendfile("json/units.json", {maxAge: argv.maxAge});
     });
 
+
+
     app.get("/login", function (request, response) {
-        response.sendfile("login.html");
+        response.sendfile("login.html", {maxAge: argv.maxAge});
     });
     app.post("/login", express.bodyParser(), function (request, response) {
         var cookie = request.body.cookie.replace(/\n/g, "").replace(/;/g, "%3B");
@@ -147,11 +148,11 @@ this.start = function (config) {
         });
     });
     app.get("/loggedin", function (request, response) {
-        response.sendfile("loggedin.html");
+        response.sendfile("loggedin.html", {maxAge: argv.maxAge});
     });
 
     app.get("/logout", function (request, response) {
-        response.sendfile("logout.html");
+        response.sendfile("logout.html", {maxAge: argv.maxAge});
     });
     app.post("/logout", function (request, response) {
         response.send(303, {
@@ -160,7 +161,7 @@ this.start = function (config) {
         });
     });
     app.get("/loggedout", function (request, response) {
-        response.sendfile("loggedout.html");
+        response.sendfile("loggedout.html", {maxAge: argv.maxAge});
     });
 
     app.get("/villageData", express.cookieParser(), function (request, response) {
@@ -226,9 +227,6 @@ this.start = function (config) {
                 response.send(parser.parseVillages(data, response)); // Express automatically JSON.stringifys it
             });
         });
-    });
-    app.get("/units", function (request, response) {
-        response.sendfile("json/units.json");
     });
 
     app.post("/trainUnits", express.cookieParser(), express.bodyParser(), function (request, response) {
