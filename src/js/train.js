@@ -13,14 +13,16 @@ global.train = function (amount, id) {
             console.log(jqXHR);
             console.log(textStatus);
             console.log(errorThrown);
-            $trainResult.text("An error occurred while trying to train units. Please inform the developer or maintainer of the KoB HTML5 client of this issue. Further details have been logged to the Console.");
+            $trainResult.text("An error occurred while trying to train units. Please inform the developer or maintainer of the KoB HTML5 client of this issue. Further details have been logged to the Error Console.");
             $trainResponse.show();
         },
         success: function (data) {
-            global.data.village[global.village].units = data.units;
-            global.data.village[global.village].resources = data.resources;
-            global.displayUnits();
-            global.displayResources();
+            if (data.success) {
+                global.data.village[global.village].units = data.units;
+                global.data.village[global.village].resources = data.resources;
+                global.displayUnits();
+                global.displayResources();
+            }
             $trainResult.text(data.msg);
             $trainResponse.show();
         },
