@@ -34,7 +34,7 @@ body {
 .building {
     display: block;
     border: 2px solid #bdb792;
-    box-shadow: 1px 1px 0 0;
+    box-shadow: 1px 1px 0 0 #663;
     text-decoration: none;
 }
 .building-level-container {
