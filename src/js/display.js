@@ -58,7 +58,7 @@ var pad = function (strnum, amount) {
                     $("#building-information").text("Level " + building.level + " " + building.type);
                 }, function () {
                     $("#building-information").html("&nbsp;");
-                })).data("href", "/mapDetail.cfm?x=" + encodeURIComponent(building.horizontal) + "&y=" + encodeURIComponent(building.vertical) + "&villageID=" + encodeURIComponent(global.village));
+                }).data("href", "/mapDetail.cfm?x=" + encodeURIComponent(building.horizontal) + "&y=" + encodeURIComponent(building.vertical) + "&villageID=" + encodeURIComponent(global.village)));
             });
         });
         $(".building").click(function () {
