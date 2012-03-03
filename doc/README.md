@@ -5,4 +5,4 @@ This is a browser-based implementation of the KoB ("Kings of Babylon, an empire-
 Simply run `node server/start.js.`
 
 ## Recommended version ##
-I always suggest using `master` at least for now. There *is* a 1.0.0 tag, but... I don't plan on doing a full release very often.
+I always suggest using `master` at least for now. There *are* release tags, but they are neither guaranteed to be stable nor regular.
