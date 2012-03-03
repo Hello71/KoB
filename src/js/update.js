@@ -20,7 +20,7 @@ var updateUnits = function (callback) {
             success: function (data) {
                 global.data.villages = data;
 
-                var villageID = /villageID=(\d{1,5})/.exec(global.location.search);
+                var villageID = /villageID=(\d{1,5})/.exec(window.location.search);
                 if (villageID !== null) {
                     global.village = villageID[1];
                 } else if (typeof Object.keys !== "undefined") {

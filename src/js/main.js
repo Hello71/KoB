@@ -26,12 +26,12 @@
         }
     });
 
-    if (global.location.href.indexOf("iframe") > -1) {
+    if (window.location.href.indexOf("iframe") > -1) {
         global.iframe = true;
     }
     global.data = {village: {}};
     global.update(true);
-    global.setInterval(function () {
+    window.setInterval(function () {
         global.update();
     }, 60000);
     $(document).ready(function () {
