@@ -28,6 +28,7 @@
 
     if (window.location.href.indexOf("iframe") > -1) {
         global.iframe = true;
+        document.body.style.background = "transparent";
     }
     global.data = {village: {}};
     global.update(true);
