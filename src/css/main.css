@@ -151,7 +151,7 @@ noscript {
 
 #unit-training {
     position: absolute;
-    left: 3px;
+    left: 0;
     background-color: #300;
     color: #f9f9c8;
     border: solid #630 2px;
@@ -160,6 +160,9 @@ noscript {
     display: none;
     width: 594px;
     height: 653px;
+}
+#unit-training > table {
+    margin: auto;
 }
 #unit-attributes, #unit-image, #unit-amount, #unit-resources {
     background-color: #666;
