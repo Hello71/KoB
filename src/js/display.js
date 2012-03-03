@@ -57,7 +57,7 @@ var pad = function (strnum, amount) {
                 $($buildingRows[index][i]).append($("<span class='building'>").append(img).append(level).append(upgradeTime).hover(function () {
                     $("#building-information").text("Level " + building.level + " " + building.type);
                 }, function () {
-                    $("#building-information").text("");
+                    $("#building-information").html("&nbsp;");
                 })).data("href", "/mapDetail.cfm?x=" + encodeURIComponent(building.horizontal) + "&y=" + encodeURIComponent(building.vertical) + "&villageID=" + encodeURIComponent(window.village));
             });
         });
