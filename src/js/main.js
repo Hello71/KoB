@@ -28,7 +28,6 @@
 
     if (window.location.href.indexOf("iframe") > -1) {
         global.iframe = true;
-        document.body.style.background = "transparent";
     }
     global.data = {village: {}};
     global.update(true);
@@ -36,6 +35,9 @@
         global.update();
     }, 60000);
     $(document).ready(function () {
+        if (global.iframe) {
+            document.body.style.background = "transparent";
+        }
         $("button, input[type='submit'], input[type='button']").button();
         $("#update").click(function () {
             global.update(true);
