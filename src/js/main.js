@@ -1,5 +1,4 @@
 /*global $:false global:false*/
-window.global = {};
 (function () {
     "use strict";
 
