@@ -1,8 +1,7 @@
 /*global $:false global:false*/
+window.global = {};
 (function () {
     "use strict";
-
-    window.global = {};
 
     if (typeof console === "undefined") {
         console = {
