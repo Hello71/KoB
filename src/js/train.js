@@ -1,13 +1,13 @@
-/*global $:false */
+/*global $:false global:false*/
 var $trainResponse, $trainResult;
-window.train = function (amount, id) {
+global.train = function (amount, id) {
     "use strict";
     $.ajax({
         cache: false,
         data: {
             amount: amount,
             type: id,
-            village: window.village
+            village: global.village
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR);
@@ -17,10 +17,10 @@ window.train = function (amount, id) {
             $trainResponse.show();
         },
         success: function (data) {
-            window.data.village[window.village].units = data.units;
-            window.data.village[window.village].resources = data.resources;
-            window.displayUnits();
-            window.displayResources();
+            global.data.village[global.village].units = data.units;
+            global.data.village[global.village].resources = data.resources;
+            global.displayUnits();
+            global.displayResources();
             $trainResult.text(data.msg);
             $trainResponse.show();
         },
@@ -38,9 +38,9 @@ $(document).ready(function () {
     });
     
     $("#units > div").click(function () {
-        var village = window.data.village[window.village],
+        var village = global.data.village[global.village],
             unitType = this.id.replace("-container", ""),
-            unit = window.data.units[unitType],
+            unit = global.data.units[unitType],
             $unitTraining = $("#unit-training"),
             $unitAttributes = $unitTraining.find("#unit-attributes"),
             $unitAmount = $unitTraining.find("#unit-amount"),
@@ -51,7 +51,7 @@ $(document).ready(function () {
             $unitType = $("#unit-type"),
             $unitImage = $("#unit-image");
 
-        window.unit = unit;
+        global.unit = unit;
 
         if ($unitTraining.css("display") === "block") {
             if (unit.name.singular === $unitType.text()) {
@@ -100,7 +100,7 @@ $(document).ready(function () {
         $("#unit-training").hide();
     });
     $("#unit-train-button").click(function () {
-        window.train($("#unit-train-amount").val(), window.unit.id);
+        global.train($("#unit-train-amount").val(), global.unit.id);
     });
 });
 

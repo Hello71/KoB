@@ -1,7 +1,7 @@
 (function () {
 "use strict";
 
-/*global $:false*/
+/*global $:false global:false*/
 
 var pad = function (strnum, amount) {
     if (typeof strnum === "string") {
@@ -21,10 +21,10 @@ var pad = function (strnum, amount) {
         });
         for (var i = 0; i < 9; i++) {
             for (var j = 0; j < 9; j++) {
-                $($buildingRows[i][j]).append($("<a class=\"empty-building\" href='/build.cfm?x=" + (j + 1) + "&y=" + (i + 1) + "&villageID=" + encodeURIComponent(window.village) + "' target='_top'>"));
+                $($buildingRows[i][j]).append($("<a class=\"empty-building\" href='/build.cfm?x=" + (j + 1) + "&y=" + (i + 1) + "&villageID=" + encodeURIComponent(global.village) + "' target='_top'>"));
             }
         }
-        $.each(window.data.village[window.village].buildings, function (index, buildingRow) {
+        $.each(global.data.village[global.village].buildings, function (index, buildingRow) {
             $.each(buildingRow, function (i, building) {
                 if (building === null) {
                     return;
@@ -38,9 +38,9 @@ var pad = function (strnum, amount) {
                         updateInterval = 0,
                         update = function () {
                             if (upTime === 0) {
-                                window.clearInterval(updateInterval);
-                                window.update(true);
-                                $("#buildings-done-village").text(window.data.villages[window.village]);
+                                global.clearInterval(updateInterval);
+                                global.update(true);
+                                $("#buildings-done-village").text(global.data.villages[global.village]);
                                 $("#buildings-done").dialog("open");
                             } else {
                                 upTime--;
@@ -58,7 +58,7 @@ var pad = function (strnum, amount) {
                     $("#building-information").text("Level " + building.level + " " + building.type);
                 }, function () {
                     $("#building-information").html("&nbsp;");
-                })).data("href", "/mapDetail.cfm?x=" + encodeURIComponent(building.horizontal) + "&y=" + encodeURIComponent(building.vertical) + "&villageID=" + encodeURIComponent(window.village));
+                })).data("href", "/mapDetail.cfm?x=" + encodeURIComponent(building.horizontal) + "&y=" + encodeURIComponent(building.vertical) + "&villageID=" + encodeURIComponent(global.village));
             });
         });
         $(".building").click(function () {
@@ -66,8 +66,8 @@ var pad = function (strnum, amount) {
         });
     };
 
-window.displayUnits = function () {
-    var village = window.data.village[window.village];
+global.displayUnits = function () {
+    var village = global.data.village[global.village];
     $("#units .ui-state-highlight").removeClass("ui-state-highlight");
     $.each(village.units, function (type, amount) {
         $("#" + type).text(amount.current.toLocaleString());
@@ -76,18 +76,18 @@ window.displayUnits = function () {
         }
     });
 };
-window.display = function () {
+global.display = function () {
     $("body").hide();
-    var village = window.data.village[window.village];
+    var village = global.data.village[global.village];
     $("#queues").html(village.queue.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\r\n]/g, "<br>"));
 
     displayBuildings();
     
-    window.displayUnits();
-    window.displayResources();
+    global.displayUnits();
+    global.displayResources();
 };
-window.displayResources = function () {
-    var village = window.data.village[window.village];
+global.displayResources = function () {
+    var village = global.data.village[global.village];
     var r = village.resources,
         rr = r.rates;
     $.each(r, function (i, v) {
@@ -100,14 +100,14 @@ window.displayResources = function () {
     $("body").show();
 };
 
-window.displayVillages = function () {
+global.displayVillages = function () {
     var villageList = $("<ul>"),
         villages = $("#villages").append(villageList),
         activeVillage,
         i = -1;
-    $.each(window.data.villages, function (index, value) {
+    $.each(global.data.villages, function (index, value) {
         i++;
-        if (window.village === index) {
+        if (global.village === index) {
             activeVillage = i;
         }
         $("<li>").append($("<a>").attr("href", "#village-" + index).text(value)).appendTo(villageList);
@@ -115,14 +115,14 @@ window.displayVillages = function () {
     });
     $("#villages").tabs({
         select: function (e, ui) {
-            window.village = $(ui.tab).attr("href").replace("#village-", "");
-            window.update(false);
+            global.village = $(ui.tab).attr("href").replace("#village-", "");
+            global.update(false);
         },
         selected: activeVillage
     });
 };
 
-window.clearBuildings = function () {
+global.clearBuildings = function () {
     $(".building, .empty-building").remove();
 };
 }());

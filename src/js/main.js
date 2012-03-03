@@ -1,8 +1,16 @@
-/*global $:false */
+/*global $:false global:false*/
 (function () {
     "use strict";
 
+    window.global = {};
 
+    if (typeof console === "undefined") {
+        console = {
+            log: function () {}
+        };
+    } else if (typeof console.log === "undefined") {
+        console.log = function () {};
+    }
     $.ajaxSetup({
         cache: false,
         dataType: "json"
@@ -20,15 +28,18 @@
         }
     });
 
-    window.data = {village: {}};
-    window.update(true);
-    window.setInterval(function () {
-        window.update();
+    if (global.location.href.indexOf("iframe") > -1) {
+        global.iframe = true;
+    }
+    global.data = {village: {}};
+    global.update(true);
+    global.setInterval(function () {
+        global.update();
     }, 60000);
     $(document).ready(function () {
         $("button, input[type='submit'], input[type='button']").button();
         $("#update").click(function () {
-            window.update(true);
+            global.update(true);
         });
         $("#buildings-done").dialog({
             position: [200, 400],

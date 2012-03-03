@@ -36,6 +36,6 @@
     "supernew": false,
 
     "browser": true,
-    "devel": false,
+    "devel": true,
     "jquery": true
 }
