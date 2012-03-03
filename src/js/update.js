@@ -50,7 +50,7 @@ var updateUnits = function (callback) {
         village = villageData[id];
         // Use current version if update time is less than 1 minute
         if (!force && village && Date.now() - village.fetched < 60000) {
-            global.setTimeout(callback, 0);
+            window.setTimeout(callback, 0);
             return;
         }
         $.ajax({
