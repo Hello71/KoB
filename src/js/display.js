@@ -38,7 +38,7 @@ var pad = function (strnum, amount) {
                         updateInterval = 0,
                         update = function () {
                             if (upTime === 0) {
-                                global.clearInterval(updateInterval);
+                                window.clearInterval(updateInterval);
                                 global.update(true);
                                 $("#buildings-done-village").text(global.data.villages[global.village]);
                                 $("#buildings-done").dialog("open");
